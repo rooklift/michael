@@ -4,6 +4,9 @@ const fs = require("fs");
 const readline = require("readline");
 
 const LOG = true;
+const LOG_INPUT = false;
+const LOG_OUTPUT = false;
+const LOG_STATES = true;
 
 // ------------------------------------------------------------------------------------------------
 
@@ -39,7 +42,7 @@ let bot = {
 
 	send: function(s) {
 		console.log(s);
-		this.log("> " + s);
+		if (LOG_OUTPUT) this.log("> " + s);
 	},
 
 	log: function(s) {
@@ -54,15 +57,15 @@ let bot = {
 
 	handle_line: function(s, lineno) {
 
+		if (LOG_INPUT) this.log("< " + s);
 		let fields = s.split(" ");
-		this.log("< " + s);					// Fails for first line because log doesn't exist yet.
 
 		// The first 2 lines we ever receive are special...
 
 		if (lineno === 0) {
-			this.start_log(`michael_${this.id}.log`);
-			this.log("< " + s);
-			this.id = parseInt(fields[0], 10);
+			this.team = parseInt(fields[0], 10);
+			this.start_log(`michael_${this.team}.log`);
+			if (LOG_INPUT) this.log("< " + s);
 			return;
 		}
 
@@ -73,39 +76,81 @@ let bot = {
 			return;
 		}
 
-		// Other lines...
+		if (fields[0] === "c") {				// c t city_id f lk
 
-		if (fields[0] === "c") {
+			let team = parseInt(fields[1], 10);
+			let id = fields[2];
+			let fuel = parseInt(fields[3], 10);
+			let lk = parseInt(fields[4], 10);
+
+			this.state.cities.push({team, id, fuel, lk});
 			return;
 		}
 
-		if (fields[0] === "ccd") {
+		if (fields[0] === "ccd") {				// ccd x y cd
+
+			let x = parseInt(fields[1], 10);
+			let y = parseInt(fields[2], 10);
+			let cd = parseInt(fields[3], 10);
+
+			this.state.map[x][y].cd = cd;
 			return;
 		}
 
-		if (fields[0] === "ct") {
+		if (fields[0] === "ct") {				// ct t city_id x y cd
+
+			let team = parseInt(fields[1], 10);
+			let id = fields[2];
+			let x = parseInt(fields[3], 10);
+			let y = parseInt(fields[4], 10);
+			let cd = parseInt(fields[5], 10);
+
+			this.state.tiles.push({team, id, x, y, cd});
 			return;
 		}
 
-		if (fields[0] === "r") {
-			let type = fields[1][0];			// should be "w" / "c" / "u"
+		if (fields[0] === "r") {				// r resource_type x y amount
+
+			let type = fields[1][0];
 			let x = parseInt(fields[2], 10);
 			let y = parseInt(fields[3], 10);
 			let val = parseInt(fields[4], 10);
+
 			this.state.map[x][y].type = type;
 			this.state.map[x][y].val = val;
 			return;
 		}
 
-		if (fields[0] === "rp") {
+		if (fields[0] === "rp") {				// rp t points
+
+			let team = parseInt(fields[1], 10);
+			let points = parseInt(fields[2], 10);
+
+			this.state.rp[team] = points;
 			return;
 		}
 
-		if (fields[0] === "u") {
+		if (fields[0] === "u") {				// u unit_type t unit_id x y cd w c u
+
+			let type = parseInt(fields[1], 10);
+			let team = parseInt(fields[2], 10);
+			let id = fields[3];
+			let x = parseInt(fields[4], 10);
+			let y = parseInt(fields[5], 10);
+			let cd = parseInt(fields[6], 10);
+			let wood = parseInt(fields[7], 10);
+			let coal = parseInt(fields[8], 10);
+			let uranium = parseInt(fields[9], 10);
+
+			this.state.units.push({type, team, id, x, y, cd, wood, coal, uranium});
 			return;
 		}
 
 		if (fields[0] === "D_DONE") {
+			if (LOG_STATES) {
+				this.log(this.state.string());
+				this.log("-".repeat(this.state.width));
+			}
 			this.ai();
 			this.state.reset();					// Must reset the map for the next turn. (?)
 			return;
@@ -122,35 +167,54 @@ let bot = {
 // ------------------------------------------------------------------------------------------------
 
 function NewGameState(width, height) {
+
 	let game = Object.assign({}, game_state_props);
-	game.reset(width, height);
+
+	game.width = width;
+	game.height = height;
+	game.map = [];
+
+	for (let x = 0; x < width; x++) {
+		game.map.push([]);
+		for (let y = 0; y < height; y++) {
+			game.map[x].push({});
+		}
+	}
+
+	game.reset();
 	return game;
 }
 
 let game_state_props = {
 
-	reset: function(width, height) {
-
-		if (width) this.width = width;
-		if (height) this.height = height;
-
-		if (!this.map) {
-			this.map = [];
-			for (let x = 0; x < this.width; x++) {
-				this.map.push([]);
-				for (let y = 0; y < this.height; y++) {
-					this.map[x].push({});
-				}
-			}
-		}
+	reset: function() {
 
 		for (let x = 0; x < this.width; x++) {
 			for (let y = 0; y < this.height; y++) {
 				this.map[x][y].type = "";
 				this.map[x][y].val = 0;
+				this.map[x][y].cd = 1;		// Is this right? ccd is "only sent for any cells with cooldowns not equal to 1" -- logic.d.ts
 			}
 		}
-	}
+
+		this.rp = [0, 0];
+		this.units = [];
+		this.cities = [];
+		this.tiles = [];
+	},
+
+	string: function() {
+		let lines = [];
+		for (let y = 0; y < this.height; y++) {
+			let line = [];
+			for (let x = 0; x < this.width; x++) {
+				line.push(this.map[x][y].type ? this.map[x][y].type : " ");
+			}
+			lines.push(line.join(""));
+		}
+		return lines.join("\n");
+	},
+
 };
 
 // ------------------------------------------------------------------------------------------------
