@@ -6,6 +6,7 @@ function new_game_state(width, height) {
 	let game = Object.assign({}, game_state_props);
 	game.width = width;
 	game.height = height;
+	game.turn = null;
 	game.reset();
 	return game;
 }

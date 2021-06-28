@@ -78,8 +78,7 @@ let bot = {
 
 		} else if (fields[0] === "D_DONE") {
 
-			// this.log(this.state.string());
-
+			this.state.turn = typeof this.state.turn === "number" ? this.state.turn + 1 : 0;
 			ai(this, this.state, this.team);
 			this.state.reset();					// Must reset the map for the next turn. (?)
 
