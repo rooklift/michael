@@ -1,20 +1,9 @@
 "use strict";
 
 function new_game_state(width, height) {
-
 	let game = Object.assign({}, game_state_props);
-
 	game.width = width;
 	game.height = height;
-	game.map = [];
-
-	for (let x = 0; x < width; x++) {
-		game.map.push([]);
-		for (let y = 0; y < height; y++) {
-			game.map[x].push({});
-		}
-	}
-
 	game.reset();
 	return game;
 }
@@ -23,18 +12,30 @@ let game_state_props = {
 
 	reset: function() {
 
+		if (!this.map) {
+
+			this.map = [];					// 2D list of {type, amount, cd}
+
+			for (let x = 0; x < this.width; x++) {
+				this.map.push([]);
+				for (let y = 0; y < this.height; y++) {
+					this.map[x].push({});
+				}
+			}
+		}
+
 		for (let x = 0; x < this.width; x++) {
 			for (let y = 0; y < this.height; y++) {
 				this.map[x][y].type = "";
-				this.map[x][y].val = 0;
+				this.map[x][y].amount = 0;
 				this.map[x][y].cd = 1;		// Is this right? ccd is "only sent for any cells with cooldowns not equal to 1" -- logic.d.ts
 			}
 		}
 
 		this.rp = [0, 0];
-		this.units = [];
-		this.cities = [];
-		this.tiles = [];
+		this.units = [];					// List of {type, team, id, x, y, cd, wood, coal, uranium}
+		this.cities = [];					// List of {team, id, fuel, lk}
+		this.tiles = [];					// List of {team, id, x, y, cd}
 	},
 
 	string: function() {
