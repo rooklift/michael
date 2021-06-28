@@ -1,5 +1,7 @@
 "use strict";
 
+// FIXME: figure out the relationship between the various cooldown values, expecially for ccd and ct lines.
+
 function new_game_state(width, height) {
 	let game = Object.assign({}, game_state_props);
 	game.width = width;
@@ -14,7 +16,7 @@ let game_state_props = {
 
 		if (!this.map) {
 
-			this.map = [];					// 2D list of {type, amount, cd}
+			this.map = [];				// 2D list of {type, amount, cd}
 
 			for (let x = 0; x < this.width; x++) {
 				this.map.push([]);
@@ -28,14 +30,14 @@ let game_state_props = {
 			for (let y = 0; y < this.height; y++) {
 				this.map[x][y].type = "";
 				this.map[x][y].amount = 0;
-				this.map[x][y].cd = 1;		// Is this right? ccd is "only sent for any cells with cooldowns not equal to 1" -- logic.d.ts
+				this.map[x][y].cd = 1;				// Is this right?
 			}
 		}
 
 		this.rp = [0, 0];
-		this.units = [];					// List of {type, team, id, x, y, cd, wood, coal, uranium}
-		this.cities = [];					// List of {team, id, fuel, lk}
-		this.tiles = [];					// List of {team, id, x, y, cd}
+		this.units = [];				// List of {type, team, id, x, y, cd, wood, coal, uranium}
+		this.cities = [];				// List of {team, id, fuel, lk}
+		this.tiles = [];				// List of {team, id, x, y, cd}
 	},
 
 	string: function() {
@@ -54,9 +56,9 @@ let game_state_props = {
 		return lines.join("\n");
 	},
 
-	parse: function(fields) {
+	parse: function(bot, fields) {		// bot is provided just so we can use its log() method
 
-		if (fields[0] === "c") {				// c t city_id f lk
+		if (fields[0] === "c") {						// c t city_id f lk
 
 			let team = parseInt(fields[1], 10);
 			let id = fields[2];
@@ -67,7 +69,7 @@ let game_state_props = {
 			return;
 		}
 
-		if (fields[0] === "ccd") {				// ccd x y cd
+		if (fields[0] === "ccd") {						// ccd x y cd
 
 			let x = parseInt(fields[1], 10);
 			let y = parseInt(fields[2], 10);
@@ -77,7 +79,7 @@ let game_state_props = {
 			return;
 		}
 
-		if (fields[0] === "ct") {				// ct t city_id x y cd
+		if (fields[0] === "ct") {						// ct t city_id x y cd
 
 			let team = parseInt(fields[1], 10);
 			let id = fields[2];
@@ -89,7 +91,7 @@ let game_state_props = {
 			return;
 		}
 
-		if (fields[0] === "r") {				// r resource_type x y amount
+		if (fields[0] === "r") {						// r resource_type x y amount
 
 			let type = fields[1][0];
 			let x = parseInt(fields[2], 10);
@@ -101,7 +103,7 @@ let game_state_props = {
 			return;
 		}
 
-		if (fields[0] === "rp") {				// rp t points
+		if (fields[0] === "rp") {						// rp t points
 
 			let team = parseInt(fields[1], 10);
 			let points = parseInt(fields[2], 10);
@@ -110,7 +112,7 @@ let game_state_props = {
 			return;
 		}
 
-		if (fields[0] === "u") {				// u unit_type t unit_id x y cd w c u
+		if (fields[0] === "u") {						// u unit_type t unit_id x y cd w c u
 
 			let type = parseInt(fields[1], 10);
 			let team = parseInt(fields[2], 10);
