@@ -38,7 +38,7 @@ let game_state_props = {
 	},
 
 	string: function() {
-		let lines = [];
+		let lines = ["-".repeat(this.width)];
 		for (let y = 0; y < this.height; y++) {
 			let line = [];
 			for (let x = 0; x < this.width; x++) {
@@ -46,6 +46,7 @@ let game_state_props = {
 			}
 			lines.push(line.join(""));
 		}
+		lines.push("-".repeat(this.width));
 		return lines.join("\n");
 	},
 
