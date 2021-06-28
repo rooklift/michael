@@ -114,10 +114,10 @@ let bot = {
 			let type = fields[1][0];
 			let x = parseInt(fields[2], 10);
 			let y = parseInt(fields[3], 10);
-			let val = parseInt(fields[4], 10);
+			let amount = parseInt(fields[4], 10);
 
 			this.state.map[x][y].type = type;
-			this.state.map[x][y].val = val;
+			this.state.map[x][y].amount = amount;
 			return;
 		}
 
