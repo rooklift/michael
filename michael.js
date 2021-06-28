@@ -88,7 +88,7 @@ let bot = {
 		}
 
 		if (fields[0] === "r") {
-			let type = fields[1][0];						// should be "w" / "c" / "u"
+			let type = fields[1][0];			// should be "w" / "c" / "u"
 			let x = parseInt(fields[2], 10);
 			let y = parseInt(fields[3], 10);
 			let val = parseInt(fields[4], 10);
@@ -107,13 +107,11 @@ let bot = {
 
 		if (fields[0] === "D_DONE") {
 			this.ai();
-			this.create_map(this.width, this.height);		// Reset the map for the next turn.
+			this.state.reset();					// Must reset the map for the next turn. (?)
 			return;
 		}
 
 	},
-
-	// --------------------------------------------------------------------------------------------
 
 	ai: function() {
 		this.send("D_FINISH");
@@ -136,15 +134,20 @@ let game_state_props = {
 		if (width) this.width = width;
 		if (height) this.height = height;
 
-		this.map = [];
+		if (!this.map) {
+			this.map = [];
+			for (let x = 0; x < this.width; x++) {
+				this.map.push([]);
+				for (let y = 0; y < this.height; y++) {
+					this.map[x].push({});
+				}
+			}
+		}
 
 		for (let x = 0; x < this.width; x++) {
-			this.map.push([]);
 			for (let y = 0; y < this.height; y++) {
-				this.map[x].push({
-					type: "",
-					val: 0,
-				});
+				this.map[x][y].type = "";
+				this.map[x][y].val = 0;
 			}
 		}
 	}
