@@ -59,6 +59,8 @@ let bot = {
 
 	handle_line: function(s, lineno) {
 
+		// this.log("< " + s);
+
 		let fields = s.split(" ");
 
 		// The first 2 lines we ever receive are special...
