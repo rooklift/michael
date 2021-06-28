@@ -6,9 +6,9 @@ const readline = require("readline");
 const new_game_state = require("./game_state");
 const ai = require("./ai");
 
-const LOG = true;
+const LOG = false;
 const LOG_INPUT = false;
-const LOG_OUTPUT = true;
+const LOG_OUTPUT = false;
 const LOG_STATES = false;
 
 // ------------------------------------------------------------------------------------------------
@@ -154,7 +154,6 @@ let bot = {
 		if (fields[0] === "D_DONE") {
 			if (LOG_STATES) {
 				this.log(this.state.string());
-				this.log("-".repeat(this.state.width));
 			}
 			ai(this, this.state, this.team);
 			this.state.reset();					// Must reset the map for the next turn. (?)
