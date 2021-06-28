@@ -3,10 +3,10 @@
 const fs = require("fs");
 const readline = require("readline");
 
-const LOG = true;
+const LOG = false;
 const LOG_INPUT = false;
 const LOG_OUTPUT = false;
-const LOG_STATES = true;
+const LOG_STATES = false;
 
 // ------------------------------------------------------------------------------------------------
 
