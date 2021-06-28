@@ -3,9 +3,12 @@
 const fs = require("fs");
 const readline = require("readline");
 
-const LOG = false;
+const new_game_state = require("./game_state");
+const ai = require("./ai");
+
+const LOG = true;
 const LOG_INPUT = false;
-const LOG_OUTPUT = false;
+const LOG_OUTPUT = true;
 const LOG_STATES = false;
 
 // ------------------------------------------------------------------------------------------------
@@ -13,20 +16,13 @@ const LOG_STATES = false;
 let bot = {
 
 	startup: function() {
-		this.linecount = -1;
+		this.team = null;
+		this.state = null;
 		this.start_scan();
 	},
 
-	start_log: function(filename) {
-		if (!LOG) {
-			return;
-		}
-		this.logstream = fs.createWriteStream(filename, {flags: "a"});
-		this.log("==============================================================================");
-		this.log(`Michael startup at ${new Date().toUTCString()}`);
-	},
-
 	start_scan: function() {
+		this.linecount = -1;
 		this.scanner = readline.createInterface({
 			input: process.stdin,
 			output: undefined,
@@ -36,6 +32,15 @@ let bot = {
 			this.linecount++;
 			this.handle_line(line, this.linecount);
 		});
+	},
+
+	start_log: function(filename) {
+		if (!LOG) {
+			return;
+		}
+		this.logstream = fs.createWriteStream(filename, {flags: "a"});
+		this.log("==============================================================================");
+		this.log(`Michael startup at ${new Date().toUTCString()}`);
 	},
 
 	// --------------------------------------------------------------------------------------------
@@ -72,7 +77,7 @@ let bot = {
 		if (lineno === 1) {
 			let width = parseInt(fields[0], 10);
 			let height = parseInt(fields[1], 10);
-			this.state = NewGameState(width, height);
+			this.state = new_game_state(width, height);
 			return;
 		}
 
@@ -151,68 +156,11 @@ let bot = {
 				this.log(this.state.string());
 				this.log("-".repeat(this.state.width));
 			}
-			this.ai();
+			ai(this, this.state, this.team);
 			this.state.reset();					// Must reset the map for the next turn. (?)
 			return;
 		}
 
-	},
-
-	ai: function() {
-		this.send("D_FINISH");
-	},
-
-};
-
-// ------------------------------------------------------------------------------------------------
-
-function NewGameState(width, height) {
-
-	let game = Object.assign({}, game_state_props);
-
-	game.width = width;
-	game.height = height;
-	game.map = [];
-
-	for (let x = 0; x < width; x++) {
-		game.map.push([]);
-		for (let y = 0; y < height; y++) {
-			game.map[x].push({});
-		}
-	}
-
-	game.reset();
-	return game;
-}
-
-let game_state_props = {
-
-	reset: function() {
-
-		for (let x = 0; x < this.width; x++) {
-			for (let y = 0; y < this.height; y++) {
-				this.map[x][y].type = "";
-				this.map[x][y].val = 0;
-				this.map[x][y].cd = 1;		// Is this right? ccd is "only sent for any cells with cooldowns not equal to 1" -- logic.d.ts
-			}
-		}
-
-		this.rp = [0, 0];
-		this.units = [];
-		this.cities = [];
-		this.tiles = [];
-	},
-
-	string: function() {
-		let lines = [];
-		for (let y = 0; y < this.height; y++) {
-			let line = [];
-			for (let x = 0; x < this.width; x++) {
-				line.push(this.map[x][y].type ? this.map[x][y].type : " ");
-			}
-			lines.push(line.join(""));
-		}
-		return lines.join("\n");
 	},
 
 };
