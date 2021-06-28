@@ -3,7 +3,7 @@
 const fs = require("fs");
 const readline = require("readline");
 
-const LOGFILENAME = "michael.log"
+const LOG = true;
 
 // ------------------------------------------------------------------------------------------------
 
@@ -11,12 +11,14 @@ let bot = {
 
 	startup: function() {
 		this.linecount = -1;
-		this.start_log();
 		this.start_scan();
 	},
 
-	start_log: function() {
-		this.logstream = fs.createWriteStream(LOGFILENAME, {flags: "a"});
+	start_log: function(filename) {
+		if (!LOG) {
+			return;
+		}
+		this.logstream = fs.createWriteStream(filename, {flags: "a"});
 		this.log("==============================================================================");
 		this.log(`Michael startup at ${new Date().toUTCString()}`);
 	},
@@ -41,6 +43,9 @@ let bot = {
 	},
 
 	log: function(s) {
+		if (!LOG || !this.logstream) {
+			return;
+		}
 		this.logstream.write(s);
 		this.logstream.write("\n");
 	},
@@ -70,11 +75,12 @@ let bot = {
 	handle_line: function(s, lineno) {
 
 		this.log("< " + s);
-
 		let fields = s.split(" ");
 
 		if (lineno === 0) {
 			this.id = parseInt(fields[0], 10);
+			this.start_log(`michael_${this.id}.log`);
+			this.log("< " + s);
 			return;
 		}
 
