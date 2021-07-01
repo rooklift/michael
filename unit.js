@@ -8,6 +8,10 @@ function new_unit(game, type, team, id, x, y, cd, wood, coal, uranium) {
 
 let unit_props = {
 
+	is_unit() {
+		return true;
+	},
+
 	distance_to(a, b) {			// DWIM, accepts an object.
 
 		let x; let y;
@@ -47,6 +51,10 @@ let unit_props = {
 		} else {
 			return this.y - y > 0 ? "n" : "s";
 		}
+	},
+
+	cell() {
+		return this.game.map[this.x][this.y];
 	},
 
 	nearest_resource(type) {

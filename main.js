@@ -6,6 +6,7 @@ const readline = require("readline");
 const new_game = require("./game");
 const ai = require("./ai");
 const reports = require("./reports");
+const stringify = require("./stringify");
 
 const LOG = true;
 
@@ -13,13 +14,13 @@ const LOG = true;
 
 let bot = {
 
-	startup: function() {
+	startup() {
 		this.team = null;
 		this.game = null;
 		this.start_scan();
 	},
 
-	start_scan: function() {
+	start_scan() {
 		this.linecount = -1;
 		this.scanner = readline.createInterface({
 			input: process.stdin,
@@ -32,7 +33,7 @@ let bot = {
 		});
 	},
 
-	start_log: function(filename) {
+	start_log(filename) {
 		if (!LOG) {
 			return;
 		}
@@ -43,22 +44,22 @@ let bot = {
 
 	// --------------------------------------------------------------------------------------------
 
-	send: function(s) {
-		// this.log("> " + s);
+	send(s) {
+		this.log("> " + s);
 		console.log(s);
 	},
 
-	log: function(s) {
+	log(o) {
 		if (!LOG || !this.logstream) {
 			return;
 		}
-		this.logstream.write(s);
+		this.logstream.write(stringify(o));
 		this.logstream.write("\n");
 	},
 
 	// --------------------------------------------------------------------------------------------
 
-	handle_line: function(s, lineno) {
+	handle_line(s, lineno) {
 
 		// this.log("< " + s);
 
@@ -80,7 +81,7 @@ let bot = {
 		} else if (fields[0] === "D_DONE") {
 
 			this.game.turn = typeof this.game.turn === "number" ? this.game.turn + 1 : 0;
-			this.log(reports.objects(this.game));
+			// this.log(reports.objects(this.game));
 			ai(this, this.game, this.team);
 			this.game.reset();					// Dunno if this is worth doing, but the whole world is sent each turn, also the default kits do this.
 
@@ -96,4 +97,5 @@ let bot = {
 
 // ------------------------------------------------------------------------------------------------
 
+global.log = bot.log.bind(bot);
 bot.startup();

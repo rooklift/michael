@@ -6,10 +6,10 @@ function objects(game) {
 
 	lines.push(`Turn ${game.turn}.............................................................`);
 
-	for (let pid of [0, 1]) {
+	for (let team of [0, 1]) {
 
-		let units = game.get_units(pid);
-		let tiles = game.get_tiles(pid);
+		let units = game.list_units(team);
+		let houses = game.list_houses(team);
 
 		let have_said_player = false;
 
@@ -18,7 +18,7 @@ function objects(game) {
 			let s = "";
 
 			if (!have_said_player) {
-				s += `Player ${pid}: `;
+				s += `Player ${team}: `;
 				have_said_player = true;
 			} else {
 				s += `          `;
@@ -31,23 +31,23 @@ function objects(game) {
 
 		let have_said_cities = {};
 
-		for (let tile of tiles) {
+		for (let house of houses) {
 
 			let s = "";
 
 			if (!have_said_player) {
-				s += `Player ${pid}: `;
+				s += `Player ${team}: `;
 				have_said_player = true;
 			} else {
 				s += `          `;
 			}
 
-			if (!have_said_cities[tile.id]) {
-				let city = game.get_city_from_tile(tile);
-				s += `${tile.id} [${tile.x}, ${tile.y}] - tile, ${tile.cd} cd (city ${city.id} has ${city.fuel} fuel, ${city.lk} lk)`;
-				have_said_cities[tile.id] = true;
+			if (!have_said_cities[house.id]) {
+				let city = game.city_from_house(house);
+				s += `${house.id} [${house.x}, ${house.y}] - house, ${house.cd} cd (city ${city.id} has ${city.fuel} fuel, ${city.lk} lk)`;
+				have_said_cities[house.id] = true;
 			} else {
-				s += `${tile.id} [${tile.x}, ${tile.y}] - tile, ${tile.cd} cd`;
+				s += `${house.id} [${house.x}, ${house.y}] - house, ${house.cd} cd`;
 			}
 
 			lines.push(s);

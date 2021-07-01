@@ -1,5 +1,6 @@
 "use strict";
 
+const new_house = require("./house");
 const new_unit = require("./unit");
 
 function new_game(width, height) {
@@ -13,7 +14,7 @@ function new_game(width, height) {
 
 let game_props = {
 
-	reset: function() {
+	reset() {
 
 		if (!this.map) {
 
@@ -22,7 +23,7 @@ let game_props = {
 			for (let x = 0; x < this.width; x++) {
 				this.map.push([]);
 				for (let y = 0; y < this.height; y++) {
-					this.map[x].push({});
+					this.map[x].push({x, y});
 				}
 			}
 		}
@@ -37,28 +38,46 @@ let game_props = {
 
 		this.rp = [0, 0];
 		this.units = [];				// List of {type, team, id, x, y, cd, wood, coal, uranium}
-		this.tiles = [];				// List of {team, id, x, y, cd}
+		this.houses = [];				// List of {team, id, x, y, cd}
 		this.cities = [];				// List of {team, id, fuel, lk}
 	},
 
-	get_units: function(pid) {
-		return this.units.filter(z => z.team === pid);
+	list_units(team) {
+		if (team === undefined) throw "bad call";
+		return this.units.filter(z => z.team === team);
 	},
 
-	get_tiles: function(pid) {
-		return this.tiles.filter(z => z.team === pid);
+	list_houses(team) {
+		if (team === undefined) throw "bad call";
+		return this.houses.filter(z => z.team === team);
 	},
 
-	get_city_from_tile: function(tile) {
+	city_from_house(house) {
+		if (typeof house !== "object") throw "bad call";
 		for (let city of this.cities) {
-			if (city.id === tile.id) {
+			if (city.id === house.id) {
 				return city;
 			}
 		}
 		return undefined;
 	},
 
-	parse: function(fields) {
+	list_resources() {
+
+		let ret = [];
+
+		for (let x = 0; x < this.width; x++) {
+			for (let y = 0; y < this.height; y++) {
+				if (this.map[x][y].type) {
+					ret.push(this.map[x][y]);
+				}
+			}
+		}
+
+		return ret;
+	},
+
+	parse(fields) {
 
 		// Arranged to match the order in kit.js
 
@@ -73,7 +92,7 @@ let game_props = {
 
 		if (fields[0] === "r") {						// r resource_type x y amount
 
-			let type = fields[1][0];
+			let type = fields[1];
 			let x = parseInt(fields[2], 10);
 			let y = parseInt(fields[3], 10);
 			let amount = parseInt(fields[4], 10);
@@ -118,7 +137,7 @@ let game_props = {
 			let y = parseInt(fields[4], 10);
 			let cd = parseInt(fields[5], 10);
 
-			this.tiles.push({team, id, x, y, cd});
+			this.houses.push(new_house(this, team, id, x, y, cd));
 			return;
 		}
 
