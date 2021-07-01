@@ -15,7 +15,7 @@ let game_state_props = {
 
 		if (!this.map) {
 
-			this.map = [];				// 2D list of {type, amount, cd}
+			this.map = [];				// 2D list of {type, amount, road}
 
 			for (let x = 0; x < this.width; x++) {
 				this.map.push([]);
