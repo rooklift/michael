@@ -38,9 +38,9 @@ let game_props = {
 		}
 
 		this.rp = [0, 0];
-		this.units = [];				// List of {type, team, id, x, y, cd, wood, coal, uranium}
-		this.houses = [];				// List of {team, id, x, y, cd}
-		this.cities = [];				// List of {team, id, fuel, lk}
+		this.units = [];
+		this.houses = [];
+		this.cities = [];
 	},
 
 	list_units(team) {

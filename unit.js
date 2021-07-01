@@ -73,7 +73,7 @@ let unit_props = {
 	},
 
 	nearest_needy_house() {
-		let list = this.game.list_houses(this.team).filter(house => !house.city().will_survive_night()).sort((a, b) => {
+		let list = this.game.list_houses(this.team).filter(house => house.needy()).sort((a, b) => {
 			return this.distance_to(a) - this.distance_to(b);
 		});
 		return list[0];			// possibly undefined

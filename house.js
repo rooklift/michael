@@ -12,6 +12,10 @@ let house_props = {
 
 	city() {
 		return this.game.city_from_house(this);
+	},
+
+	needy() {
+		return !this.city().will_survive_night();
 	}
 
 };
