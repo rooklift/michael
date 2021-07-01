@@ -69,7 +69,7 @@ let bot = {
 		if (lineno === 0) {
 
 			this.team = parseInt(fields[0], 10);
-			this.start_log(`michael_${this.team}.log`);
+			this.start_log(`_michael_${this.team}.log`);
 
 		} else if (lineno === 1) {
 
