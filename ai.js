@@ -2,28 +2,47 @@
 
 function ai(bot, game, team) {
 
+	let reservations = [];
+
 	for (let unit of game.list_units(team)) {
 
 		let target;
 		let build_flag;
+		let move_info;
 
 		if (unit.weight() === 100) {
-			target = unit.nearest_house();
-		} else {
-			target = unit.nearest_resource("wood");
+			target = unit.nearest_needy_house();
+			if (!target) {
+				build_flag = true;
+				target = unit.nearest_house();
+			}
 		}
 
-		if (target && target.is_house) {
-			let city = target.city();
-			if (city.fuel >= city.lk * 10) {
-				build_flag = true;
-			}
+		if (!target) {
+			target = unit.nearest_resource("wood");
 		}
 
 		if (build_flag && unit.cell().type === "") {
 			bot.send(`bcity ${unit.id}`);
 		} else if (target) {
-			bot.send(`m ${unit.id} ${unit.direction_to(target)}`);
+			move_info = unit.move_info(target);
+		}
+
+		if (move_info) {
+
+			let ok = true;
+
+			for (let rs of reservations) {
+				if (rs.x2 === move_info.x2 && rs.y2 === move_info.y2) {
+					ok = false;
+					break;
+				}
+			}
+
+			if (ok) {
+				bot.send(`m ${unit.id} ${move_info.direction}`);
+				reservations.push(move_info);
+			}
 		}
 	}
 

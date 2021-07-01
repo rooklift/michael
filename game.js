@@ -1,5 +1,6 @@
 "use strict";
 
+const new_city = require("./city");
 const new_house = require("./house");
 const new_unit = require("./unit");
 
@@ -125,7 +126,7 @@ let game_props = {
 			let fuel = parseInt(fields[3], 10);
 			let lk = parseInt(fields[4], 10);
 
-			this.cities.push({team, id, fuel, lk});
+			this.cities.push(new_city(this, team, id, fuel, lk));
 			return;
 		}
 

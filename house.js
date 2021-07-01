@@ -8,9 +8,7 @@ function new_house(game, team, id, x, y, cd) {
 
 let house_props = {
 
-	is_house() {
-		return true;
-	},
+	is_house: true,
 
 	city() {
 		return this.game.city_from_house(this);

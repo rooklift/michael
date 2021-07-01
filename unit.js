@@ -1,5 +1,7 @@
 "use strict";
 
+const new_move_info = require("./move_info");
+
 function new_unit(game, type, team, id, x, y, cd, wood, coal, uranium) {
 	let unit = {game, type, team, id, x, y, cd, wood, coal, uranium};
 	Object.assign(unit, unit_props);
@@ -8,9 +10,7 @@ function new_unit(game, type, team, id, x, y, cd, wood, coal, uranium) {
 
 let unit_props = {
 
-	is_unit() {
-		return true;
-	},
+	is_unit: true,
 
 	distance_to(a, b) {			// DWIM, accepts an object.
 
@@ -27,7 +27,7 @@ let unit_props = {
 		return Math.abs(x - this.x) + Math.abs(y - this.y);
 	},
 
-	direction_to(a, b) {		// DWIM, accepts an object.
+	move_info(a, b) {		// DWIM, accepts an object. Returns a move_info object with {x1, y1, x2, y2, direction}
 
 		let x; let y;
 
@@ -40,16 +40,16 @@ let unit_props = {
 		}
 
 		if (x === this.x && y === this.y) {
-			return "c";
+			return new_move_info(this.x, this.y, "c");
 		}
 
 		let dx_abs = Math.abs(this.x - x);
 		let dy_abs = Math.abs(this.y - y);
 
 		if (dx_abs > dy_abs) {
-			return this.x - x > 0 ? "w" : "e";
+			return this.x - x > 0 ? new_move_info(this.x, this.y, "w") : new_move_info(this.x, this.y, "e");
 		} else {
-			return this.y - y > 0 ? "n" : "s";
+			return this.y - y > 0 ? new_move_info(this.x, this.y, "n") : new_move_info(this.x, this.y, "s");
 		}
 	},
 
@@ -72,21 +72,11 @@ let unit_props = {
 		return list[0];			// possibly undefined
 	},
 
-	direction_to_nearest_resource(type) {
-		if (["wood", "coal", "uranium"].includes(type) === false) throw "bad call";
-		let resource = this.nearest_resource(type);
-		if (!resource) {
-			return "c";
-		}
-		return this.direction_to(resource);
-	},
-
-	direction_to_nearest_house() {
-		let house = this.nearest_house();
-		if (!house) {
-			return "c";
-		}
-		return this.direction_to(house);
+	nearest_needy_house() {
+		let list = this.game.list_houses(this.team).filter(house => !house.city().will_survive_night()).sort((a, b) => {
+			return this.distance_to(a) - this.distance_to(b);
+		});
+		return list[0];			// possibly undefined
 	},
 
 	weight() {
