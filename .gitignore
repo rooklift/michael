@@ -1,4 +1,5 @@
 
 *.log
 *.json
-simple/*
+simplejs/*
+simplepy/*
