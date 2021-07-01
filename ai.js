@@ -1,6 +1,6 @@
 "use strict";
 
-function ai(bot, state, pid) {
+function ai(bot, game, pid) {
 	bot.send("D_FINISH");
 }
 

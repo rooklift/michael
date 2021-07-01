@@ -1,15 +1,15 @@
 "use strict";
 
-exports.objects = function(state) {
+function objects(game) {
 
 	let lines = [];
 
-	lines.push(`Turn ${state.turn}.............................................................`);
+	lines.push(`Turn ${game.turn}.............................................................`);
 
 	for (let pid of [0, 1]) {
 
-		let units = state.get_units(pid);
-		let tiles = state.get_tiles(pid);
+		let units = game.get_units(pid);
+		let tiles = game.get_tiles(pid);
 
 		let have_said_player = false;
 
@@ -43,7 +43,7 @@ exports.objects = function(state) {
 			}
 
 			if (!have_said_cities[tile.id]) {
-				let city = state.get_city_from_tile(tile);
+				let city = game.get_city_from_tile(tile);
 				s += `${tile.id} [${tile.x}, ${tile.y}] - tile, ${tile.cd} cd (city ${city.id} has ${city.fuel} fuel, ${city.lk} lk)`;
 				have_said_cities[tile.id] = true;
 			} else {
@@ -56,21 +56,25 @@ exports.objects = function(state) {
 	}
 
 	return lines.join("\n");
-};
+}
 
-exports.map = function(state) {
+function map(game) {
 
 	let lines = [];
-	lines.push("-".repeat(state.width));
+	lines.push("-".repeat(game.width));
 
-	for (let y = 0; y < state.height; y++) {
+	for (let y = 0; y < game.height; y++) {
 		let line = [];
-		for (let x = 0; x < state.width; x++) {
-			line.push(state.map[x][y].type ? state.map[x][y].type : " ");
+		for (let x = 0; x < game.width; x++) {
+			line.push(game.map[x][y].type ? game.map[x][y].type : " ");
 		}
 		lines.push(line.join(""));
 	}
 
-	lines.push("-".repeat(state.width));
+	lines.push("-".repeat(game.width));
 	return lines.join("\n");
-};
+}
+
+
+
+module.exports = {objects, map};

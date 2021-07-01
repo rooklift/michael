@@ -1,7 +1,9 @@
 "use strict";
 
-function new_game_state(width, height) {
-	let game = Object.assign({}, game_state_props);
+const new_unit = require("./unit");
+
+function new_game(width, height) {
+	let game = Object.assign({}, game_props);
 	game.width = width;
 	game.height = height;
 	game.turn = null;
@@ -9,7 +11,7 @@ function new_game_state(width, height) {
 	return game;
 }
 
-let game_state_props = {
+let game_props = {
 
 	reset: function() {
 
@@ -93,7 +95,7 @@ let game_state_props = {
 			let coal = parseInt(fields[8], 10);
 			let uranium = parseInt(fields[9], 10);
 
-			this.units.push({type, team, id, x, y, cd, wood, coal, uranium});
+			this.units.push(new_unit(this, type, team, id, x, y, cd, wood, coal, uranium));
 			return;
 		}
 
@@ -135,4 +137,4 @@ let game_state_props = {
 
 
 
-module.exports = new_game_state;
+module.exports = new_game;

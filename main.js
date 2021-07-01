@@ -3,7 +3,7 @@
 const fs = require("fs");
 const readline = require("readline");
 
-const new_game_state = require("./game_state");
+const new_game = require("./game");
 const ai = require("./ai");
 const reports = require("./reports");
 
@@ -15,7 +15,7 @@ let bot = {
 
 	startup: function() {
 		this.team = null;
-		this.state = null;
+		this.game = null;
 		this.start_scan();
 	},
 
@@ -75,18 +75,18 @@ let bot = {
 
 			let width = parseInt(fields[0], 10);
 			let height = parseInt(fields[1], 10);
-			this.state = new_game_state(width, height);
+			this.game = new_game(width, height);
 
 		} else if (fields[0] === "D_DONE") {
 
-			this.state.turn = typeof this.state.turn === "number" ? this.state.turn + 1 : 0;
-			this.log(reports.objects(this.state));
-			ai(this, this.state, this.team);
-			this.state.reset();					// Dunno if this is worth doing, but the whole world is sent each turn, also the default kits do this.
+			this.game.turn = typeof this.game.turn === "number" ? this.game.turn + 1 : 0;
+			this.log(reports.objects(this.game));
+			ai(this, this.game, this.team);
+			this.game.reset();					// Dunno if this is worth doing, but the whole world is sent each turn, also the default kits do this.
 
 		} else {
 
-			this.state.parse(fields);
+			this.game.parse(fields);
 
 		}
 
