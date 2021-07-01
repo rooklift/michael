@@ -4,7 +4,10 @@ function ai(bot, game, team) {
 
 	let reservations = [];
 
-	for (let unit of game.list_units(team)) {
+	let my_units = game.list_units(team);
+	let my_houses = game.list_houses(team);
+
+	for (let unit of my_units) {
 
 		let target;
 		let build_flag;
@@ -46,8 +49,12 @@ function ai(bot, game, team) {
 		}
 	}
 
-	for (let house of game.list_houses(team)) {
-		bot.send(`bw ${house.x} ${house.y}`);
+	for (let house of my_houses) {
+		if (my_houses.length > my_units.length) {
+			bot.send(`bw ${house.x} ${house.y}`);
+		} else {
+			bot.send(`r ${house.x} ${house.y}`);
+		}
 	}
 
 	bot.send("D_FINISH");
