@@ -9,6 +9,10 @@ function ai(bot, game, team) {
 
 	for (let unit of my_units) {
 
+		if (unit.cd > 0) {
+			continue;
+		}
+
 		let target;
 		let build_flag;
 		let move_info;
@@ -52,10 +56,12 @@ function ai(bot, game, team) {
 	}
 
 	for (let house of my_houses) {
-		if (my_houses.length > my_units.length) {
-			bot.send(`bw ${house.x} ${house.y}`);
-		} else {
-			bot.send(`r ${house.x} ${house.y}`);
+		if (house.cd === 0) {
+			if (my_houses.length > my_units.length) {
+				bot.send(`bw ${house.x} ${house.y}`);
+			} else {
+				bot.send(`r ${house.x} ${house.y}`);
+			}
 		}
 	}
 
