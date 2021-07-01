@@ -44,17 +44,17 @@ let game_props = {
 	},
 
 	list_units(team) {
-		if (team === undefined) throw "bad call";
+		if (typeof team !== "number") throw "bad call";
 		return this.units.filter(z => z.team === team);
 	},
 
 	list_houses(team) {
-		if (team === undefined) throw "bad call";
+		if (typeof team !== "number") throw "bad call";
 		return this.houses.filter(z => z.team === team);
 	},
 
 	city_from_house(house) {
-		if (typeof house !== "object") throw "bad call";
+		if (!house.is_house) throw "bad call";
 		for (let city of this.cities) {
 			if (city.id === house.id) {
 				return city;
