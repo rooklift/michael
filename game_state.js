@@ -56,7 +56,7 @@ let game_state_props = {
 		return undefined;
 	},
 
-	parse: function(bot, fields) {		// bot is provided just so we can use its log() method
+	parse: function(fields) {
 
 		// Arranged to match the order in kit.js
 

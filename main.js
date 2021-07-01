@@ -86,7 +86,7 @@ let bot = {
 
 		} else {
 
-			this.state.parse(this, fields);
+			this.state.parse(fields);
 
 		}
 
