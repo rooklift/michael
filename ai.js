@@ -16,7 +16,9 @@ function ai(bot, game, team) {
 		if (unit.weight() === 100) {
 			target = unit.nearest_needy_house();
 			if (!target) {
-				build_flag = true;
+				if (unit.wood === 100) {			// Require 100 wood for a house, not just any resource.
+					build_flag = true;
+				}
 				target = unit.nearest_house();
 			}
 		}
