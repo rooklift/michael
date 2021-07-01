@@ -5,6 +5,7 @@ const readline = require("readline");
 
 const new_game_state = require("./game_state");
 const ai = require("./ai");
+const reports = require("./reports");
 
 const LOG = true;
 
@@ -78,11 +79,10 @@ let bot = {
 
 		} else if (fields[0] === "D_DONE") {
 
-			this.log(this.state.report_string());
-
 			this.state.turn = typeof this.state.turn === "number" ? this.state.turn + 1 : 0;
+			this.log(reports.objects(this.state));
 			ai(this, this.state, this.team);
-			this.state.reset();					// Must reset the map for the next turn. (?)
+			this.state.reset();					// Dunno if this is worth doing, but the whole world is sent each turn, also the default kits do this.
 
 		} else {
 
