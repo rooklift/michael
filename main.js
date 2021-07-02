@@ -37,15 +37,13 @@ let bot = {
 		if (!LOG) {
 			return;
 		}
-		this.logstream = fs.createWriteStream(filename, {flags: "a"});
-		this.log("==============================================================================");
-		this.log(`Michael startup at ${new Date().toUTCString()}`);
+		this.logstream = fs.createWriteStream(filename);
 	},
 
 	// --------------------------------------------------------------------------------------------
 
 	send(s) {
-		// this.log("> " + s);
+		this.log("> " + s);
 		console.log(s);
 	},
 
@@ -61,7 +59,7 @@ let bot = {
 
 	handle_line(s, lineno) {
 
-		// this.log("< " + s);
+		this.log(s);
 
 		let fields = s.split(" ");
 
@@ -70,7 +68,8 @@ let bot = {
 		if (lineno === 0) {
 
 			this.team = parseInt(fields[0], 10);
-			this.start_log(`_michael_${this.team}.log`);
+			this.start_log(`_michael_${new Date().getTime()}_${this.team}.log`);
+			this.log(s);						// Because the call at top will have failed.
 
 		} else if (lineno === 1) {
 
@@ -81,7 +80,6 @@ let bot = {
 		} else if (fields[0] === "D_DONE") {
 
 			this.game.turn = typeof this.game.turn === "number" ? this.game.turn + 1 : 0;
-			// this.log(reports.objects(this.game));
 			ai(this, this.game, this.team);
 			this.game.reset();					// Dunno if this is worth doing, but the whole world is sent each turn, also the default kits do this.
 

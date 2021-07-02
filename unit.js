@@ -27,7 +27,7 @@ let unit_props = {
 		return Math.abs(x - this.x) + Math.abs(y - this.y);
 	},
 
-	move_info(a, b) {		// DWIM, accepts an object. Returns a move_info object with {x1, y1, x2, y2, direction}
+	move_towards(a, b) {		// DWIM, accepts an object. Returns a move_info object with {x1, y1, x2, y2, direction}
 
 		let x; let y;
 

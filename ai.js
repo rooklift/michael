@@ -34,7 +34,7 @@ function ai(bot, game, team) {
 		if (build_flag && unit.cell().type === "") {
 			bot.send(`bcity ${unit.id}`);
 		} else if (target) {
-			move_info = unit.move_info(target);
+			move_info = unit.move_towards(target);
 		}
 
 		if (move_info) {
