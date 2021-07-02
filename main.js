@@ -21,15 +21,15 @@ let bot = {
 	},
 
 	start_scan() {
-		this.linecount = -1;
+		this.linenum = -1;
 		this.scanner = readline.createInterface({
 			input: process.stdin,
 			output: undefined,
 			terminal: false
 		});
 		this.scanner.on("line", (line) => {
-			this.linecount++;
-			this.handle_line(line, this.linecount);
+			this.linenum++;
+			this.handle_line(line, this.linenum);
 		});
 	},
 
@@ -57,7 +57,7 @@ let bot = {
 
 	// --------------------------------------------------------------------------------------------
 
-	handle_line(s, lineno) {
+	handle_line(s, linenum) {
 
 		this.log(s);
 
@@ -65,13 +65,13 @@ let bot = {
 
 		// The first 2 lines we ever receive are special...
 
-		if (lineno === 0) {
+		if (linenum === 0) {
 
 			this.team = parseInt(fields[0], 10);
 			this.start_log(`_michael_${new Date().getTime()}_${this.team}.log`);
 			this.log(s);						// Because the call at top will have failed.
 
-		} else if (lineno === 1) {
+		} else if (linenum === 1) {
 
 			let width = parseInt(fields[0], 10);
 			let height = parseInt(fields[1], 10);
