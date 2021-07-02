@@ -84,8 +84,8 @@ let game_props = {
 
 		if (fields[0] === "rp") {						// rp t points
 
-			let team = parseInt(fields[1], 10);
-			let points = parseInt(fields[2], 10);
+			let team = parseFloat(fields[1]);
+			let points = parseFloat(fields[2]);
 
 			this.rp[team] = points;
 			return;
@@ -94,9 +94,9 @@ let game_props = {
 		if (fields[0] === "r") {						// r resource_type x y amount
 
 			let type = fields[1];
-			let x = parseInt(fields[2], 10);
-			let y = parseInt(fields[3], 10);
-			let amount = parseInt(fields[4], 10);
+			let x = parseFloat(fields[2]);
+			let y = parseFloat(fields[3]);
+			let amount = parseFloat(fields[4]);
 
 			this.map[x][y].type = amount > 0 ? type : "";
 			this.map[x][y].amount = amount;
@@ -106,14 +106,14 @@ let game_props = {
 		if (fields[0] === "u") {						// u unit_type t unit_id x y cd w c u
 
 			let type = ["worker", "cart"][parseInt(fields[1], 10)];
-			let team = parseInt(fields[2], 10);
+			let team = parseFloat(fields[2]);
 			let id = fields[3];
-			let x = parseInt(fields[4], 10);
-			let y = parseInt(fields[5], 10);
-			let cd = parseInt(fields[6], 10);
-			let wood = parseInt(fields[7], 10);
-			let coal = parseInt(fields[8], 10);
-			let uranium = parseInt(fields[9], 10);
+			let x = parseFloat(fields[4]);
+			let y = parseFloat(fields[5]);
+			let cd = parseFloat(fields[6]);
+			let wood = parseFloat(fields[7]);
+			let coal = parseFloat(fields[8]);
+			let uranium = parseFloat(fields[9]);
 
 			this.units.push(new_unit(this, type, team, id, x, y, cd, wood, coal, uranium));
 			return;
@@ -121,10 +121,10 @@ let game_props = {
 
 		if (fields[0] === "c") {						// c t city_id f lk
 
-			let team = parseInt(fields[1], 10);
+			let team = parseFloat(fields[1]);
 			let id = fields[2];
-			let fuel = parseInt(fields[3], 10);
-			let lk = parseInt(fields[4], 10);
+			let fuel = parseFloat(fields[3]);
+			let lk = parseFloat(fields[4]);
 
 			this.cities.push(new_city(this, team, id, fuel, lk));
 			return;
@@ -132,11 +132,11 @@ let game_props = {
 
 		if (fields[0] === "ct") {						// ct t city_id x y cd
 
-			let team = parseInt(fields[1], 10);
+			let team = parseFloat(fields[1]);
 			let id = fields[2];
-			let x = parseInt(fields[3], 10);
-			let y = parseInt(fields[4], 10);
-			let cd = parseInt(fields[5], 10);
+			let x = parseFloat(fields[3]);
+			let y = parseFloat(fields[4]);
+			let cd = parseFloat(fields[5]);
 
 			this.houses.push(new_house(this, team, id, x, y, cd));
 			return;
@@ -144,9 +144,9 @@ let game_props = {
 
 		if (fields[0] === "ccd") {						// ccd x y cd
 
-			let x = parseInt(fields[1], 10);
-			let y = parseInt(fields[2], 10);
-			let road = parseInt(fields[3], 10);
+			let x = parseFloat(fields[1]);
+			let y = parseFloat(fields[2]);
+			let road = parseFloat(fields[3]);
 
 			this.map[x][y].road = road;
 			return;
