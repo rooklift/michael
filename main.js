@@ -80,8 +80,8 @@ let bot = {
 		} else if (fields[0] === "D_DONE") {
 
 			this.game.turn = typeof this.game.turn === "number" ? this.game.turn + 1 : 0;
-			ai(this, this.game, this.team);
-			this.game.reset();					// Dunno if this is worth doing, but the whole world is sent each turn, also the default kits do this.
+			ai(this, this.game, this.team);		// Sends all needed output.
+			this.game.reset();					// Reset the world for next round of input.
 
 		} else {
 
