@@ -3,9 +3,10 @@
 const fs = require("fs");
 const readline = require("readline");
 
-const new_frame = require("./frame");
+const new_frame = require("./antikit/frame");
+const stringify = require("./antikit/stringify");
+
 const ai = require("./ai");
-const stringify = require("./stringify");
 
 global.LOG_ENABLED = false;
 
