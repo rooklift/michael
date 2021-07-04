@@ -69,7 +69,7 @@ let frame_props = {
 	units_at(x, y) {
 		if (typeof x !== "number" || typeof y !== "number") throw "bad call";
 		return this.units.filter(z => z.x === x && z.y === y);
-	}
+	},
 
 	houses_by_team(team) {
 		if (typeof team !== "number") throw "bad call";
