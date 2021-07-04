@@ -21,7 +21,7 @@ let unit_prototype = Object.assign(Object.create(require("./__object_prototype")
 		if (["n", "s", "e", "w", "c"].includes(d) !== true) {
 			throw "bad call";
 		}
-		this.command(`m ${this.id} d`);
+		this.command(`m ${this.id} ${d}`);
 	},
 
 	order_build() {
