@@ -1,6 +1,10 @@
 "use strict";
 
-// Common methods for cell, house, unit
+// Common methods for cell, house, unit -- relies on them having:
+//
+//		this.frame
+//		this.x
+//		this.y
 
 module.exports = {
 
@@ -31,15 +35,15 @@ module.exports = {
 		return list[0];											// possibly undefined
 	},
 
-	nearest_house() {
-		let list = this.frame.list_houses(this.team).sort((a, b) => {
+	nearest_house(team) {
+		let list = this.frame.houses_by_team(team).sort((a, b) => {
 			return this.distance(a) - this.distance(b);
 		});
 		return list[0];											// possibly undefined
 	},
 
-	nearest_needy_house() {
-		let list = this.frame.list_houses(this.team).filter(house => house.needy()).sort((a, b) => {
+	nearest_needy_house(team) {
+		let list = this.frame.houses_by_team(team).filter(house => house.needy()).sort((a, b) => {
 			return this.distance(a) - this.distance(b);
 		});
 		return list[0];											// possibly undefined
