@@ -166,28 +166,25 @@ let frame_props = {
 	},
 
 	freeze() {
+		this.__freeze_recurse(this);
+	},
 
-		// https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/freeze
+	__freeze_recurse(o) {		// https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/freeze
 
-		let deep_freeze = (o) => {
+		for (let key of Object.getOwnPropertyNames(o)) {
 
-			for (let key of Object.getOwnPropertyNames(o)) {
-
-				if (key === "frame") {
-					continue;					// Avoid infinite circular recursion.
-				}
-
-				let value = o[key];
-
-				if (value && typeof value === "object") {
-					deep_freeze(value);
-				}
+			if (key === "frame") {
+				continue;							// Avoid infinite circular recursion.
 			}
 
-			Object.freeze(o);
-		};
+			let value = o[key];
 
-		deep_freeze(this);
+			if (typeof value === "object" && value !== null) {
+				this.__freeze_recurse(value);
+			}
+		}
+
+		Object.freeze(o);
 	},
 
 	// --------------------------------------------------------------------------------------------
