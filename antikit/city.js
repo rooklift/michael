@@ -1,12 +1,12 @@
 "use strict";
 
-function new_city(frame, team, id, fuel, upkeep) {
-
+module.exports = function(frame, team, id, fuel, upkeep) {
 	let city = Object.create(city_prototype);
 	Object.assign(city, {frame, team, id, fuel, upkeep});
 	return city;
+};
 
-}
+// ------------------------------------------------------------------------------------------------
 
 let city_prototype = {
 
@@ -18,7 +18,3 @@ let city_prototype = {
 
 	// FIXME - add houses() or somesuch
 };
-
-
-
-module.exports = new_city;

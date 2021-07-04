@@ -5,14 +5,14 @@ const new_city = require("./city");
 const new_house = require("./house");
 const new_unit = require("./unit");
 
-function new_frame(width, height, turn) {
-
+module.exports = function(width, height, turn) {
 	let frame = Object.create(frame_props);
 	Object.assign(frame, {width, height, turn});
 	frame.init();
 	return frame;
+};
 
-}
+// ------------------------------------------------------------------------------------------------
 
 let frame_props = {
 
@@ -214,7 +214,3 @@ let frame_props = {
 	},
 
 };
-
-
-
-module.exports = new_frame;

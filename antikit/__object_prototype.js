@@ -6,9 +6,6 @@
 //		this.x
 //		this.y
 //		this.cmd
-//
-// Note that most of the getters can return undefined / [] etc as appropriate.
-// They don't check the arguments for validity therefore the frame methods should.
 
 module.exports = {
 
@@ -41,6 +38,9 @@ module.exports = {
 		}
 		return Math.abs(x - this.x) + Math.abs(y - this.y);
 	},
+
+	// Note that most of the getters can return undefined / [] etc as appropriate.
+	// They don't check the arguments for validity therefore the frame methods should.
 
 	cell() {
 		return this.frame.map[this.x][this.y];

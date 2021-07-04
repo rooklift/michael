@@ -1,17 +1,15 @@
 "use strict";
 
-const object_prototype = require("./__object_prototype");
-
-function new_house(frame, team, id, x, y, cd) {
-
+module.exports = function(frame, team, id, x, y, cd) {
 	let house = Object.create(house_prototype);
 	Object.assign(house, {frame, team, id, x, y, cd});
 	house.cmd = {};
 	return house;
+};
 
-}
+// ------------------------------------------------------------------------------------------------
 
-let house_prototype = Object.assign(Object.create(object_prototype), {
+let house_prototype = Object.assign(Object.create(require("./__object_prototype")), {
 
 	is_house: true,
 
@@ -36,7 +34,3 @@ let house_prototype = Object.assign(Object.create(object_prototype), {
 	},
 
 });
-
-
-
-module.exports = new_house;
