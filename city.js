@@ -3,7 +3,7 @@
 function new_city(game, team, id, fuel, lk) {
 
 	let city = Object.create(city_props);
-	Object.assign(city, {game, team, id, fuel, lk}
+	Object.assign(city, {game, team, id, fuel, lk});
 	return city;
 
 }
