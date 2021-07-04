@@ -1,6 +1,6 @@
 "use strict";
 
-global.LOG_ENABLED = false;
+global.LOG_ENABLED = true;
 
 const fs = require("fs");
 const readline = require("readline");

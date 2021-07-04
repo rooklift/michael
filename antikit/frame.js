@@ -178,6 +178,10 @@ let frame_props = {
 				continue;							// Avoid infinite circular recursion.
 			}
 
+			if (key === "cmd") {
+				continue;							// We need to be able to alter these.
+			}
+
 			let value = o[key];
 
 			if (typeof value === "object" && value !== null) {
@@ -193,14 +197,16 @@ let frame_props = {
 	send_orders() {
 
 		for (let unit of this.units) {
-			if (unit.cmd) {
-				send(unit.cmd);
-			}
+			unit.cmd.transmit();
 		}
 
 		for (let house of this.houses) {
-			if (house.cmd) {
-				send(house.cmd);
+			house.cmd.transmit();
+		}
+
+		for (let x = 0; x < this.width; x++) {
+			for (let y = 0; y < this.height; y++) {
+				this.map[x][y].cmd.transmit();
 			}
 		}
 

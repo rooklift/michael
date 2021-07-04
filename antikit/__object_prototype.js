@@ -5,6 +5,7 @@
 //		this.frame
 //		this.x
 //		this.y
+//		this.cmd
 //
 // Note that most of the getters can return undefined / [] etc as appropriate.
 // They don't check the arguments for validity therefore the frame methods should.
@@ -49,6 +50,14 @@ module.exports = {
 
 	nearest_unit(team) {
 		return this.frame.units_by_team(team).sort((a, b) => this.distance(a) - this.distance(b))[0];
+	},
+
+	annotate() {
+		if (this.is_cell) {
+			this.cmd.set(`dc ${this.x} ${this.y}`);
+		} else {
+			this.cell().annotate();
+		}
 	},
 
 };
