@@ -29,7 +29,7 @@ module.exports = {
 	},
 
 	nearest_resource(type) {
-		let list = this.frame.list_resources(type).sort((a, b) => {
+		let list = this.frame.resources(type).sort((a, b) => {
 			return this.distance(a) - this.distance(b);
 		});
 		return list[0];											// possibly undefined

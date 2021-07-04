@@ -40,20 +40,16 @@ let frame_props = {
 		return this.houses.filter(z => z.team === team);
 	},
 
-	list_resources(type) {
+	resources(type) {
+
+		if (["wood", "coal", "uranium"].includes(type) === false) throw "bad call";
 
 		let ret = [];
 
-		if (type !== undefined) {
-			if (["wood", "coal", "uranium"].includes(type) === false) throw "bad call";
-		}
-
 		for (let x = 0; x < this.width; x++) {
 			for (let y = 0; y < this.height; y++) {
-				if (this.map[x][y].amount > 0) {
-					if (type === undefined || this.map[x][y].type === type) {
-						ret.push(this.map[x][y]);
-					}
+				if (this.map[x][y].type === type) {
+					ret.push(this.map[x][y]);
 				}
 			}
 		}
