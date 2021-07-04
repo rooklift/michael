@@ -27,15 +27,8 @@ module.exports = {
 		}
 	},
 
-	distance(arg1, arg2) {		// 2 ways to call:    distance(target_object)  |  distance(x, y)
-		let x; let y;
-		if (typeof arg1 === "object" && typeof arg2 === "undefined") {
-			x = arg1.x; y = arg1.y;
-		} else if (typeof arg1 === "number" && typeof arg2 === "number") {
-			x = arg1; y = arg2;
-		} else {
-			throw "bad call";
-		}
+	distance(arg1, arg2) {									// 2 ways to call:    distance(target_object)  |  distance(x, y)
+		let [x, y] = resolve_dwim_args(arg1, arg2);
 		return Math.abs(x - this.x) + Math.abs(y - this.y);
 	},
 
@@ -71,3 +64,17 @@ module.exports = {
 	},
 
 };
+
+
+
+function resolve_dwim_args(arg1, arg2) {
+
+	if (typeof arg1 === "object" && typeof arg2 === "undefined") {
+		return [arg1.x, arg1.y];
+	} else if (typeof arg1 === "number" && typeof arg2 === "number") {
+		return [arg1, arg2];
+	} else {
+		throw "bad call";
+	}
+
+}
