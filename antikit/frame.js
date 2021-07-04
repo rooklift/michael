@@ -112,9 +112,9 @@ let frame_props = {
 			let team = parseFloat(fields[1]);
 			let id = fields[2];
 			let fuel = parseFloat(fields[3]);
-			let lk = parseFloat(fields[4]);
+			let upkeep = parseFloat(fields[4]);
 
-			this.cities.push(new_city(this, team, id, fuel, lk));
+			this.cities.push(new_city(this, team, id, fuel, upkeep));
 			return;
 		}
 
