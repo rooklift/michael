@@ -52,7 +52,7 @@ let frame_props = {
 	},
 
 	city_by_id(id) {
-		if (typeof id !== "number") throw "bad call";
+		if (typeof id !== "string") throw "bad call";
 		for (let city of this.cities) {
 			if (city.id === id) {
 				return city;
