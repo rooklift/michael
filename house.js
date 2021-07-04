@@ -1,9 +1,11 @@
 "use strict";
 
 function new_house(game, team, id, x, y, cd) {
-	let house = {game, team, id, x, y, cd};
-	Object.assign(house, house_props);
+
+	let house = Object.create(house_props);
+	Object.assign(house, {game, team, id, x, y, cd});
 	return house;
+
 }
 
 let house_props = {

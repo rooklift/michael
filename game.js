@@ -6,12 +6,12 @@ const new_house = require("./house");
 const new_unit = require("./unit");
 
 function new_game(width, height) {
-	let game = Object.assign({}, game_props);
-	game.width = width;
-	game.height = height;
-	game.turn = null;
+
+	let game = Object.create(game_props);
+	Object.assign(game, {width, height, turn: null});
 	game.reset();
 	return game;
+
 }
 
 let game_props = {

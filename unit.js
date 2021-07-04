@@ -3,9 +3,11 @@
 const new_move_info = require("./move_info");
 
 function new_unit(game, type, team, id, x, y, cd, wood, coal, uranium) {
-	let unit = {game, type, team, id, x, y, cd, wood, coal, uranium};
-	Object.assign(unit, unit_props);
+
+	let unit = Object.create(unit_props);
+	Object.assign(unit, {game, type, team, id, x, y, cd, wood, coal, uranium});
 	return unit;
+
 }
 
 let unit_props = {
