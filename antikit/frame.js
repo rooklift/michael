@@ -30,10 +30,6 @@ let frame_props = {
 		this.cities = [];
 	},
 
-	// All getters should check their arguments for validity. Do this even though
-	// their names often imply what is correct, because they might be called via
-	// the various pass-through functions in object_prototype...
-
 	resources(type) {
 
 		if (["wood", "coal", "uranium"].includes(type) === false) throw "bad call";
