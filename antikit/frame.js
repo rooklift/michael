@@ -30,15 +30,9 @@ let frame_props = {
 		this.cities = [];
 	},
 
-	units_by_team(team) {
-		if (typeof team !== number) throw "bad call";
-		return this.units.filter(z => z.team === team);
-	},
-
-	houses_by_team(team) {
-		if (typeof team !== number) throw "bad call";
-		return this.houses.filter(z => z.team === team);
-	},
+	// All getters should check their arguments for validity. Do this even though
+	// their names often imply what is correct, because they might be called via
+	// the various pass-through functions in object_prototype...
 
 	resources(type) {
 
@@ -57,7 +51,8 @@ let frame_props = {
 		return ret;
 	},
 
-	get_city_by_id(id) {
+	city_by_id(id) {
+		if (typeof id !== "number") throw "bad call";
 		for (let city of this.cities) {
 			if (city.id === id) {
 				return city;
@@ -66,7 +61,23 @@ let frame_props = {
 		return undefined;
 	},
 
-	get_house_at(x, y) {
+	units_by_team(team) {
+		if (typeof team !== "number") throw "bad call";
+		return this.units.filter(z => z.team === team);
+	},
+
+	units_at(x, y) {
+		if (typeof x !== "number" || typeof y !== "number") throw "bad call";
+		return this.units.filter(z => z.x === x && z.y === y);
+	}
+
+	houses_by_team(team) {
+		if (typeof team !== "number") throw "bad call";
+		return this.houses.filter(z => z.team === team);
+	},
+
+	house_at(x, y) {
+		if (typeof x !== "number" || typeof y !== "number") throw "bad call";
 		for (let house of this.houses) {
 			if (house.x === x && house.y === y) {
 				return house;
@@ -101,7 +112,7 @@ let frame_props = {
 			let amount = parseFloat(fields[4]);
 
 			this.map[x][y].type = amount > 0 ? type : "";
-			this.map[x][y].amount = amount;
+			this.map[x][y].amount = amount > 0 ? amount : 0;
 			return;
 		}
 

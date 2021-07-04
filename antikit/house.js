@@ -16,7 +16,7 @@ let house_prototype = Object.assign(Object.create(object_prototype), {
 	is_house: true,
 
 	city() {
-		return this.frame.get_city_by_id(this.id);
+		return this.frame.city_by_id(this.id);
 	},
 
 	needy() {

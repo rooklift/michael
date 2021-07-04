@@ -5,6 +5,9 @@
 //		this.frame
 //		this.x
 //		this.y
+//
+// Note that most of the getters can return undefined / [] etc as appropriate.
+// They don't check the arguments for validity therefore the frame methods should.
 
 module.exports = {
 
@@ -25,28 +28,28 @@ module.exports = {
 	},
 
 	house() {
-		return this.frame.get_house_at(this.x, this.y);			// possibly undefined
+		return this.frame.house_at(this.x, this.y);
+	},
+
+	units() {
+		return this.frame.units_at(this.x, this.y);
 	},
 
 	nearest_resource(type) {
-		let list = this.frame.resources(type).sort((a, b) => {
-			return this.distance(a) - this.distance(b);
-		});
-		return list[0];											// possibly undefined
+		return this.frame.resources(type).sort((a, b) => this.distance(a) - this.distance(b))[0];
 	},
 
 	nearest_house(team) {
-		let list = this.frame.houses_by_team(team).sort((a, b) => {
-			return this.distance(a) - this.distance(b);
-		});
-		return list[0];											// possibly undefined
+		return this.frame.houses_by_team(team).sort((a, b) => this.distance(a) - this.distance(b))[0];
 	},
 
 	nearest_needy_house(team) {
-		let list = this.frame.houses_by_team(team).filter(house => house.needy()).sort((a, b) => {
-			return this.distance(a) - this.distance(b);
-		});
-		return list[0];											// possibly undefined
+		return this.frame.houses_by_team(team).filter(house => house.needy()).sort((a, b) => this.distance(a) - this.distance(b))[0];
+	},
+
+	nearest_unit(team) {
+		return this.frame.units_by_team(team).sort((a, b) => this.distance(a) - this.distance(b))[0];
 	},
 
 };
+
