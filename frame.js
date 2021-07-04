@@ -5,18 +5,18 @@ const new_cell = require("./cell");
 const new_house = require("./house");
 const new_unit = require("./unit");
 
-function new_game(width, height) {
+function new_frame(width, height, turn) {
 
-	let game = Object.create(game_props);
-	Object.assign(game, {width, height, turn: null});
-	game.reset();
-	return game;
+	let frame = Object.create(frame_props);
+	Object.assign(frame, {width, height, turn});
+	frame.init();
+	return frame;
 
 }
 
-let game_props = {
+let frame_props = {
 
-	reset() {
+	init() {
 
 		this.map = [];
 
@@ -145,4 +145,4 @@ let game_props = {
 
 
 
-module.exports = new_game;
+module.exports = new_frame;

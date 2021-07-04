@@ -2,10 +2,10 @@
 
 const new_move_info = require("./move_info");
 
-function new_unit(game, type, team, id, x, y, cd, wood, coal, uranium) {
+function new_unit(frame, type, team, id, x, y, cd, wood, coal, uranium) {
 
 	let unit = Object.create(unit_props);
-	Object.assign(unit, {game, type, team, id, x, y, cd, wood, coal, uranium});
+	Object.assign(unit, {frame, type, team, id, x, y, cd, wood, coal, uranium});
 	return unit;
 
 }
@@ -56,26 +56,26 @@ let unit_props = {
 	},
 
 	cell() {
-		return this.game.map[this.x][this.y];
+		return this.frame.map[this.x][this.y];
 	},
 
 	nearest_resource(type) {
 		if (["wood", "coal", "uranium"].includes(type) === false) throw "bad call";
-		let list = this.game.list_resources().filter(cell => cell.type === type).sort((a, b) => {
+		let list = this.frame.list_resources().filter(cell => cell.type === type).sort((a, b) => {
 			return this.distance_to(a) - this.distance_to(b);
 		});
 		return list[0];			// possibly undefined
 	},
 
 	nearest_house() {
-		let list = this.game.list_houses(this.team).sort((a, b) => {
+		let list = this.frame.list_houses(this.team).sort((a, b) => {
 			return this.distance_to(a) - this.distance_to(b);
 		});
 		return list[0];			// possibly undefined
 	},
 
 	nearest_needy_house() {
-		let list = this.game.list_houses(this.team).filter(house => house.needy()).sort((a, b) => {
+		let list = this.frame.list_houses(this.team).filter(house => house.needy()).sort((a, b) => {
 			return this.distance_to(a) - this.distance_to(b);
 		});
 		return list[0];			// possibly undefined

@@ -1,15 +1,15 @@
 "use strict";
 
-function objects(game) {
+function objects(frame) {
 
 	let lines = [];
 
-	lines.push(`Turn ${game.turn}.............................................................`);
+	lines.push(`Turn ${frame.turn}.............................................................`);
 
 	for (let team of [0, 1]) {
 
-		let units = game.list_units(team);
-		let houses = game.list_houses(team);
+		let units = frame.list_units(team);
+		let houses = frame.list_houses(team);
 
 		let have_said_player = false;
 
@@ -43,7 +43,7 @@ function objects(game) {
 			}
 
 			if (!have_said_cities[house.id]) {
-				let city = game.city_from_house(house);
+				let city = frame.city_from_house(house);
 				s += `${house.id} [${house.x}, ${house.y}] - house, ${house.cd} cd (city ${city.id} has ${city.fuel} fuel, ${city.lk} lk)`;
 				have_said_cities[house.id] = true;
 			} else {
@@ -58,20 +58,20 @@ function objects(game) {
 	return lines.join("\n");
 }
 
-function map(game) {
+function map(frame) {
 
 	let lines = [];
-	lines.push("-".repeat(game.width));
+	lines.push("-".repeat(frame.width));
 
-	for (let y = 0; y < game.height; y++) {
+	for (let y = 0; y < frame.height; y++) {
 		let line = [];
-		for (let x = 0; x < game.width; x++) {
-			line.push(game.map[x][y].type ? game.map[x][y].type : " ");
+		for (let x = 0; x < frame.width; x++) {
+			line.push(frame.map[x][y].type ? frame.map[x][y].type : " ");
 		}
 		lines.push(line.join(""));
 	}
 
-	lines.push("-".repeat(game.width));
+	lines.push("-".repeat(frame.width));
 	return lines.join("\n");
 }
 

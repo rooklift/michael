@@ -1,9 +1,9 @@
 "use strict";
 
-function new_cell(game, x, y, type, amount, road) {
+function new_cell(frame, x, y, type, amount, road) {
 
 	let cell = Object.create(cell_props);
-	Object.assign(cell, {game, x, y, type, amount, road});
+	Object.assign(cell, {frame, x, y, type, amount, road});
 	return cell;
 
 }

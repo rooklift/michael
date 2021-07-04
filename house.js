@@ -1,9 +1,9 @@
 "use strict";
 
-function new_house(game, team, id, x, y, cd) {
+function new_house(frame, team, id, x, y, cd) {
 
 	let house = Object.create(house_props);
-	Object.assign(house, {game, team, id, x, y, cd});
+	Object.assign(house, {frame, team, id, x, y, cd});
 	return house;
 
 }
@@ -13,7 +13,7 @@ let house_props = {
 	is_house: true,
 
 	city() {
-		return this.game.city_from_house(this);
+		return this.frame.city_from_house(this);
 	},
 
 	needy() {
