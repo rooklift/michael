@@ -1,6 +1,6 @@
 "use strict";
 
-function ai(bot, frame, team) {
+function ai(frame, team) {
 
 	let reservations = [];
 
@@ -32,7 +32,7 @@ function ai(bot, frame, team) {
 		}
 
 		if (build_flag && unit.cell().type === "") {
-			bot.send(`bcity ${unit.id}`);
+			send(`bcity ${unit.id}`);
 		} else if (target) {
 			move_info = unit.move_towards(target);
 		}
@@ -49,7 +49,7 @@ function ai(bot, frame, team) {
 			}
 
 			if (ok) {
-				bot.send(`m ${unit.id} ${move_info.direction}`);
+				send(`m ${unit.id} ${move_info.direction}`);
 				reservations.push(move_info);
 			}
 		}
@@ -58,14 +58,14 @@ function ai(bot, frame, team) {
 	for (let house of my_houses) {
 		if (house.cd === 0) {
 			if (my_houses.length > my_units.length) {
-				bot.send(`bw ${house.x} ${house.y}`);
+				send(`bw ${house.x} ${house.y}`);
 			} else {
-				bot.send(`r ${house.x} ${house.y}`);
+				send(`r ${house.x} ${house.y}`);
 			}
 		}
 	}
 
-	bot.send("D_FINISH");
+	send("D_FINISH");
 }
 
 
