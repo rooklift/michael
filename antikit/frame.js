@@ -103,11 +103,6 @@ let frame_props = {
 		if (fields[0] === "r") {						// r resource_type x y amount
 
 			let type = fields[1];
-
-			if (type !== "wood" && type !== "coal" && type !== "uranium") {
-				throw "unknown resource type";
-			}
-
 			let x = parseFloat(fields[2]);
 			let y = parseFloat(fields[3]);
 			let amount = parseFloat(fields[4]);
