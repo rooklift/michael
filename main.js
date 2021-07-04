@@ -5,10 +5,9 @@ const readline = require("readline");
 
 const new_frame = require("./frame");
 const ai = require("./ai");
-const reports = require("./reports");
 const stringify = require("./stringify");
 
-const LOG = false;
+global.LOG = false;
 
 // ------------------------------------------------------------------------------------------------
 
@@ -21,7 +20,6 @@ let bot = {
 	},
 
 	start_scan() {
-		this.linenum = -1;
 		this.scanner = readline.createInterface({
 			input: process.stdin,
 			output: undefined,
@@ -29,15 +27,8 @@ let bot = {
 		});
 		this.scanner.on("line", (line) => {
 			this.linenum++;
-			this.handle_line(line, this.linenum);
+			this.handle_line(line);
 		});
-	},
-
-	start_log(filename) {
-		if (!LOG) {
-			return;
-		}
-		this.logstream = fs.createWriteStream(filename);
 	},
 
 	// --------------------------------------------------------------------------------------------
@@ -48,8 +39,16 @@ let bot = {
 	},
 
 	log(o) {
-		if (!LOG || !this.logstream) {
+		if (!global.LOG) {
 			return;
+		}
+		if (!this.logstream) {
+			try {
+				this.logstream = fs.createWriteStream(`_michael_${new Date().getTime()}_${this.team}.log`);
+			} catch (err) {
+				global.LOG = false;
+				return;
+			}
 		}
 		this.logstream.write(stringify(o));
 		this.logstream.write("\n");
@@ -57,34 +56,30 @@ let bot = {
 
 	// --------------------------------------------------------------------------------------------
 
-	handle_line(s, linenum) {
-
-		this.log(s);
+	handle_line(s) {
 
 		let fields = s.split(" ");
 
 		// The first 2 lines we ever receive are special...
 
-		if (linenum === 0) {
+		if (this.team === null) {
 
 			this.team = parseInt(fields[0], 10);
-			this.start_log(`_michael_${new Date().getTime()}_${this.team}.log`);
-			this.log(s);						// Because the call at top will have failed.
 
-		} else if (linenum === 1) {
+		} else if (this.frame === null) {
 
 			let width = parseInt(fields[0], 10);
 			let height = parseInt(fields[1], 10);
 			this.frame = new_frame(width, height, 0);
 
-		} else if (fields[0] === "D_DONE") {
+		} else if (fields[0] !== "D_DONE") {
 
-			ai(this, this.frame, this.team);														// Sends all needed output.
-			this.frame = new_frame(this.frame.width, this.frame.height, this.frame.turn + 1);		// Reset the world for next round of input.
+			this.frame.parse(fields);
 
 		} else {
 
-			this.frame.parse(fields);
+			ai(this, this.frame, this.team);														// Sends all needed output.
+			this.frame = new_frame(this.frame.width, this.frame.height, this.frame.turn + 1);		// Reset the world for next round of input.
 
 		}
 
