@@ -6,7 +6,7 @@ const new_house = require("./object_house");
 const new_unit = require("./object_unit");
 
 module.exports = function(width, height, turn) {
-	let frame = Object.create(frame_props);
+	let frame = Object.create(frame_prototype);
 	Object.assign(frame, {width, height, turn});
 	frame.init();
 	return frame;
@@ -14,7 +14,7 @@ module.exports = function(width, height, turn) {
 
 // ------------------------------------------------------------------------------------------------
 
-let frame_props = {
+let frame_prototype = {
 
 	init() {
 		this.map = [];
@@ -25,7 +25,7 @@ let frame_props = {
 			}
 		}
 		this.rp = [0, 0];
-		this.units = [];
+		this.units  = [];
 		this.houses = [];
 		this.cities = [];
 	},
