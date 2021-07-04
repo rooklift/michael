@@ -46,18 +46,18 @@ let frame_props = {
 		return Array.from(this.houses);
 	},
 
-	list_resources(type_filter) {
+	list_resources(type) {
 
 		let ret = [];
 
-		if (type_filter !== undefined) {
-			if (["wood", "coal", "uranium"].includes(type_filter) === false) throw "bad call";
+		if (type !== undefined) {
+			if (["wood", "coal", "uranium"].includes(type) === false) throw "bad call";
 		}
 
 		for (let x = 0; x < this.width; x++) {
 			for (let y = 0; y < this.height; y++) {
 				if (this.map[x][y].amount > 0) {
-					if (type_filter === undefined || this.map[x][y].type === type_filter) {
+					if (type === undefined || this.map[x][y].type === type) {
 						ret.push(this.map[x][y]);
 					}
 				}
