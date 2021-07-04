@@ -31,12 +31,12 @@ let frame_props = {
 	},
 
 	units_by_team(team) {
-		if (team === undefined) throw "bad call";
+		if (typeof team !== number) throw "bad call";
 		return this.units.filter(z => z.team === team);
 	},
 
 	houses_by_team(team) {
-		if (team === undefined) throw "bad call";
+		if (typeof team !== number) throw "bad call";
 		return this.houses.filter(z => z.team === team);
 	},
 
