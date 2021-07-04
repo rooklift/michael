@@ -27,7 +27,7 @@ module.exports = {
 		}
 	},
 
-	distance(dwim1, dwim2) {										// 2 ways to call:    distance(target_object)  |  distance(x, y)
+	distance(dwim1, dwim2) {										// distance(target_object)  OR  distance(x, y)
 		let [x, y] = resolve_dwim_args(dwim1, dwim2);
 		return Math.abs(x - this.x) + Math.abs(y - this.y);
 	},
@@ -66,7 +66,7 @@ module.exports = {
 		return this.frame.units_by_team(team).sort((a, b) => this.distance(a) - this.distance(b))[0];
 	},
 
-	naive_direction(dwim1, dwim2) {									// 2 ways to call:    distance(target_object)  |  distance(x, y)
+	naive_direction(dwim1, dwim2) {									// naive_direction(target_object)  OR  naive_direction(x, y)
 		let [targetx, targety] = resolve_dwim_args(dwim1, dwim2);
 		let dx_abs = Math.abs(this.x - targetx);
 		let dy_abs = Math.abs(this.y - targety);
