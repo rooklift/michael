@@ -40,15 +40,6 @@ let frame_props = {
 		return this.houses.filter(z => z.team === team);
 	},
 
-	get_city(id) {
-		for (let city of this.cities) {
-			if (city.id === id) {
-				return city;
-			}
-		}
-		return undefined;
-	},
-
 	list_resources(type) {			// type can be undefined to get all
 
 		let ret = [];
@@ -71,6 +62,15 @@ let frame_props = {
 		}
 
 		return ret;
+	},
+
+	get_city(id) {
+		for (let city of this.cities) {
+			if (city.id === id) {
+				return city;
+			}
+		}
+		return undefined;
 	},
 
 	// --------------------------------------------------------------------------------------------
@@ -151,6 +151,29 @@ let frame_props = {
 			this.map[x][y].road = road;
 			return;
 		}
+	},
+
+	freeze() {
+
+		let deep_freeze = (o) => {				// https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/freeze
+
+			for (let key of Object.getOwnPropertyNames(o)) {
+
+				if (key === "frame") {
+					continue;					// Avoid infinite circular recursion.
+				}
+
+				let value = o[key];
+
+				if (value && typeof value === "object") {
+					deep_freeze(value);
+				}
+			}
+
+			Object.freeze(o);
+		}
+
+		deep_freeze(this);
 	},
 
 	// --------------------------------------------------------------------------------------------
