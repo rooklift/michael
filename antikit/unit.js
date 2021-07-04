@@ -60,8 +60,7 @@ let unit_props = {
 	},
 
 	nearest_resource(type) {
-		if (["wood", "coal", "uranium"].includes(type) === false) throw "bad call";
-		let list = this.frame.list_resources().filter(cell => cell.type === type).sort((a, b) => {
+		let list = this.frame.list_resources(type).sort((a, b) => {
 			return this.distance_to(a) - this.distance_to(b);
 		});
 		return list[0];			// possibly undefined

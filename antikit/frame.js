@@ -16,23 +16,6 @@ function new_frame(width, height, turn) {
 
 let frame_props = {
 
-	init() {
-
-		this.map = [];
-
-		for (let x = 0; x < this.width; x++) {
-			this.map.push([]);
-			for (let y = 0; y < this.height; y++) {
-				this.map[x].push(new_cell(this, x, y, "", 0, 0));
-			}
-		}
-
-		this.rp = [0, 0];
-		this.units = [];
-		this.houses = [];
-		this.cities = [];
-	},
-
 	list_units(team) {
 		if (typeof team !== "number") throw "bad call";
 		return this.units.filter(z => z.team === team);
@@ -53,7 +36,7 @@ let frame_props = {
 		return undefined;
 	},
 
-	list_resources() {
+	list_resources(type) {			// type can be undefined to get all
 
 		let ret = [];
 
@@ -65,7 +48,35 @@ let frame_props = {
 			}
 		}
 
+		if (type) {
+
+			if (["wood", "coal", "uranium"].includes(type) === false) {
+				throw "bad call";
+			}
+
+			return ret.filter(cell => cell.type === type);
+		}
+
 		return ret;
+	},
+
+	// --------------------------------------------------------------------------------------------
+
+	init() {
+
+		this.map = [];
+
+		for (let x = 0; x < this.width; x++) {
+			this.map.push([]);
+			for (let y = 0; y < this.height; y++) {
+				this.map[x].push(new_cell(this, x, y, "", 0, 0));
+			}
+		}
+
+		this.rp = [0, 0];
+		this.units = [];
+		this.houses = [];
+		this.cities = [];
 	},
 
 	parse(fields) {
@@ -82,6 +93,11 @@ let frame_props = {
 		if (fields[0] === "r") {						// r resource_type x y amount
 
 			let type = fields[1];
+
+			if (type !== "wood" && type !== "coal" && type !== "uranium") {
+				throw "unknown resource type";
+			}
+
 			let x = parseFloat(fields[2]);
 			let y = parseFloat(fields[3]);
 			let amount = parseFloat(fields[4]);
