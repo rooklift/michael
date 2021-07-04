@@ -1,6 +1,7 @@
 "use strict";
 
 const new_city = require("./city");
+const new_cell = require("./cell");
 const new_house = require("./house");
 const new_unit = require("./unit");
 
@@ -17,23 +18,12 @@ let game_props = {
 
 	reset() {
 
-		if (!this.map) {
-
-			this.map = [];				// 2D list of {type, amount, road}
-
-			for (let x = 0; x < this.width; x++) {
-				this.map.push([]);
-				for (let y = 0; y < this.height; y++) {
-					this.map[x].push({x, y});
-				}
-			}
-		}
+		this.map = [];
 
 		for (let x = 0; x < this.width; x++) {
+			this.map.push([]);
 			for (let y = 0; y < this.height; y++) {
-				this.map[x][y].type = "";
-				this.map[x][y].amount = 0;
-				this.map[x][y].road = 0;
+				this.map[x].push(new_cell(this, x, y, "", 0, 0));
 			}
 		}
 
@@ -79,8 +69,6 @@ let game_props = {
 	},
 
 	parse(fields) {
-
-		// Arranged to match the order in kit.js
 
 		if (fields[0] === "rp") {						// rp t points
 
