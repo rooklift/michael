@@ -197,16 +197,16 @@ let frame_props = {
 	send_orders() {
 
 		for (let unit of this.units) {
-			unit.cmd.transmit();
+			unit.transmit();
 		}
 
 		for (let house of this.houses) {
-			house.cmd.transmit();
+			house.transmit();
 		}
 
 		for (let x = 0; x < this.width; x++) {
 			for (let y = 0; y < this.height; y++) {
-				this.map[x][y].cmd.transmit();
+				this.map[x][y].transmit();
 			}
 		}
 

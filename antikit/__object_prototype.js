@@ -12,6 +12,24 @@
 
 module.exports = {
 
+	command(s) {
+		this.cmd.val = s;
+	},
+
+	transmit() {
+		if (this.cmd.val) {
+			send(this.cmd.val);
+		}
+	},
+
+	annotate() {
+		if (this.is_cell) {
+			this.command(`dc ${this.x} ${this.y}`);
+		} else {
+			this.cell().annotate();
+		}
+	},
+
 	distance(arg1, arg2) {		// 2 ways to call:    distance(target_object)  |  distance(x, y)
 		let x; let y;
 		if (typeof arg1 === "object" && typeof arg2 === "undefined") {
@@ -50,14 +68,6 @@ module.exports = {
 
 	nearest_unit(team) {
 		return this.frame.units_by_team(team).sort((a, b) => this.distance(a) - this.distance(b))[0];
-	},
-
-	annotate() {
-		if (this.is_cell) {
-			this.cmd.set(`dc ${this.x} ${this.y}`);
-		} else {
-			this.cell().annotate();
-		}
 	},
 
 };
