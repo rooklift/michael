@@ -9,7 +9,7 @@ module.exports = function(frame, type, team, id, x, y, cd, wood, coal, uranium) 
 
 // ------------------------------------------------------------------------------------------------
 
-let unit_prototype = Object.assign(Object.create(require("./__object_prototype")), {
+let unit_prototype = Object.assign(Object.create(require("./object")), {
 
 	is_unit: true,
 

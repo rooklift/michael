@@ -1,6 +1,6 @@
 "use strict";
 
-// Common methods for cell, house, unit -- relies on them having:
+// Prototype for cell, house, unit -- relies on them having:
 //
 //		this.frame
 //		this.x

@@ -1,9 +1,9 @@
 "use strict";
 
-const new_cell = require("./cell");
 const new_city = require("./city");
-const new_house = require("./house");
-const new_unit = require("./unit");
+const new_cell = require("./object_cell");
+const new_house = require("./object_house");
+const new_unit = require("./object_unit");
 
 module.exports = function(width, height, turn) {
 	let frame = Object.create(frame_props);

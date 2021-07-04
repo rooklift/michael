@@ -9,7 +9,7 @@ module.exports = function(frame, team, id, x, y, cd) {
 
 // ------------------------------------------------------------------------------------------------
 
-let house_prototype = Object.assign(Object.create(require("./__object_prototype")), {
+let house_prototype = Object.assign(Object.create(require("./object")), {
 
 	is_house: true,
 
