@@ -14,7 +14,9 @@ let city_prototype = {
 
 	will_survive_night() {
 		return this.fuel >= this.upkeep * 10;
-	}
+	},
 
-	// FIXME - add houses() or somesuch
+	houses() {
+		return this.frame.houses_by_city_id(this.id);
+	}
 };

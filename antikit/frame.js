@@ -76,6 +76,11 @@ let frame_props = {
 		return this.houses.filter(z => z.team === team);
 	},
 
+	houses_by_city_id(id) {
+		if (typeof id !== "string") throw "bad call";
+		return this.houses.filter(z => z.id === id);
+	},
+
 	house_at(x, y) {
 		if (typeof x !== "number" || typeof y !== "number") throw "bad call";
 		for (let house of this.houses) {
