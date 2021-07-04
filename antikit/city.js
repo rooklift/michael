@@ -18,5 +18,6 @@ let city_prototype = {
 
 	houses() {
 		return this.frame.houses_by_city_id(this.id);
-	}
+	},
+
 };

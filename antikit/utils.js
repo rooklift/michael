@@ -1,11 +1,7 @@
 "use strict";
 
-function stringify(msg) {
-
-	// Given anything, create a string from it.
-
+function stringify(msg) {		// Given anything, create a string from it.
 	try {
-
 		if (msg instanceof Error) {
 			msg = msg.toString();
 		}
@@ -17,14 +13,11 @@ function stringify(msg) {
 		}
 		msg = msg.toString().trim();
 		return msg;
-
 	} catch (err) {
-
 		return "stringify() failed";
-
 	}
 }
 
-
+// ------------------------------------------------------------------------------------------------
 
 module.exports = {stringify};
