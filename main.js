@@ -1,5 +1,7 @@
 "use strict";
 
+global.LOG_ENABLED = false;
+
 const fs = require("fs");
 const readline = require("readline");
 
@@ -7,8 +9,6 @@ const new_frame = require("./antikit/frame");
 const stringify = require("./antikit/stringify");
 
 const ai = require("./ai");
-
-global.LOG_ENABLED = false;
 
 // ------------------------------------------------------------------------------------------------
 
@@ -32,8 +32,6 @@ let bot = {
 		});
 	},
 
-	// --------------------------------------------------------------------------------------------
-
 	log(o) {
 		if (!global.LOG_ENABLED) {
 			return;
@@ -53,8 +51,6 @@ let bot = {
 	send(s) {
 		console.log(s);
 	},
-
-	// --------------------------------------------------------------------------------------------
 
 	handle_line(s) {
 
