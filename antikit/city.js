@@ -15,6 +15,8 @@ let city_props = {
 	will_survive_night() {
 		return this.fuel >= this.upkeep * 10;
 	}
+
+	// FIXME - add houses() or somesuch
 };
 
 

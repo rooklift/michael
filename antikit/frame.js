@@ -1,7 +1,7 @@
 "use strict";
 
-const new_city = require("./city");
 const new_cell = require("./cell");
+const new_city = require("./city");
 const new_house = require("./house");
 const new_unit = require("./unit");
 
@@ -16,6 +16,20 @@ function new_frame(width, height, turn) {
 
 let frame_props = {
 
+	init() {
+		this.map = [];
+		for (let x = 0; x < this.width; x++) {
+			this.map.push([]);
+			for (let y = 0; y < this.height; y++) {
+				this.map[x].push(new_cell(this, x, y, "", 0, 0));
+			}
+		}
+		this.rp = [0, 0];
+		this.units = [];
+		this.houses = [];
+		this.cities = [];
+	},
+
 	list_units(team) {
 		if (typeof team !== "number") throw "bad call";
 		return this.units.filter(z => z.team === team);
@@ -26,10 +40,9 @@ let frame_props = {
 		return this.houses.filter(z => z.team === team);
 	},
 
-	city_from_house(house) {
-		if (!house.is_house) throw "bad call";
+	get_city(id) {
 		for (let city of this.cities) {
-			if (city.id === house.id) {
+			if (city.id === id) {
 				return city;
 			}
 		}
@@ -61,23 +74,6 @@ let frame_props = {
 	},
 
 	// --------------------------------------------------------------------------------------------
-
-	init() {
-
-		this.map = [];
-
-		for (let x = 0; x < this.width; x++) {
-			this.map.push([]);
-			for (let y = 0; y < this.height; y++) {
-				this.map[x].push(new_cell(this, x, y, "", 0, 0));
-			}
-		}
-
-		this.rp = [0, 0];
-		this.units = [];
-		this.houses = [];
-		this.cities = [];
-	},
 
 	parse(fields) {
 
@@ -155,6 +151,25 @@ let frame_props = {
 			this.map[x][y].road = road;
 			return;
 		}
+	},
+
+	// --------------------------------------------------------------------------------------------
+
+	send_orders() {
+
+		for (let unit of this.units) {
+			if (unit.cmd) {
+				send(unit.cmd);
+			}
+		}
+
+		for (let house of this.houses) {
+			if (house.cmd) {
+				send(house.cmd);
+			}
+		}
+
+		send("D_FINISH");
 	},
 
 };

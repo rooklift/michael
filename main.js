@@ -6,7 +6,7 @@ const fs = require("fs");
 const readline = require("readline");
 
 const new_frame = require("./antikit/frame");
-const stringify = require("./antikit/stringify");
+const utils = require("./antikit/utils");
 
 const ai = require("./ai");
 
@@ -44,7 +44,7 @@ let bot = {
 				return;
 			}
 		}
-		this.logstream.write(stringify(o));
+		this.logstream.write(utils.stringify(o));
 		this.logstream.write("\n");
 	},
 
