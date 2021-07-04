@@ -79,12 +79,12 @@ let bot = {
 
 		} else if (fields[0] === "D_DONE") {
 
-			ai(this, this.game, this.team);													// Sends all needed output.
+			ai(this, this.frame, this.team);												// Sends all needed output.
 			this.frame = new_frame(width, height, this.frame.turn + 1);						// Reset the world for next round of input.
 
 		} else {
 
-			this.game.parse(fields);
+			this.frame.parse(fields);
 
 		}
 

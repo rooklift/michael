@@ -1,11 +1,11 @@
 "use strict";
 
-function ai(bot, game, team) {
+function ai(bot, frame, team) {
 
 	let reservations = [];
 
-	let my_units = game.list_units(team);
-	let my_houses = game.list_houses(team);
+	let my_units = frame.list_units(team);
+	let my_houses = frame.list_houses(team);
 
 	for (let unit of my_units) {
 
