@@ -3,12 +3,12 @@
 const fs = require("fs");
 const readline = require("readline");
 
-const new_game = require("./game");
+const new_frame = require("./frame");
 const ai = require("./ai");
 const reports = require("./reports");
 const stringify = require("./stringify");
 
-const LOG = true;
+const LOG = false;
 
 // ------------------------------------------------------------------------------------------------
 
@@ -16,7 +16,7 @@ let bot = {
 
 	startup() {
 		this.team = null;
-		this.game = null;
+		this.frame = null;
 		this.start_scan();
 	},
 
@@ -75,13 +75,12 @@ let bot = {
 
 			let width = parseInt(fields[0], 10);
 			let height = parseInt(fields[1], 10);
-			this.game = new_game(width, height);
+			this.frame = new_frame(width, height, 0);
 
 		} else if (fields[0] === "D_DONE") {
 
-			this.game.turn = typeof this.game.turn === "number" ? this.game.turn + 1 : 0;
-			ai(this, this.game, this.team);		// Sends all needed output.
-			this.game.reset();					// Reset the world for next round of input.
+			ai(this, this.game, this.team);													// Sends all needed output.
+			this.frame = new_frame(width, height, this.frame.turn + 1);						// Reset the world for next round of input.
 
 		} else {
 
