@@ -31,43 +31,55 @@ let frame_props = {
 	},
 
 	list_units(team) {
-		if (typeof team !== "number") throw "bad call";
-		return this.units.filter(z => z.team === team);
+		if (team !== undefined) {
+			if (typeof team !== "number") throw "bad call";
+			return this.units.filter(z => z.team === team);
+		}
+		return Array.from(this.units);
 	},
 
 	list_houses(team) {
-		if (typeof team !== "number") throw "bad call";
-		return this.houses.filter(z => z.team === team);
+		if (team !== undefined) {
+			if (typeof team !== "number") throw "bad call";
+			return this.houses.filter(z => z.team === team);
+		}
+		return Array.from(this.houses);
 	},
 
-	list_resources(type) {			// type can be undefined to get all
+	list_resources(type_filter) {
 
 		let ret = [];
 
-		for (let x = 0; x < this.width; x++) {
-			for (let y = 0; y < this.height; y++) {
-				if (this.map[x][y].type) {
-					ret.push(this.map[x][y]);
-				}
-			}
+		if (type_filter !== undefined) {
+			if (["wood", "coal", "uranium"].includes(type_filter) === false) throw "bad call";
 		}
 
-		if (type) {
-
-			if (["wood", "coal", "uranium"].includes(type) === false) {
-				throw "bad call";
+		for (let x = 0; x < this.width; x++) {
+			for (let y = 0; y < this.height; y++) {
+				if (this.map[x][y].amount > 0) {
+					if (type_filter === undefined || this.map[x][y].type === type_filter) {
+						ret.push(this.map[x][y]);
+					}
+				}
 			}
-
-			return ret.filter(cell => cell.type === type);
 		}
 
 		return ret;
 	},
 
-	get_city(id) {
+	get_city_by_id(id) {
 		for (let city of this.cities) {
 			if (city.id === id) {
 				return city;
+			}
+		}
+		return undefined;
+	},
+
+	get_house_at(x, y) {
+		for (let house of this.houses) {
+			if (house.x === x && house.y === y) {
+				return house;
 			}
 		}
 		return undefined;
@@ -173,7 +185,7 @@ let frame_props = {
 			}
 
 			Object.freeze(o);
-		}
+		};
 
 		deep_freeze(this);
 	},

@@ -2,13 +2,13 @@
 
 function new_city(frame, team, id, fuel, upkeep) {
 
-	let city = Object.create(city_props);
+	let city = Object.create(city_prototype);
 	Object.assign(city, {frame, team, id, fuel, upkeep});
 	return city;
 
 }
 
-let city_props = {
+let city_prototype = {
 
 	is_city: true,
 

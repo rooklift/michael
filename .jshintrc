@@ -1,4 +1,8 @@
 {
 	"esversion": 6,
-	"node": true
+	"node": true,
+	"globals": {
+		"log": true,
+		"send": true
+	}
 }
