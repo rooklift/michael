@@ -5,6 +5,8 @@ const new_cell = require("./object_cell");
 const new_house = require("./object_house");
 const new_unit = require("./object_unit");
 
+const utils = require("./utils");
+
 module.exports = function(width, height, turn) {
 	let frame = Object.create(frame_prototype);
 	Object.assign(frame, {width, height, turn});
@@ -62,8 +64,8 @@ let frame_prototype = {
 		return this.units.filter(z => z.team === team);
 	},
 
-	units_at(x, y) {
-		if (typeof x !== "number" || typeof y !== "number") throw "bad call";
+	units_at(dwim1, dwim2) {
+		let [x, y] = utils.resolve_dwim_args(dwim1, dwim2);
 		return this.units.filter(z => z.x === x && z.y === y);
 	},
 
@@ -77,8 +79,8 @@ let frame_prototype = {
 		return this.houses.filter(z => z.id === id);
 	},
 
-	house_at(x, y) {
-		if (typeof x !== "number" || typeof y !== "number") throw "bad call";
+	house_at(dwim1, dwim2) {
+		let [x, y] = utils.resolve_dwim_args(dwim1, dwim2);
 		for (let house of this.houses) {
 			if (house.x === x && house.y === y) {
 				return house;

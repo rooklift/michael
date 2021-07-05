@@ -1,5 +1,7 @@
 "use strict";
 
+const utils = require("./utils");
+
 // Prototype for cell, house, unit -- relies on them having:
 //
 //		this.frame
@@ -28,7 +30,7 @@ module.exports = {
 	},
 
 	distance(dwim1, dwim2) {										// distance(target_object)  OR  distance(x, y)
-		let [x, y] = resolve_dwim_args(dwim1, dwim2);
+		let [x, y] = utils.resolve_dwim_args(dwim1, dwim2);
 		return Math.abs(x - this.x) + Math.abs(y - this.y);
 	},
 
@@ -67,7 +69,7 @@ module.exports = {
 	},
 
 	naive_direction(dwim1, dwim2) {									// naive_direction(target_object)  OR  naive_direction(x, y)
-		let [targetx, targety] = resolve_dwim_args(dwim1, dwim2);
+		let [targetx, targety] = utils.resolve_dwim_args(dwim1, dwim2);
 		let dx_abs = Math.abs(this.x - targetx);
 		let dy_abs = Math.abs(this.y - targety);
 		if (this.x === targetx && this.y === targety) {
@@ -94,17 +96,3 @@ module.exports = {
 	},
 
 };
-
-
-
-function resolve_dwim_args(arg1, arg2) {
-
-	if (typeof arg1 === "object" && typeof arg2 === "undefined") {
-		return [arg1.x, arg1.y];
-	} else if (typeof arg1 === "number" && typeof arg2 === "number") {
-		return [arg1, arg2];
-	} else {
-		throw "bad call";
-	}
-
-}
