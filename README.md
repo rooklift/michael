@@ -101,6 +101,9 @@ h.order_cart()
 h.order_research()
 // orders this house to perform research
 
+h.cancel()
+// cancel any previously-given order
+
 ```
 
 ## unit props and methods
@@ -125,6 +128,9 @@ u.order_pillage()
 u.order_transfer(target_id, type, amount)
 u.order_transfer(target_object, type, amount)
 // orders the unit to transfer resources to the specified unit
+
+u.cancel()
+// cancel any previously-given order
 
 ```
 
