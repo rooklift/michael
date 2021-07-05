@@ -72,7 +72,7 @@ let bot = {
 
 		} else {
 
-			this.frame.freeze();
+			this.frame.finish_parse();
 			ai(this.frame, this.team);																// Sends all needed output.
 			this.frame = new_frame(this.frame.width, this.frame.height, this.frame.turn + 1);		// Reset the world for next round of input.
 

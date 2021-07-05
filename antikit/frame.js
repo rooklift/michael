@@ -164,7 +164,7 @@ let frame_prototype = {
 		}
 	},
 
-	freeze() {
+	finish_parse() {								// At this point, we could add stuff like cached arrays of the various resources etc
 		this.__freeze_recurse(this);
 	},
 
