@@ -105,7 +105,7 @@ h.order_research()
 // orders this house to perform research
 
 h.cancel()
-// cancel any previously-given order
+// cancels any previously-given order
 
 ```
 
@@ -133,7 +133,7 @@ u.order_transfer(target_object, type, amount)
 // orders the unit to transfer resources to the specified unit
 
 u.cancel()
-// cancel any previously-given order
+// cancels any previously-given order
 
 ```
 
