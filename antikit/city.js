@@ -12,8 +12,8 @@ let city_prototype = {
 
 	is_city: true,
 
-	will_survive_night() {
-		return this.fuel >= this.upkeep * 10;
+	needy() {
+		return this.fuel < this.upkeep * 10;
 	},
 
 	houses() {

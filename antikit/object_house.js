@@ -18,7 +18,7 @@ let house_prototype = Object.assign(Object.create(require("./object")), {
 	},
 
 	needy() {
-		return !this.city().will_survive_night();
+		return this.city().needy();
 	},
 
 	order_worker() {
