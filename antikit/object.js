@@ -15,6 +15,10 @@ module.exports = {
 		this.cmd.val = s;
 	},
 
+	cancel() {
+		delete this.cmd.val;
+	},
+
 	transmit() {
 		if (this.cmd.val) {
 			send(this.cmd.val);
