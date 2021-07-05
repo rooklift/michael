@@ -76,7 +76,7 @@ o.adjacent_cell(d)                  // d == "n" | "s" | "e" | "w" | "c"
 ```javascript
 
 props = {x, y, type, amount, road} 
-// type == "wood" | "coal" | "uranium"
+// type == "wood" | "coal" | "uranium" | ""
 
 ```
 
