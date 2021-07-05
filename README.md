@@ -11,7 +11,7 @@ Each turn, the AI can use various methods in the frame's objects to setup comman
 props = {map, rp, units, houses, cities}
 // all are arrays; map is a 2d array of cells, accessed as [x][y]
 
-frame.resources(type)               // type == "wood" | "coal" | "uranium"
+frame.resources(type)               // type == "wood" | "coal" | "uranium" | ""
 // returns a list of cells
 
 frame.city_by_id(id)                // id is a string
@@ -53,7 +53,7 @@ o.house()
 o.units()
 // returns a list of units at object o's location
 
-o.nearest_resource(type)            // type == "wood" | "coal" | "uranium"
+o.nearest_resource(type)            // type == "wood" | "coal" | "uranium" | ""
 // returns the nearest cell with the specified resource, or undefined
 
 o.nearest_house(n)                  // n == 0 | 1
@@ -78,7 +78,7 @@ o.adjacent_cell(d)                  // d == "n" | "s" | "e" | "w" | "c"
 
 ```javascript
 
-props = {x, y, type, amount, road} 
+props = {x, y, type, amount, road}
 // type == "wood" | "coal" | "uranium" | ""
 
 ```

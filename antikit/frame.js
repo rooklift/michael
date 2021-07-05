@@ -34,7 +34,7 @@ let frame_prototype = {
 
 	resources(type) {
 
-		if (["wood", "coal", "uranium"].includes(type) === false) throw "bad call";
+		if (["wood", "coal", "uranium", ""].includes(type) === false) throw "bad call";
 
 		let ret = [];
 

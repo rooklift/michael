@@ -53,7 +53,7 @@ module.exports = {
 	},
 
 	nearest_resource(type) {
-		if (["wood", "coal", "uranium"].includes(type) === false) throw "bad call";
+		if (["wood", "coal", "uranium", ""].includes(type) === false) throw "bad call";
 		return this.frame.resources(type).sort((a, b) => this.distance(a) - this.distance(b))[0];
 	},
 
