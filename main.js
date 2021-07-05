@@ -33,7 +33,7 @@ let bot = {
 	},
 
 	log(o) {
-		if (!global.LOG_ENABLED) {
+		if (!global.LOG_ENABLED || this.team === null) {
 			return;
 		}
 		if (!this.logstream) {
@@ -53,6 +53,8 @@ let bot = {
 	},
 
 	handle_line(s) {
+
+		this.log(s);
 
 		let fields = s.split(" ");
 
