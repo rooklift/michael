@@ -4,9 +4,12 @@ The program starts in `main.js` but each turn it calls the AI in `ai.js` and pro
 
 Each turn, the AI can use various methods in the frame's objects to setup commands, then finally call `frame.send_orders()`.
 
-## frame methods
+## frame props and methods
 
 ```javascript
+
+props = {map, rp, units, houses, cities}
+// all are arrays; map is a 2d array of cells, accessed as [x][y]
 
 frame.resources(type)               // type == "wood" | "coal" | "uranium"
 // returns a list of cells
