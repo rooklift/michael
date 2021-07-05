@@ -39,16 +39,16 @@ frame.house_at(o)                   // any cell, house, or unit object
 
 o.distance(x, y)                    // coordinates
 o.distance(o)                       // any cell, house, or unit object
-// returns the distance to the target
+// returns the Manhattan distance
 
 o.cell()
-// returns the cell at this location
+// returns the cell at object o's location
 
 o.house()
-// returns the house at this location, or undefined
+// returns the house at object o's location, or undefined
 
 o.units()
-// returns a list of units at this location
+// returns a list of units at object o's location
 
 o.nearest_resource(type)            // type == "wood" | "coal" | "uranium"
 // returns the nearest cell with the specified resource, or undefined
