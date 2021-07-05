@@ -7,31 +7,42 @@ module.exports = function(frame, team) {
 	let my_units = frame.units_by_team(team);
 	let my_houses = frame.houses_by_team(team);
 
+	let unoccupied_wood = frame.resources("wood").filter(cell => cell.units().length === 0);
+	let needy_houses = my_houses.filter(house => house.needy());
+	let empty_spaces = frame.resources("");
+
 	for (let unit of my_units) {
 
 		if (unit.cd > 0) {
 			continue;
 		}
 
+		let nearest_house = unit.nearest_house(team);
+
 		let target;
 		let build_flag;
 		let direction;
 
 		if (unit.weight() === 100) {
-			target = unit.nearest_needy_house(team);
+			target = unit.choose(needy_houses);
 			if (!target) {
 				if (unit.wood === 100) {			// Require 100 wood for a house, not just any resource.
 					build_flag = true;
-					target = unit.nearest_house(team).nearest_resource("");
+					target = nearest_house;
+					if (target) {
+						target = target.choose(empty_spaces);
+					}
 				} else {
-					target = unit.nearest_house(team);
+					target = unit.choose(my_houses);
 				}
 			}
-		} else {
-			target = unit.nearest_resource("wood");
+		} else if (unit.cell().type !== "wood") {
+			if (unoccupied_wood.length > 0) {
+				target = unit.choose(unoccupied_wood);
+			}
 		}
 
-		if (build_flag && unit.cell().type === "" && unit.distance(unit.nearest_house(team)) === 1) {
+		if (build_flag && unit.cell().type === "" && nearest_house && unit.distance(nearest_house) === 1) {
 			unit.order_build();
 		} else if (target) {
 			direction = unit.naive_direction(target);
