@@ -70,15 +70,15 @@ module.exports = {
 
 	naive_direction(dwim1, dwim2) {
 		let [targetx, targety] = utils.resolve_dwim_args(dwim1, dwim2);
-		let dx_abs = Math.abs(this.x - targetx);
-		let dy_abs = Math.abs(this.y - targety);
-		if (this.x === targetx && this.y === targety) {
+		let dx = targetx - this.x;
+		let dy = targety - this.y;
+		if (dx === 0 && dy === 0) {
 			return "c";
 		}
-		if (dx_abs > dy_abs) {
-			return targetx - this.x < 0 ? "w" : "e";
+		if (Math.abs(dx) > Math.abs(dy)) {
+			return dx < 0 ? "w" : "e";
 		} else {
-			return targety - this.y < 0 ? "n" : "s";
+			return dy < 0 ? "n" : "s";
 		}
 	},
 
