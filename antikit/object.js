@@ -38,6 +38,22 @@ module.exports = {
 		return Math.abs(x - this.x) + Math.abs(y - this.y);
 	},
 
+	choose(arr) {
+		if (arr.length === 0) {
+			return undefined;
+		}
+		let ret = arr[0];
+		let best_dist = this.distance(arr[0]);
+		for (let o of arr.slice(1)) {
+			let dist = this.distance(o);
+			if (dist < best_dist) {
+				ret = o;
+				best_dist = dist;
+			}
+		}
+		return ret;
+	},
+
 	// Note that most of the getters can return undefined / [] etc as appropriate.
 
 	cell() {
@@ -54,22 +70,22 @@ module.exports = {
 
 	nearest_resource(type) {
 		if (["wood", "coal", "uranium", ""].includes(type) === false) throw "bad call";
-		return this.frame.resources(type).sort((a, b) => this.distance(a) - this.distance(b))[0];
+		return this.choose(this.frame.resources(type));
 	},
 
 	nearest_house(team) {
 		if (typeof team !== "number") throw "bad call";
-		return this.frame.houses_by_team(team).sort((a, b) => this.distance(a) - this.distance(b))[0];
+		return this.choose(this.frame.houses_by_team(team));
 	},
 
 	nearest_needy_house(team) {
 		if (typeof team !== "number") throw "bad call";
-		return this.frame.houses_by_team(team).filter(house => house.needy()).sort((a, b) => this.distance(a) - this.distance(b))[0];
+		return this.choose(this.frame.houses_by_team(team).filter(house => house.needy()));
 	},
 
 	nearest_unit(team) {
 		if (typeof team !== "number") throw "bad call";
-		return this.frame.units_by_team(team).sort((a, b) => this.distance(a) - this.distance(b))[0];
+		return this.choose(this.frame.units_by_team(team));
 	},
 
 	naive_direction(dwim1, dwim2) {
