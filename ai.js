@@ -56,10 +56,13 @@ module.exports = function(frame, team) {
 		}
 	}
 
+	let doods_requested = 0;
+
 	for (let house of my_houses) {
 		if (house.cd === 0) {
-			if (my_houses.length > my_units.length) {
+			if (my_houses.length > my_units.length + doods_requested) {
 				house.order_worker();
+				doods_requested++;
 			} else {
 				house.order_research();
 			}
