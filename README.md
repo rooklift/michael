@@ -44,7 +44,7 @@ o.distance(x, y)                    // coordinates
 o.distance(o)                       // any cell, house, or unit object
 // returns the Manhattan distance
 
-o.choose(arr)						// array of objects
+o.choose(arr)                       // array of objects
 // returns the closest object in the array, or undefined if length 0
 
 o.cell()
