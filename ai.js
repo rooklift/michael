@@ -22,7 +22,7 @@ module.exports = function(frame, team) {
 			if (!target) {
 				if (unit.wood === 100) {			// Require 100 wood for a house, not just any resource.
 					build_flag = true;
-					target = unit.nearest_resource("");
+					target = unit.nearest_house(team).nearest_resource("");
 				} else {
 					target = unit.nearest_house(team);
 				}
@@ -31,7 +31,7 @@ module.exports = function(frame, team) {
 			target = unit.nearest_resource("wood");
 		}
 
-		if (build_flag && unit.cell().type === "") {
+		if (build_flag && unit.cell().type === "" && unit.distance(unit.nearest_house(team)) === 1) {
 			unit.order_build();
 		} else if (target) {
 			direction = unit.naive_direction(target);
