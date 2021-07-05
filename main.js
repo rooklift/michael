@@ -54,8 +54,6 @@ let bot = {
 
 	handle_line(s) {
 
-		this.log(s);
-
 		let fields = s.split(" ");
 
 		if (this.team === null) {						// This will be true when receiving 1st line.
