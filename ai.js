@@ -34,7 +34,7 @@ module.exports = function(frame, team) {
 						target = target.choose(empty_spaces);		// target.choose is correct
 					}
 				} else {
-					target = unit.choose(my_houses);
+					target = nearest_house;
 				}
 			}
 		} else if (unit.cell().type !== "wood") {
