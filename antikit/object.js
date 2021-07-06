@@ -75,15 +75,15 @@ module.exports = {
 		if (dx === 0 && dy === 0) {
 			return "c";
 		}
-		if (Math.abs(dx) === Math.abs(dy)) {		// Exactly diagonal, try to "turn" clockwise
-			if (dx < 0 && dy < 0) return "w";
-			if (dx > 0 && dy < 0) return "n";
-			if (dx > 0 && dy > 0) return "e";
-			if (dx < 0 && dy > 0) return "s";
-		}
-		if (Math.abs(dx) > Math.abs(dy)) {			// More horizontal
+//		if (Math.abs(dx) === Math.abs(dy)) {		// Exactly diagonal, try to "turn" clockwise
+//			if (dx < 0 && dy < 0) return "w";
+//			if (dx > 0 && dy < 0) return "n";
+//			if (dx > 0 && dy > 0) return "e";
+//			if (dx < 0 && dy > 0) return "s";
+//		}
+		if (Math.abs(dx) > Math.abs(dy)) {
 			return dx < 0 ? "w" : "e";
-		} else {									// More vertical
+		} else {
 			return dy < 0 ? "n" : "s";
 		}
 	},
