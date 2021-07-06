@@ -87,14 +87,16 @@ new_bot("bad_bot", (frame, team) => {
 	}
 
 	let doods_requested = 0;
+	let research_requested = 0;
 
 	for (let house of my_houses) {
 		if (house.cd === 0) {
-			if (my_houses.length > my_units.length + doods_requested) {
+			if (my_units.length + doods_requested < my_houses.length) {
 				house.order_worker();
 				doods_requested++;
-			} else {
+			} else if (frame.rp[team] + research_requested < 200) {
 				house.order_research();
+				research_requested++;
 			}
 		}
 	}
