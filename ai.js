@@ -7,7 +7,7 @@ module.exports = function(frame, team) {
 	let my_units = frame.units_by_team(team);
 	let my_houses = frame.houses_by_team(team);
 
-	let unoccupied_wood = frame.resources("wood").filter(cell => cell.units().length === 0);
+	let all_wood = frame.resources("wood");
 	let needy_houses = my_houses.filter(house => house.needy());
 	let empty_spaces = frame.resources("");
 
@@ -17,29 +17,28 @@ module.exports = function(frame, team) {
 			continue;
 		}
 
-		let nearest_house = unit.nearest_house(team);
+		let nearest_house = unit.choose(my_houses);
 
 		let target;
 		let build_flag;
 		let direction;
 
 		if (unit.weight() === 100) {
-			target = unit.choose(needy_houses);
-			if (!target) {
+			if (needy_houses.length > 0) {
+				target = unit.choose(needy_houses);
+			} else {
 				if (unit.wood === 100) {			// Require 100 wood for a house, not just any resource.
 					build_flag = true;
 					target = nearest_house;
 					if (target) {
-						target = target.choose(empty_spaces);
+						target = target.choose(empty_spaces);		// target.choose is correct
 					}
 				} else {
 					target = unit.choose(my_houses);
 				}
 			}
 		} else if (unit.cell().type !== "wood") {
-			if (unoccupied_wood.length > 0) {
-				target = unit.choose(unoccupied_wood);
-			}
+			target = unit.choose(all_wood);
 		}
 
 		if (build_flag && unit.cell().type === "" && nearest_house && unit.distance(nearest_house) === 1) {

@@ -56,18 +56,6 @@ o.house()
 o.units()
 // returns a list of units at object o's location
 
-o.nearest_resource(type)            // type == "wood" | "coal" | "uranium" | ""
-// returns the nearest cell with the specified resource, or undefined
-
-o.nearest_house(n)                  // n == 0 | 1
-// returns the nearest house of team n, or undefined
-
-o.nearest_needy_house(n)            // n == 0 | 1
-// returns the nearest house of team n which would not survive 10 turns of night, or undefined
-
-o.nearest_unit(n)                   // n == 0 | 1
-// returns the nearest unit of team n, or undefined
-
 o.naive_direction(x, y)             // coordinates
 o.naive_direction(o)                // any cell, house, or unit object
 // returns "n", "s", "e", "w" or "c"

@@ -68,26 +68,6 @@ module.exports = {
 		return this.frame.units_at(this.x, this.y);
 	},
 
-	nearest_resource(type) {
-		if (["wood", "coal", "uranium", ""].includes(type) === false) throw "bad call";
-		return this.choose(this.frame.resources(type));
-	},
-
-	nearest_house(team) {
-		if (typeof team !== "number") throw "bad call";
-		return this.choose(this.frame.houses_by_team(team));
-	},
-
-	nearest_needy_house(team) {
-		if (typeof team !== "number") throw "bad call";
-		return this.choose(this.frame.houses_by_team(team).filter(house => house.needy()));
-	},
-
-	nearest_unit(team) {
-		if (typeof team !== "number") throw "bad call";
-		return this.choose(this.frame.units_by_team(team));
-	},
-
 	naive_direction(dwim1, dwim2) {
 		let [targetx, targety] = utils.resolve_dwim_args(dwim1, dwim2);
 		let dx = targetx - this.x;
