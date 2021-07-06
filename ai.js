@@ -17,25 +17,31 @@ module.exports = function(frame, team) {
 			continue;
 		}
 
+		let nearest_house = unit.choose(my_houses);
+
 		let target;
 		let build_flag;
 		let direction;
 
 		if (unit.weight() === 100) {
-			target = unit.choose(needy_houses);
-			if (!target) {
+			if (needy_houses.length > 0) {
+				target = unit.choose(needy_houses);
+			} else {
 				if (unit.wood === 100) {			// Require 100 wood for a house, not just any resource.
 					build_flag = true;
-					target = unit.choose(empty_spaces);
+					target = nearest_house;
+					if (target) {
+						target = target.choose(empty_spaces);		// target.choose is correct
+					}
 				} else {
-					target = unit.choose(my_houses);
+					target = nearest_house;
 				}
 			}
-		} else {
+		} else if (unit.cell().type !== "wood") {
 			target = unit.choose(all_wood);
 		}
 
-		if (build_flag && unit.cell().type === "") {
+		if (build_flag && unit.cell().type === "" && nearest_house && unit.distance(nearest_house) === 1) {
 			unit.order_build();
 		} else if (target) {
 			direction = unit.naive_direction(target);
