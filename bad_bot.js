@@ -4,7 +4,7 @@ const new_bot = require("./antikit/bot");
 
 new_bot("bad_bot", (frame, team) => {
 
-	let reservations = [];
+	let reservations = [];		// Must only hold cell objects - which are compared by object identity
 
 	let my_units = frame.units_by_team(team);
 	let my_houses = frame.houses_by_team(team);
@@ -15,7 +15,9 @@ new_bot("bad_bot", (frame, team) => {
 
 	for (let unit of my_units) {
 		if (unit.cd > 0) {
-			reservations.push(unit.cell());
+			if (unit.house() === undefined) {
+				reservations.push(unit.cell());
+			}
 		}
 	}
 
@@ -63,25 +65,21 @@ new_bot("bad_bot", (frame, team) => {
 			for (let direction of unit.sorted_directions(target)) {
 
 				let next_cell = unit.adjacent_cell(direction);
-				let ok = true;
 
-				for (let rs of reservations) {
-					if (rs === next_cell) {
-						ok = false;
-						break;
-					}
-				}
-
-				if (ok) {
+				if (!reservations.includes(next_cell)) {
 					unit.order_move(direction);
-					reservations.push(next_cell);
+					if (next_cell.house() === undefined) {
+						reservations.push(next_cell);
+					}
 					break;
 				}
 			}
 
 		} else {
 
-			reservations.push(unit.cell());
+			if (unit.house() === undefined) {
+				reservations.push(unit.cell());
+			}
 
 		}
 	}
