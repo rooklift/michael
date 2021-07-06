@@ -181,7 +181,7 @@ let frame_prototype = {
 			}
 		}
 
-		send("D_FINISH");
+		console.log("D_FINISH");
 	},
 
 };

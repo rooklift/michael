@@ -1,6 +1,12 @@
 "use strict";
 
-module.exports = function(frame, team) {
+const new_bot = require("./antikit/bot");
+
+new_bot(ai, "michael");
+
+// ------------------------------------------------------------------------------------------------
+
+function ai(frame, team) {
 
 	let reservations = [];
 
@@ -81,6 +87,4 @@ module.exports = function(frame, team) {
 			}
 		}
 	}
-
-	frame.send_orders();
 };

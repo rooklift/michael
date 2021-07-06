@@ -20,7 +20,7 @@ module.exports = {
 
 	transmit() {
 		if (this.__cmd) {
-			send(this.__cmd);
+			console.log(this.__cmd);
 		}
 	},
 

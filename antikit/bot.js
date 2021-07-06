@@ -1,22 +1,27 @@
 "use strict";
 
-global.LOG_ENABLED = true;
-
 const fs = require("fs");
 const readline = require("readline");
 
-const new_frame = require("./antikit/frame");
-const utils = require("./antikit/utils");
+const new_frame = require("./frame");
+const utils = require("./utils");
 
-const ai = require("./ai");
+module.exports = function(ai_function, name) {
+	let bot = Object.create(bot_prototype);
+	bot.startup(ai_function, name);
+	global.log = bot.log.bind(bot);
+	global.LOG_ENABLED = true;
+	return bot;
+};
 
-// ------------------------------------------------------------------------------------------------
+let bot_prototype = {
 
-let bot = {
-
-	startup() {
+	startup(ai_function, name) {
+		this.ai_function = ai_function;
+		this.name = name;
 		this.team = null;
 		this.frame = null;
+		this.early_log_messages = [];			// For log messages that come before team is known.
 		this.start_scan();
 	},
 
@@ -33,12 +38,17 @@ let bot = {
 	},
 
 	log(o) {
-		if (!global.LOG_ENABLED || this.team === null) {
+
+		if (!global.LOG_ENABLED) {
+			return;
+		}
+		if (this.team === null) {
+			this.early_log_messages.push(utils.stringify(o));
 			return;
 		}
 		if (!this.logstream) {
 			try {
-				this.logstream = fs.createWriteStream(`_michael_${new Date().getTime()}_${this.team}.log`);
+				this.logstream = fs.createWriteStream(`_${this.name}_${new Date().getTime()}_${this.team}.log`);
 			} catch (err) {
 				global.LOG_ENABLED = false;
 				return;
@@ -60,6 +70,11 @@ let bot = {
 
 			this.team = parseInt(fields[0], 10);
 
+			for (let msg of this.early_log_messages) {
+				this.log(msg);
+			}
+			this.early_log_messages = [];
+
 		} else if (this.frame === null) {				// This will be true when receiving 2nd line.
 
 			let width = parseInt(fields[0], 10);
@@ -72,7 +87,10 @@ let bot = {
 
 		} else {
 
-			ai(this.frame, this.team);																// Sends all needed output.
+			let ai = this.ai_function;
+			ai(this.frame, this.team);
+			this.frame.send_orders();
+
 			this.frame = new_frame(this.frame.width, this.frame.height, this.frame.turn + 1);		// Reset the world for next round of input.
 
 		}
@@ -80,10 +98,3 @@ let bot = {
 	},
 
 };
-
-// ------------------------------------------------------------------------------------------------
-
-global.send = bot.send.bind(bot);
-global.log = bot.log.bind(bot);
-
-bot.startup();
