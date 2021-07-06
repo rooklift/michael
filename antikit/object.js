@@ -69,7 +69,6 @@ module.exports = {
 
 		// Note that illegal moves won't be included at all.
 		// Note that moving directly away is "not worse" than moving orthogonally, hmm.
-		// FIXME - should maybe shuffle the better and worse arrays before concatenation.
 
 		let [x, y] = utils.resolve_dwim_args(dwim1, dwim2);
 
@@ -88,6 +87,9 @@ module.exports = {
 		if (this.y < this.frame.height - 1) {		// Moving S is legal - but is it good or bad?
 			if (this.y < y) { better.push("s"); } else { worse.push("s"); }
 		}
+
+		utils.shuffle_first_two_elements(better);			// This is cheap and fast.
+		utils.shuffle_first_two_elements(worse);
 
 		return better.concat(["c"]).concat(worse);
 	},

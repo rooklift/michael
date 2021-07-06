@@ -28,6 +28,17 @@ function resolve_dwim_args(arg1, arg2) {
 	}
 }
 
+function shuffle_first_two_elements(arr) {
+
+	if (arr.length < 2 || Math.random() < 0.5) {
+		return;
+	}
+
+	let tmp = arr[0];
+	arr[0] = arr[1];
+	arr[1] = tmp;
+}
+
 // ------------------------------------------------------------------------------------------------
 
-module.exports = {stringify, resolve_dwim_args};
+module.exports = {stringify, resolve_dwim_args, shuffle_first_two_elements};
