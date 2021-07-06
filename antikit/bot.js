@@ -58,10 +58,6 @@ let bot_prototype = {
 		this.logstream.write("\n");
 	},
 
-	send(s) {
-		console.log(s);
-	},
-
 	handle_line(s) {
 
 		let fields = s.split(" ");
