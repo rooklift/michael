@@ -1,6 +1,6 @@
 ## API (subject to change etc)
 
-A bot is created by registering the bot's main function with the API. Each turn, that function is provided with a `frame` object and a `team` integer. The objects inside the frame are freshly created each turn.
+A bot is created by registering the bot's main function (and a name for logging purposes) with the API. Each turn, that function is provided with a `frame` object and a `team` integer. The objects inside the frame are freshly created each turn.
 
 Each turn, the AI can use various methods in the frame's objects to setup commands, which are automatically executed when the main AI function returns.
 
