@@ -9,7 +9,7 @@ module.exports = function(frame, team) {
 
 	let all_wood = frame.resources("wood");
 	let needy_houses = my_houses.filter(house => house.needy());
-	let empty_spaces = frame.resources("");
+	let empty_spaces = frame.resources("").filter(cell => cell.house() === undefined);
 
 	for (let unit of my_units) {
 
