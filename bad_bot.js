@@ -60,9 +60,9 @@ new_bot("bad_bot", (frame, team) => {
 			target = null;
 		}
 
-		if (target) {
+		if (target && (target.x !== unit.x || target.y !== unit.y)) {
 
-			for (let direction of unit.sorted_directions(target)) {
+			for (let direction of unit.sorted_directions(target).filter(d => d !== "c")) {
 
 				let next_cell = unit.adjacent_cell(direction);
 
