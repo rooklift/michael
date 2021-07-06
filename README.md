@@ -8,7 +8,7 @@ The simplest bot is as follows:
 
 ```javascript
 const new_bot = require("./antikit/bot")
-new_bot(() => {}, "do_nothing");
+new_bot("do_nothing", (frame, team) => {});
 ```
 
 ## frame props and methods

@@ -2,11 +2,7 @@
 
 const new_bot = require("./antikit/bot");
 
-new_bot(ai, "michael");
-
-// ------------------------------------------------------------------------------------------------
-
-function ai(frame, team) {
+new_bot("michael", (frame, team) => {
 
 	let reservations = [];
 

@@ -6,9 +6,9 @@ const readline = require("readline");
 const new_frame = require("./frame");
 const utils = require("./utils");
 
-module.exports = function(ai_function, name) {
+module.exports = function(name, ai_function) {
 	let bot = Object.create(bot_prototype);
-	bot.startup(ai_function, name);
+	bot.startup(name, ai_function);
 	global.log = bot.log.bind(bot);
 	global.LOG_ENABLED = true;
 	return bot;
@@ -16,9 +16,9 @@ module.exports = function(ai_function, name) {
 
 let bot_prototype = {
 
-	startup(ai_function, name) {
-		this.ai_function = ai_function;
+	startup(name, ai_function) {
 		this.name = name;
+		this.ai_function = ai_function;
 		this.team = null;
 		this.frame = null;
 		this.early_log_messages = [];			// For log messages that come before team is known.
