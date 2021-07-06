@@ -44,6 +44,8 @@ module.exports = function(frame, team) {
 
 		if (build_flag && unit.cell().type === "" && nearest_house && unit.distance(nearest_house) === 1) {
 			unit.order_build();
+		} else if (build_flag && unit.cell().type === "" && !nearest_house) {
+			unit.order_build();
 		} else if (target) {
 			direction = unit.naive_direction(target);
 		}
