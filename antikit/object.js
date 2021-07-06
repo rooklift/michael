@@ -32,6 +32,14 @@ module.exports = {
 		}
 	},
 
+	copy() {
+		let ret = Object.create(Object.getPrototypeOf(this));
+		for (let [key, value] of Object.entries(this)) {
+			ret[key] = value;
+		}
+		return ret;
+	},
+
 	distance(dwim1, dwim2) {
 		let [x, y] = utils.resolve_dwim_args(dwim1, dwim2);
 		return Math.abs(x - this.x) + Math.abs(y - this.y);

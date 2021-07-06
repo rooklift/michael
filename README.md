@@ -40,6 +40,9 @@ frame.house_at(o)                   // any cell, house, or unit object
 
 ```javascript
 
+o.copy()
+// returns a copy of the object for whatever purpose
+
 o.distance(x, y)                    // coordinates
 o.distance(o)                       // any cell, house, or unit object
 // returns the Manhattan distance
