@@ -69,7 +69,6 @@ let bot_prototype = {
 			for (let msg of this.early_log_messages) {
 				this.log(msg);
 			}
-			this.early_log_messages = [];
 
 		} else if (this.frame === null) {				// This will be true when receiving 2nd line.
 
