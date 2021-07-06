@@ -29,9 +29,10 @@ module.exports = function(frame, team) {
 			} else {
 				if (unit.wood === 100) {			// Require 100 wood for a house, not just any resource.
 					build_flag = true;
-					target = nearest_house;
-					if (target) {
-						target = target.choose(empty_spaces);		// target.choose is correct
+					if (nearest_house) {
+						target = nearest_house.choose(empty_spaces);
+					} else {
+						target = unit.choose(empty_spaces);
 					}
 				} else {
 					target = nearest_house;
