@@ -8,8 +8,7 @@ const new_unit = require("./object_unit");
 const utils = require("./utils");
 
 module.exports = function(width, height, turn) {
-	let frame = Object.create(frame_prototype);
-	Object.assign(frame, {width, height, turn});
+	let frame = Object.assign(Object.create(frame_prototype), {width, height, turn});
 	frame.init();
 	return frame;
 };

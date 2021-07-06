@@ -1,9 +1,7 @@
 "use strict";
 
 module.exports = function(frame, x, y, type, amount, road) {
-	let cell = Object.create(cell_prototype);
-	Object.assign(cell, {frame, x, y, type, amount, road});
-	return cell;
+	return Object.assign(Object.create(cell_prototype), {frame, x, y, type, amount, road});
 };
 
 // ------------------------------------------------------------------------------------------------

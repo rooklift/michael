@@ -1,9 +1,7 @@
 "use strict";
 
 module.exports = function(frame, team, id, fuel, upkeep) {
-	let city = Object.create(city_prototype);
-	Object.assign(city, {frame, team, id, fuel, upkeep});
-	return city;
+	return Object.assign(Object.create(city_prototype), {frame, team, id, fuel, upkeep});
 };
 
 // ------------------------------------------------------------------------------------------------
