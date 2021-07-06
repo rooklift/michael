@@ -1,6 +1,6 @@
 ## API (subject to change etc)
 
-The program starts in `main.js` but each turn it calls the AI in `ai.js` and provides it with a `frame` object and a `team` integer. The objects inside the frame are freshly created each turn. Everything inside the frame is frozen to prevent accidental edits, with the exception of the structures that hold the AI's commands.
+The program starts in `main.js` but each turn it calls the AI in `ai.js` and provides it with a `frame` object and a `team` integer. The objects inside the frame are freshly created each turn.
 
 Each turn, the AI can use various methods in the frame's objects to setup commands, then finally call `frame.send_orders()`.
 

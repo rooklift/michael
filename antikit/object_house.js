@@ -3,7 +3,6 @@
 module.exports = function(frame, team, id, x, y, cd) {
 	let house = Object.create(house_prototype);
 	Object.assign(house, {frame, team, id, x, y, cd});
-	house.cmd = {};
 	return house;
 };
 

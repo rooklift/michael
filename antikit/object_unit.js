@@ -3,7 +3,6 @@
 module.exports = function(frame, type, team, id, x, y, cd, wood, coal, uranium) {
 	let unit = Object.create(unit_prototype);
 	Object.assign(unit, {frame, type, team, id, x, y, cd, wood, coal, uranium});
-	unit.cmd = {};
 	return unit;
 };
 

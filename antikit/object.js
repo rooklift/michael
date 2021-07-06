@@ -7,21 +7,20 @@ const utils = require("./utils");
 //		this.frame
 //		this.x
 //		this.y
-//		this.cmd
 
 module.exports = {
 
 	command(s) {
-		this.cmd.val = s;
+		this.__cmd = s;
 	},
 
 	cancel() {
-		delete this.cmd.val;
+		delete this.__cmd;
 	},
 
 	transmit() {
-		if (this.cmd.val) {
-			send(this.cmd.val);
+		if (this.__cmd) {
+			send(this.__cmd);
 		}
 	},
 
