@@ -42,16 +42,18 @@ module.exports = {
 		if (arr.length === 0) {
 			return undefined;
 		}
-		let ret = arr[0];
-		let best_dist = this.distance(arr[0]);
-		for (let o of arr.slice(1)) {
+		let bests = [];
+		let best_dist = Infinity;
+		for (let o of arr) {
 			let dist = this.distance(o);
 			if (dist < best_dist) {
-				ret = o;
+				bests = [o];
 				best_dist = dist;
+			} else if (dist === best_dist) {
+				bests.push(o);
 			}
 		}
-		return ret;
+		return bests[Math.floor(Math.random() * bests.length)];
 	},
 
 	// Note that most of the getters can return undefined / [] etc as appropriate.
