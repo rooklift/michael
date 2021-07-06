@@ -83,4 +83,4 @@ new_bot("michael", (frame, team) => {
 			}
 		}
 	}
-};
+});
