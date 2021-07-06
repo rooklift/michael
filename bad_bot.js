@@ -14,6 +14,12 @@ new_bot("bad_bot", (frame, team) => {
 	let empty_spaces = frame.resources("").filter(cell => cell.house() === undefined);
 
 	for (let unit of my_units) {
+		if (unit.cd > 0) {
+			reservations.push(unit.cell());
+		}
+	}
+
+	for (let unit of my_units) {
 
 		if (unit.cd > 0) {
 			continue;
@@ -46,28 +52,37 @@ new_bot("bad_bot", (frame, team) => {
 
 		if (build_flag && unit.cell().type === "" && nearest_house && unit.distance(nearest_house) === 1) {
 			unit.order_build();
+			target = null;
 		} else if (build_flag && unit.cell().type === "" && !nearest_house) {
 			unit.order_build();
-		} else if (target) {
-			direction = unit.naive_direction(target);
+			target = null;
 		}
 
-		if (direction) {
+		if (target) {
 
-			let next_cell = unit.adjacent_cell(direction);
-			let ok = true;
+			for (let direction of unit.sorted_directions(target)) {
 
-			for (let rs of reservations) {
-				if (rs === next_cell) {
-					ok = false;
+				let next_cell = unit.adjacent_cell(direction);
+				let ok = true;
+
+				for (let rs of reservations) {
+					if (rs === next_cell) {
+						ok = false;
+						break;
+					}
+				}
+
+				if (ok) {
+					unit.order_move(direction);
+					reservations.push(next_cell);
 					break;
 				}
 			}
 
-			if (ok) {
-				unit.order_move(direction);
-				reservations.push(next_cell);
-			}
+		} else {
+
+			reservations.push(unit.cell());
+
 		}
 	}
 

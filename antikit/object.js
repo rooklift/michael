@@ -7,6 +7,8 @@ const utils = require("./utils");
 //		this.frame
 //		this.x
 //		this.y
+//
+// Note that most of the getters can return undefined / [] etc as appropriate.
 
 module.exports = {
 
@@ -63,7 +65,32 @@ module.exports = {
 		return bests[Math.floor(Math.random() * bests.length)];
 	},
 
-	// Note that most of the getters can return undefined / [] etc as appropriate.
+	sorted_directions(dwim1, dwim2) {
+
+		// Note that illegal moves won't be included at all.
+		// Note that moving directly away is "not worse" than moving orthogonally, hmm.
+		// FIXME - should maybe shuffle the better and worse arrays before concatenation.
+
+		let [x, y] = utils.resolve_dwim_args(dwim1, dwim2);
+
+		let better = [];
+		let worse = [];
+
+		if (this.x > 0) {							// Moving W is legal - but is it good or bad?
+			if (this.x > x) { better.push("w"); } else { worse.push("w"); }
+		}
+		if (this.x < this.frame.width - 1) {		// Moving E is legal - but is it good or bad?
+			if (this.x < x) { better.push("e"); } else { worse.push("e"); }
+		}
+		if (this.y > 0) {							// Moving N is legal - but is it good or bad?
+			if (this.y > y) { better.push("n"); } else { worse.push("n"); }
+		}
+		if (this.y < this.frame.height - 1) {		// Moving S is legal - but is it good or bad?
+			if (this.y < y) { better.push("s"); } else { worse.push("s"); }
+		}
+
+		return better.concat(["c"]).concat(worse);
+	},
 
 	cell() {
 		return this.frame.map[this.x][this.y];

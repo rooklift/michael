@@ -70,6 +70,10 @@ o.naive_direction(x, y)             // coordinates
 o.naive_direction(o)                // any cell, house, or unit object
 // returns "n", "s", "e", "w" or "c"
 
+o.sorted_directions(x, y)           // coordinates
+o.sorted_directions(o)              // any cell, house, or unit object
+// returns a list of directions sorted by resulting distance
+
 o.adjacent_cell(d)                  // d == "n" | "s" | "e" | "w" | "c"
 // returns the adjacent cell in the specified direction, or undefined
 
