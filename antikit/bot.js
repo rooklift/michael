@@ -32,7 +32,6 @@ let bot_prototype = {
 			terminal: false
 		});
 		this.scanner.on("line", (line) => {
-			this.linenum++;
 			this.handle_line(line);
 		});
 	},
