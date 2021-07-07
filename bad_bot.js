@@ -15,6 +15,10 @@ new_bot("bad_bot", (frame, team) => {
 	let needy_houses = my_houses.filter(house => house.needy());
 	let empty_spaces = frame.resources("").filter(cell => cell.house() === undefined);
 
+	if (frame.turn < 10 && my_houses.length === 1) {
+		needy_houses = [];
+	}
+
 	for (let house of opp_houses) {
 		reservations.push(house.cell());
 	}
@@ -45,7 +49,7 @@ new_bot("bad_bot", (frame, team) => {
 			} else {
 				if (unit.wood === 100) {			// Require 100 wood for a house, not just any resource.
 					build_flag = true;
-					if (nearest_house) {
+					if (nearest_house && frame.turn >= 10) {
 						target = nearest_house.choose(empty_spaces);
 					} else {
 						target = unit.choose(empty_spaces);
@@ -58,12 +62,22 @@ new_bot("bad_bot", (frame, team) => {
 			target = unit.choose(all_wood);
 		}
 
-		if (build_flag && unit.cell().type === "" && nearest_house && unit.distance(nearest_house) === 1) {
-			unit.order_build();
-			target = null;
-		} else if (build_flag && unit.cell().type === "" && !nearest_house) {
-			unit.order_build();
-			target = null;
+		if (build_flag && unit.cell().type === "") {
+
+			let ok = false;
+
+			if (!nearest_house) {
+				ok = true;
+			} else if (unit.distance(nearest_house) === 1) {
+				ok = true;
+			} else if (frame.turn <= 10) {
+				ok = true;
+			}
+
+			if (ok) {
+				unit.order_build();
+				target = null;
+			}
 		}
 
 		if (target && (target.x !== unit.x || target.y !== unit.y)) {
