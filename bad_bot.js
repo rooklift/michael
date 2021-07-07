@@ -9,9 +9,15 @@ new_bot("bad_bot", (frame, team) => {
 	let my_units = frame.units_by_team(team);
 	let my_houses = frame.houses_by_team(team);
 
+	let opp_houses = frame.houses_by_team((team + 1) % 2);
+
 	let all_wood = frame.resources("wood");
 	let needy_houses = my_houses.filter(house => house.needy());
 	let empty_spaces = frame.resources("").filter(cell => cell.house() === undefined);
+
+	for (let house of opp_houses) {
+		reservations.push(house.cell());
+	}
 
 	for (let unit of my_units) {
 		if (unit.cd > 0) {
