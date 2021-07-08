@@ -48,7 +48,6 @@ let unit_prototype = Object.assign(Object.create(require("./object")), {
 
 		if (this.cd === 0 && cmd.startsWith("m ")) {
 			try {
-				if (cmd.endsWith(" c")) return this.frame.map[this.x][this.y];
 				if (cmd.endsWith(" e")) return this.frame.map[this.x + 1][this.y];
 				if (cmd.endsWith(" w")) return this.frame.map[this.x - 1][this.y];
 				if (cmd.endsWith(" n")) return this.frame.map[this.x][this.y - 1];
@@ -57,6 +56,7 @@ let unit_prototype = Object.assign(Object.create(require("./object")), {
 				// Failed because out of bounds.
 			}
 		}
+
 		return this.frame.map[this.x][this.y];
 	},
 
