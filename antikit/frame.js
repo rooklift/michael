@@ -7,7 +7,9 @@ const new_unit = require("./object_unit");
 
 const utils = require("./utils");
 
-module.exports = function(width, height, turn) {
+// ------------------------------------------------------------------------------------------------
+
+function new_frame(width, height, turn) {
 	let frame = Object.assign(Object.create(frame_prototype), {width, height, turn});
 	frame.init();
 	return frame;
@@ -29,6 +31,42 @@ let frame_prototype = {
 		this.units  = [];
 		this.houses = [];
 		this.cities = [];
+	},
+
+	copy() {
+
+		let ret = new_frame(this.width, this.height, this.turn);
+
+		// All the cells point to ret as their frame, but other values need updating...
+
+		for (let x = 0; x < this.width; x++) {
+			for (let y = 0; y < this.height; y++) {
+				ret.map[x][y].type = this.map[x][y].type;
+				ret.map[x][y].amount = this.map[x][y].amount;
+				ret.map[x][y].road = this.map[x][y].road;
+			}
+		}
+
+		// Make other objects...
+
+		ret.rp = Array.from(this.rp);
+		ret.units = this.units.map(unit => unit.copy());
+		ret.houses = this.houses.map(house => house.copy());
+		ret.cities = this.cities.map(city => city.copy());
+
+		// All the objects need their frame updated...
+
+		for (let unit of ret.units) {
+			unit.frame = ret;
+		}
+		for (let house of ret.houses) {
+			house.frame = ret;
+		}
+		for (let city of ret.cities) {
+			city.frame = ret;
+		}
+
+		return ret;
 	},
 
 	resources(type) {
@@ -185,3 +223,7 @@ let frame_prototype = {
 	},
 
 };
+
+// ------------------------------------------------------------------------------------------------
+
+module.exports = new_frame;
