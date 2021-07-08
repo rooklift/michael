@@ -48,45 +48,33 @@ function resolve(frame, team, moveslist) {
 
 	// --------------------------------------------------------------------------------------------
 
-	let locked = [];
+	let valid = [];
 	let pending = [];
-	let failed = [];
 
-	let forbidden = Object.create(null);		// All locs (as strings) that can't be moved to.
+	let forbidden = Object.create(null);		// Locs (as strings) that can't be moved to.
 
 	for (let move of moveslist) {
 
-		if (move.x1 === move.x2 && move.y1 === move.y2) {			// Stationary succeeds.
-
-			locked.push(move);
+		if (move.x1 === move.x2 && move.y1 === move.y2) {			// Stationary.
 			forbidden[move.ss] = true;
-
 		} else if (my_houses_locs[move.ts]) {						// Move to friendly house succeeds.
-
-			locked.push(move);
-
+			valid.push(move);
 		} else if (opp_houses_locs[move.ts]) {						// Move to enemy house fails.
-
-			failed.push(move);
 			forbidden[move.ss] = true;
-
 		} else {													// Pending... any move to open ground.
-
 			pending.push(move);
-
 		}
 	}
 
-	// Make map of target(string) --> [sources]
+	// Make map of: target(string) --> [moves going there]
 
-	let target_source_map = Object.create(null);
+	let target_move_map = Object.create(null);
 
 	for (let move of pending) {
-
-		if (target_source_map[move.ts]) {
-			target_source_map[move.ts].push(move);
+		if (target_move_map[move.ts]) {
+			target_move_map[move.ts].push(move);
 		} else {
-			target_source_map[move.ts] = [move];
+			target_move_map[move.ts] = [move];
 		}
 	}
 
@@ -96,20 +84,21 @@ function resolve(frame, team, moveslist) {
 
 		// Reject moves that bump...
 
-		for (let [ts, sources] of Object.entries(target_source_map)) {
-			if (sources.length > 1 || forbidden[ts]) {
-				for (let move of sources) {
-					failed.push(move);
+		for (let [ts, moves] of Object.entries(target_move_map)) {
+			if (moves.length > 1 || forbidden[ts]) {
+				for (let move of moves) {
 					forbidden[move.ss] = true;
 				}
 				rejections_happened = true;
-				delete target_source_map[ts];
+				delete target_move_map[ts];
 			}
 		}
 
 		if (rejections_happened === false) {
-			for (let move of still_pending) {
-				locked.push(move);
+			for (let moves of Object.values(target_move_map)) {
+				for (let move of moves) {
+					valid.push(move);
+				}
 			}
 			break;
 		}
