@@ -61,11 +61,11 @@ function resolve(frame, team, moveslist) {
 			locked.push(move);
 			forbidden[move.ss] = true;
 
-		} else if (my_houses_locs[ts]) {							// Move to friendly house succeeds.
+		} else if (my_houses_locs[move.ts]) {						// Move to friendly house succeeds.
 
 			locked.push(move);
 
-		} else if (opp_houses_locs[ts]) {							// Move to enemy house fails.
+		} else if (opp_houses_locs[move.ts]) {						// Move to enemy house fails.
 
 			failed.push(move);
 			forbidden[move.ss] = true;
