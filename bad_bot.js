@@ -127,19 +127,20 @@ new_bot("bad_bot", (frame, team) => {
 	for (let unit of my_units) {
 		let next_cell = unit.next_cell();
 		let move = sim.new_move(unit.x, unit.y, next_cell.x, next_cell.y);
+		move.unit = unit.id;
 		moveslist.push(move);
 	}
 
 	let valid = sim.resolve(frame, team, moveslist);
 
-	let valid_sources = Object.create(null);
+	let valid_movers = Object.create(null);
 
 	for (let move of valid) {
-		valid_sources[move.ss] = true;
+		valid_movers[move.id] = true;
 	}
 
 	for (let unit of my_units) {
-		if (unit.__cmd && unit.__cmd.startsWith("m ") && !valid_sources[unit.loc_string()]) {
+		if (unit.__cmd && unit.__cmd.startsWith("m ") && !valid_movers[unit.id]) {
 			unit.cancel();
 		}
 	}
