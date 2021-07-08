@@ -34,13 +34,11 @@ function get_valid_moves(frame, team) {
 	let opp_houses_locs = Object.create(null);
 
 	for (let house of my_houses) {
-		let key = `${house.x}|${house.y}`;
-		my_houses_locs[key] = true;
+		my_houses_locs[house.loc_string()] = true;
 	}
 
 	for (let house of opp_houses) {
-		let key = `${house.x}|${house.y}`;
-		opp_houses_locs[key] = true;
+		opp_houses_locs[house.loc_string()] = true;
 	}
 
 	// --------------------------------------------------------------------------------------------
