@@ -136,7 +136,7 @@ new_bot("bad_bot", (frame, team) => {
 	let valid_movers = Object.create(null);
 
 	for (let move of valid) {
-		valid_movers[move.id] = true;
+		valid_movers[move.unit] = true;
 	}
 
 	for (let unit of my_units) {
