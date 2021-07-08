@@ -15,8 +15,9 @@
 // currently at, labeled `origcell`. Revert these removed actions by first getting all the actions mapped from
 // `origcell` and then deleting that mapping, and then recursively reverting the actions mapped from `origcell`
 
-function new_move(x1, y1, x2, y2) {
+function new_move(id, x1, y1, x2, y2) {
 	return {
+		id,
 		x1,
 		y1,
 		x2,
@@ -24,6 +25,11 @@ function new_move(x1, y1, x2, y2) {
 		ss: `${x1}|${y1}`,			// source as a string
 		ts: `${x2}|${y2}`,			// target as a string
 	};
+}
+
+function new_move_from_unit(unit) {
+	let next_cell = unit.next_cell();
+	return new_move(unit.id, unit.x, unit.y, next_cell.x, next_cell.y);
 }
 
 function resolve(frame, team, moveslist) {
@@ -111,4 +117,4 @@ function resolve(frame, team, moveslist) {
 
 // ------------------------------------------------------------------------------------------------
 
-module.exports = {new_move, resolve};
+module.exports = {new_move, new_move_from_unit, resolve};

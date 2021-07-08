@@ -125,10 +125,7 @@ new_bot("bad_bot", (frame, team) => {
 	let moveslist = [];
 
 	for (let unit of my_units) {
-		let next_cell = unit.next_cell();
-		let move = sim.new_move(unit.x, unit.y, next_cell.x, next_cell.y);
-		move.unit = unit.id;
-		moveslist.push(move);
+		moveslist.push(sim.new_move_from_unit(unit));
 	}
 
 	let valid = sim.resolve(frame, team, moveslist);
@@ -136,7 +133,7 @@ new_bot("bad_bot", (frame, team) => {
 	let valid_movers = Object.create(null);
 
 	for (let move of valid) {
-		valid_movers[move.unit] = true;
+		valid_movers[move.id] = true;
 	}
 
 	for (let unit of my_units) {
