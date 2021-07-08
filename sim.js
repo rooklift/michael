@@ -48,13 +48,12 @@ function resolve(frame, team, moveslist) {
 
 	// --------------------------------------------------------------------------------------------
 
-	let valid = [];
+	let valid = [];								// Only holds actual moves, not stationaries.
 	let pending = [];
 
 	let forbidden = Object.create(null);		// Locs (as strings) that can't be moved to.
 
 	for (let move of moveslist) {
-
 		if (move.x1 === move.x2 && move.y1 === move.y2) {			// Stationary.
 			forbidden[move.ss] = true;
 		} else if (my_houses_locs[move.ts]) {						// Move to friendly house succeeds.
@@ -82,12 +81,12 @@ function resolve(frame, team, moveslist) {
 
 		let rejections_happened = false;
 
-		// Reject moves that bump...
+		// Reject moves that bump into something...
 
 		for (let [ts, moves] of Object.entries(target_move_map)) {
 			if (moves.length > 1 || forbidden[ts]) {
 				for (let move of moves) {
-					forbidden[move.ss] = true;
+					forbidden[move.ss] = true;		// Unit's move was invalid... it won't move... its loc becomes forbidden.
 				}
 				rejections_happened = true;
 				delete target_move_map[ts];
