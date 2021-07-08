@@ -1,20 +1,5 @@
 "use strict";
 
-// Given a list of orders and a frame, need to generate a scorable object,
-// with the correct next-frame locations containing sim units with cargo.
-//
-//
-// From Lux comments:
-//
-// iterate through all moves and store a mapping from cell to the actions that will cause a unit to move there
-//
-// for each cell that has multiple mapped to actions, we remove all actions as that cell is a "bump" cell
-// where no units can get there because they all bumped into each other
-//
-// for all removed actions for that particular cell, find the cell the unit that wants to execute the action is
-// currently at, labeled `origcell`. Revert these removed actions by first getting all the actions mapped from
-// `origcell` and then deleting that mapping, and then recursively reverting the actions mapped from `origcell`
-
 function new_move(id, x1, y1, x2, y2) {
 	return {
 		id,
