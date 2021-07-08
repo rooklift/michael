@@ -122,13 +122,7 @@ new_bot("bad_bot", (frame, team) => {
 
 	// Testing...
 
-	let moveslist = [];
-
-	for (let unit of my_units) {
-		moveslist.push(sim.new_move_from_unit(unit));
-	}
-
-	let valid = sim.resolve(frame, team, moveslist);
+	let valid = sim.get_valid_moves(frame, team);
 
 	let valid_movers = Object.create(null);
 

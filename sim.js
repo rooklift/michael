@@ -17,10 +17,15 @@ function new_move_from_unit(unit) {
 	return new_move(unit.id, unit.x, unit.y, next_cell.x, next_cell.y);
 }
 
-function resolve(frame, team, moveslist) {
+function get_valid_moves(frame, team) {
 
-	// Note that every friendly unit should be in the moveslist; units with cooldown should be given as stationary.
 	// Note that the return value is a list of actual moves (hold position "moves" aren't included).
+
+	let moveslist = [];
+
+	for (let unit of frame.units_by_team(team)) {
+		moveslist.push(new_move_from_unit(unit));			// Every friendly unit is in the moveslist, including non-moving ones.
+	}
 
 	let my_houses = frame.houses_by_team(team);
 	let opp_houses = frame.houses_by_team((team + 1) % 2);
@@ -103,4 +108,4 @@ function resolve(frame, team, moveslist) {
 
 // ------------------------------------------------------------------------------------------------
 
-module.exports = {new_move, new_move_from_unit, resolve};
+module.exports = {new_move, new_move_from_unit, get_valid_moves};
