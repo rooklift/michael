@@ -2,7 +2,7 @@
 
 function new_house(frame, team, id, x, y, cd) {
 	return Object.assign(Object.create(house_prototype), {frame, team, id, x, y, cd});
-};
+}
 
 // ------------------------------------------------------------------------------------------------
 

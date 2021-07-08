@@ -14,7 +14,7 @@ function new_bot(name, ai_function) {
 	global.log = bot.log.bind(bot);
 	global.LOG_ENABLED = true;
 	return bot;
-};
+}
 
 // ------------------------------------------------------------------------------------------------
 

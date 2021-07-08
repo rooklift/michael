@@ -2,7 +2,7 @@
 
 function new_city(frame, team, id, fuel, upkeep) {
 	return Object.assign(Object.create(city_prototype), {frame, team, id, fuel, upkeep});
-};
+}
 
 // ------------------------------------------------------------------------------------------------
 

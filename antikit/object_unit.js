@@ -2,7 +2,7 @@
 
 function new_unit(frame, type, team, id, x, y, cd, wood, coal, uranium) {
 	return Object.assign(Object.create(unit_prototype), {frame, type, team, id, x, y, cd, wood, coal, uranium});
-};
+}
 
 // ------------------------------------------------------------------------------------------------
 

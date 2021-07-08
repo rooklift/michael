@@ -13,7 +13,7 @@ function new_frame(width, height, turn) {
 	let frame = Object.assign(Object.create(frame_prototype), {width, height, turn});
 	frame.init();
 	return frame;
-};
+}
 
 // ------------------------------------------------------------------------------------------------
 
