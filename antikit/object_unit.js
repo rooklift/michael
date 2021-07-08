@@ -16,15 +16,15 @@ let unit_prototype = Object.assign(Object.create(require("./object")), {
 
 	order_move(d) {
 		if (["n", "s", "e", "w", "c"].includes(d) === false) throw "bad call";
-		this.command(`m ${this.id} ${d}`);
+		this.set_command(`m ${this.id} ${d}`);
 	},
 
 	order_build() {
-		this.command(`bcity ${this.id}`);
+		this.set_command(`bcity ${this.id}`);
 	},
 
 	order_pillage() {
-		this.command(`p ${this.id}`);
+		this.set_command(`p ${this.id}`);
 	},
 
 	order_transfer(target, type, amount) {
@@ -39,18 +39,20 @@ let unit_prototype = Object.assign(Object.create(require("./object")), {
 			throw "bad call";
 		}
 
-		this.command(`t ${this.id} ${tid} ${type} ${amount}`);
+		this.set_command(`t ${this.id} ${tid} ${type} ${amount}`);
 	},
 
 	next_cell() {
 
-		if (this.cd === 0 && this.__cmd && this.__cmd.startsWith("m ")) {
+		let cmd = this.get_command();
+
+		if (this.cd === 0 && cmd.startsWith("m ")) {
 			try {
-				if (this.__cmd.endsWith(" c")) return this.frame.map[this.x][this.y];
-				if (this.__cmd.endsWith(" e")) return this.frame.map[this.x + 1][this.y];
-				if (this.__cmd.endsWith(" w")) return this.frame.map[this.x - 1][this.y];
-				if (this.__cmd.endsWith(" n")) return this.frame.map[this.x][this.y - 1];
-				if (this.__cmd.endsWith(" s")) return this.frame.map[this.x][this.y + 1];
+				if (cmd.endsWith(" c")) return this.frame.map[this.x][this.y];
+				if (cmd.endsWith(" e")) return this.frame.map[this.x + 1][this.y];
+				if (cmd.endsWith(" w")) return this.frame.map[this.x - 1][this.y];
+				if (cmd.endsWith(" n")) return this.frame.map[this.x][this.y - 1];
+				if (cmd.endsWith(" s")) return this.frame.map[this.x][this.y + 1];
 			} catch (err) {
 				// Failed because out of bounds.
 			}

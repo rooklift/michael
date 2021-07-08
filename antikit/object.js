@@ -13,8 +13,12 @@ const utils = require("./utils");
 
 let object_prototype = {
 
-	command(s) {
+	set_command(s) {
 		this.__cmd = s;
+	},
+
+	get_command(s) {
+		return this.__cmd || "";
 	},
 
 	cancel() {
@@ -29,7 +33,7 @@ let object_prototype = {
 
 	annotate() {
 		if (this.is_cell) {
-			this.command(`dc ${this.x} ${this.y}`);
+			this.set_command(`dc ${this.x} ${this.y}`);
 		} else {
 			this.cell().annotate();
 		}

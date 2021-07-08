@@ -19,15 +19,15 @@ let house_prototype = Object.assign(Object.create(require("./object")), {
 	},
 
 	order_worker() {
-		this.command(`bw ${this.x} ${this.y}`);
+		this.set_command(`bw ${this.x} ${this.y}`);
 	},
 
 	order_cart() {
-		this.command(`bc ${this.x} ${this.y}`);
+		this.set_command(`bc ${this.x} ${this.y}`);
 	},
 
 	order_research() {
-		this.command(`r ${this.x} ${this.y}`);
+		this.set_command(`r ${this.x} ${this.y}`);
 	},
 
 });

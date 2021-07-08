@@ -140,7 +140,7 @@ new_bot("bad_bot", (frame, team) => {
 	}
 
 	for (let unit of my_units) {
-		if (unit.__cmd && unit.__cmd.startsWith("m ") && !valid_movers[unit.id]) {
+		if (unit.get_command().startsWith("m ") && !valid_movers[unit.id]) {
 			unit.cancel();
 		}
 	}
