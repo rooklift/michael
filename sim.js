@@ -77,26 +77,24 @@ function resolve(frame, team, moveslist) {
 		}
 	}
 
-	while (pending.length > 0) {
+	// Make map of target(string) --> [sources]
+
+	let target_source_map = Object.create(null);
+
+	for (let move of pending) {
+
+		if (target_source_map[move.ts]) {
+			target_source_map[move.ts].push(move);
+		} else {
+			target_source_map[move.ts] = [move];
+		}
+	}
+
+	while (true) {
 
 		let rejections_happened = false;
 
-		// Make map of target(string) --> [sources]
-
-		let target_source_map = Object.create(null);
-
-		for (let move of pending) {
-
-			if (target_source_map[move.ts]) {
-				target_source_map[move.ts].push(move);
-			} else {
-				target_source_map[move.ts] = [move];
-			}
-		}
-
 		// Reject moves that bump...
-
-		let still_pending = [];
 
 		for (let [ts, sources] of Object.entries(target_source_map)) {
 			if (sources.length > 1 || forbidden[ts]) {
@@ -105,18 +103,15 @@ function resolve(frame, team, moveslist) {
 					forbidden[move.ss] = true;
 				}
 				rejections_happened = true;
-			} else {
-				still_pending.push(source);		// Could still fail.
+				delete target_source_map[ts];
 			}
 		}
 
-		if (rejections_happened) {
-			pending = still_pending;
-		} else {
+		if (rejections_happened === false) {
 			for (let move of still_pending) {
 				locked.push(move);
 			}
-			pending = [];
+			break;
 		}
 	}
 
