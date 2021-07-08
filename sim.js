@@ -20,6 +20,7 @@ function new_move_from_unit(unit) {
 function resolve(frame, team, moveslist) {
 
 	// Note that every friendly unit should be in the moveslist; units with cooldown should be given as stationary.
+	// Note that the return value is a list of actual moves (hold position "moves" aren't included).
 
 	let my_houses = frame.houses_by_team(team);
 	let opp_houses = frame.houses_by_team((team + 1) % 2);
