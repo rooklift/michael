@@ -6,13 +6,17 @@ const readline = require("readline");
 const new_frame = require("./frame");
 const utils = require("./utils");
 
-module.exports = function(name, ai_function) {
+// ------------------------------------------------------------------------------------------------
+
+function new_bot(name, ai_function) {
 	let bot = Object.create(bot_prototype);
 	bot.startup(name, ai_function);
 	global.log = bot.log.bind(bot);
 	global.LOG_ENABLED = true;
 	return bot;
 };
+
+// ------------------------------------------------------------------------------------------------
 
 let bot_prototype = {
 
@@ -92,3 +96,7 @@ let bot_prototype = {
 	},
 
 };
+
+// ------------------------------------------------------------------------------------------------
+
+module.exports = new_bot;

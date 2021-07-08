@@ -10,7 +10,7 @@ const utils = require("./utils");
 //
 // Note that most of the getters can return undefined / [] etc as appropriate.
 
-module.exports = {
+let object_prototype = {
 
 	command(s) {
 		this.__cmd = s;
@@ -134,3 +134,7 @@ module.exports = {
 	},
 
 };
+
+// ------------------------------------------------------------------------------------------------
+
+module.exports = object_prototype;

@@ -1,6 +1,6 @@
 "use strict";
 
-module.exports = function(frame, team, id, x, y, cd) {
+function new_house(frame, team, id, x, y, cd) {
 	return Object.assign(Object.create(house_prototype), {frame, team, id, x, y, cd});
 };
 
@@ -31,3 +31,7 @@ let house_prototype = Object.assign(Object.create(require("./object")), {
 	},
 
 });
+
+// ------------------------------------------------------------------------------------------------
+
+module.exports = new_house;

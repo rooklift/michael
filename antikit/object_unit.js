@@ -1,6 +1,6 @@
 "use strict";
 
-module.exports = function(frame, type, team, id, x, y, cd, wood, coal, uranium) {
+function new_unit(frame, type, team, id, x, y, cd, wood, coal, uranium) {
 	return Object.assign(Object.create(unit_prototype), {frame, type, team, id, x, y, cd, wood, coal, uranium});
 };
 
@@ -43,3 +43,7 @@ let unit_prototype = Object.assign(Object.create(require("./object")), {
 	},
 
 });
+
+// ------------------------------------------------------------------------------------------------
+
+module.exports = new_unit;
