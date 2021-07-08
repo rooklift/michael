@@ -1,5 +1,6 @@
 "use strict";
 
+const random = require("./random");
 const utils = require("./utils");
 
 // Prototype for cell, house, unit -- relies on them having:
@@ -62,7 +63,7 @@ let object_prototype = {
 				bests.push(o);
 			}
 		}
-		return bests[Math.floor(Math.random() * bests.length)];
+		return bests[Math.floor(random() * bests.length)];
 	},
 
 	sorted_directions(dwim1, dwim2) {
@@ -96,6 +97,10 @@ let object_prototype = {
 
 	cell() {
 		return this.frame.map[this.x][this.y];
+	},
+
+	loc_string() {
+		return `${this.x}|${this.y}`;
 	},
 
 	house() {

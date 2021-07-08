@@ -54,13 +54,16 @@ function resolve(frame, team, moveslist) {
 	let forbidden = Object.create(null);		// Locs (as strings) that can't be moved to.
 
 	for (let move of moveslist) {
-		if (move.x1 === move.x2 && move.y1 === move.y2) {			// Stationary.
+
+		if (move.x2 < 0 || move.y2 < 0 || move.x2 >= frame.width || move.y2 >= frame.height) {		// Move to out-of-bounds fails.
 			forbidden[move.ss] = true;
-		} else if (my_houses_locs[move.ts]) {						// Move to friendly house succeeds.
+		} else if (move.x1 === move.x2 && move.y1 === move.y2) {									// Stationary.
+			forbidden[move.ss] = true;
+		} else if (opp_houses_locs[move.ts]) {														// Move to enemy house fails.
+			forbidden[move.ss] = true;
+		} else if (my_houses_locs[move.ts]) {														// Move to friendly house succeeds.
 			valid.push(move);
-		} else if (opp_houses_locs[move.ts]) {						// Move to enemy house fails.
-			forbidden[move.ss] = true;
-		} else {													// Pending... any move to open ground.
+		} else {																					// Pending... any move to open ground.
 			pending.push(move);
 		}
 	}
@@ -103,5 +106,9 @@ function resolve(frame, team, moveslist) {
 		}
 	}
 
-	// Think that's right. TODO - return something.
+	return valid;
 }
+
+// ------------------------------------------------------------------------------------------------
+
+module.exports = {new_move, resolve};

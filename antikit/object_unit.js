@@ -42,6 +42,22 @@ let unit_prototype = Object.assign(Object.create(require("./object")), {
 		this.command(`t ${this.id} ${tid} ${type} ${amount}`);
 	},
 
+	next_cell() {
+
+		if (this.cd === 0 && this.__cmd && this.__cmd.startsWith("m ")) {
+			try {
+				if (this.__cmd.endsWith(" c")) return this.frame.map[this.x][this.y];
+				if (this.__cmd.endsWith(" e")) return this.frame.map[this.x + 1][this.y];
+				if (this.__cmd.endsWith(" w")) return this.frame.map[this.x - 1][this.y];
+				if (this.__cmd.endsWith(" n")) return this.frame.map[this.x][this.y - 1];
+				if (this.__cmd.endsWith(" s")) return this.frame.map[this.x][this.y + 1];
+			} catch (err) {
+				// Failed because out of bounds.
+			}
+		}
+		return this.frame.map[this.x][this.y];
+	},
+
 });
 
 // ------------------------------------------------------------------------------------------------

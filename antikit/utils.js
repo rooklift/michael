@@ -1,5 +1,7 @@
 "use strict";
 
+const random = require("./random");
+
 function stringify(msg) {		// Given anything, create a string from it.
 	try {
 		if (msg instanceof Error) {
@@ -30,7 +32,7 @@ function resolve_dwim_args(arg1, arg2) {
 
 function shuffle_first_two_elements(arr) {
 
-	if (arr.length < 2 || Math.random() < 0.5) {
+	if (arr.length < 2 || random() < 0.5) {
 		return;
 	}
 

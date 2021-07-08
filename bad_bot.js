@@ -1,6 +1,7 @@
 "use strict";
 
 const new_bot = require("./antikit/bot");
+const sim = require("./sim");
 
 new_bot("bad_bot", (frame, team) => {
 
@@ -118,4 +119,29 @@ new_bot("bad_bot", (frame, team) => {
 			}
 		}
 	}
+
+	// Testing...
+
+	let moveslist = [];
+
+	for (let unit of my_units) {
+		let next_cell = unit.next_cell();
+		let move = sim.new_move(unit.x, unit.y, next_cell.x, next_cell.y);
+		moveslist.push(move);
+	}
+
+	let valid = sim.resolve(frame, team, moveslist);
+
+	let valid_sources = Object.create(null);
+
+	for (let move of valid) {
+		valid_sources[move.ss] = true;
+	}
+
+	for (let unit of my_units) {
+		if (unit.__cmd && unit.__cmd.startsWith("m ") && !valid_sources[unit.loc_string()]) {
+			unit.cancel();
+		}
+	}
+
 });
