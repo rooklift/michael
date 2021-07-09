@@ -16,6 +16,9 @@ new_bot("bad_bot", (frame, team) => {
 	if (frame.rp[team] >= 50) {
 		all_resources = all_resources.concat(frame.resources("coal"));
 	}
+	if (frame.rp[team] >= 200) {
+		all_resources = all_resources.concat(frame.resources("uranium"));
+	}
 
 	let needy_houses = my_houses.filter(house => house.needy());
 	let empty_spaces = frame.resources("").filter(cell => cell.house() === undefined);
@@ -52,7 +55,7 @@ new_bot("bad_bot", (frame, team) => {
 		let build_flag;
 		let direction;
 
-		if (unit.weight() > 90) {
+		if (unit.weight() >= 90 || unit.fuel() >= 100) {
 			if (needy_houses.length > 0) {
 				target = unit.choose(needy_houses);
 			} else {
