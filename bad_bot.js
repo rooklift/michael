@@ -12,7 +12,11 @@ new_bot("bad_bot", (frame, team) => {
 
 	let opp_houses = frame.houses_by_team((team + 1) % 2);
 
-	let all_wood = frame.resources("wood");
+	let all_resources = frame.resources("wood");
+	if (frame.rp[team] >= 50) {
+		all_resources = all_resources.concat(frame.resources("coal"));
+	}
+
 	let needy_houses = my_houses.filter(house => house.needy());
 	let empty_spaces = frame.resources("").filter(cell => cell.house() === undefined);
 
@@ -63,8 +67,8 @@ new_bot("bad_bot", (frame, team) => {
 					target = nearest_house;
 				}
 			}
-		} else if (unit.cell().type !== "wood") {
-			target = unit.choose(all_wood);
+		} else {
+			target = unit.choose(all_resources);
 		}
 
 		if (build_flag && unit.cell().type === "") {
