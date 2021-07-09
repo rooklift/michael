@@ -14,6 +14,10 @@ let unit_prototype = Object.assign(Object.create(require("./object")), {
 		return this.wood + this.coal + this.uranium;
 	},
 
+	fuel() {
+		return this.wood + (this.coal * 5) + (this.uranium * 25);
+	},
+
 	order_move(d) {
 		if (["n", "s", "e", "w", "c"].includes(d) === false) throw "bad call";
 		this.set_command(`m ${this.id} ${d}`);
