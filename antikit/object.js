@@ -72,7 +72,7 @@ let object_prototype = {
 
 	sorted_directions(dwim1, dwim2) {
 
-		// Note that illegal moves won't be included at all.
+		// Note that off-board moves won't be included at all.
 		// Note that moving directly away is "not worse" than moving orthogonally, hmm.
 
 		let [x, y] = utils.resolve_dwim_args(dwim1, dwim2);
