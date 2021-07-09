@@ -126,16 +126,16 @@ new_bot("bad_bot", (frame, team) => {
 
 	// Testing...
 
-	let effective = sim.analyse_moves(frame, team).effective;
+	let failing = sim.analyse_moves(frame, team).failing;
 
-	let valid_movers = Object.create(null);
+	let failing_movers = Object.create(null);
 
-	for (let move of effective) {
-		valid_movers[move.id] = true;
+	for (let move of failing) {
+		failing_movers[move.id] = true;
 	}
 
 	for (let unit of my_units) {
-		if (unit.get_command().startsWith("m ") && !valid_movers[unit.id]) {
+		if (failing_movers[unit.id]) {
 			unit.cancel();
 		}
 	}

@@ -46,7 +46,7 @@ function analyse_moves(frame, team) {
 	let effective = [];
 	let holding = [];
 	let cooling = [];
-	let failed = [];
+	let failing = [];
 
 	let pending = [];
 
@@ -60,11 +60,11 @@ function analyse_moves(frame, team) {
 
 		} else if (move.x2 < 0 || move.y2 < 0 || move.x2 >= frame.width || move.y2 >= frame.height) {	// Move to out-of-bounds fails.
 			forbidden[move.ss] = true;
-			failed.push(move);
+			failing.push(move);
 
 		} else if (opp_houses_locs[move.ts]) {															// Move to enemy house fails.
 			forbidden[move.ss] = true;
-			failed.push(move);
+			failing.push(move);
 
 		} else if (move.x1 === move.x2 && move.y1 === move.y2) {										// Stationary.
 			forbidden[move.ss] = true;
@@ -101,7 +101,7 @@ function analyse_moves(frame, team) {
 			if (moves.length > 1 || forbidden[ts]) {
 				for (let move of moves) {
 					forbidden[move.ss] = true;				// Unit's move was invalid... it won't move... its loc becomes forbidden.
-					failed.push(move);
+					failing.push(move);
 				}
 				rejections_happened = true;
 				delete target_move_map[ts];
@@ -118,11 +118,11 @@ function analyse_moves(frame, team) {
 		}
 	}
 
-	if (effective.length + holding.length + cooling.length + failed.length !== moveslist.length) {
+	if (effective.length + holding.length + cooling.length + failing.length !== moveslist.length) {
 		throw "faulty function";
 	}
 
-	return {effective, holding, cooling, failed};
+	return {effective, holding, cooling, failing};
 }
 
 // ------------------------------------------------------------------------------------------------
