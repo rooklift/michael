@@ -69,6 +69,10 @@ let frame_prototype = {
 		return ret;
 	},
 
+	is_night() {
+		return this.turn % 40 > 29;
+	},
+
 	resources(type) {
 
 		if (["wood", "coal", "uranium", ""].includes(type) === false) throw "bad call";
