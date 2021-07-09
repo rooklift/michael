@@ -48,26 +48,26 @@ function analyse_moves(frame, team) {
 
 	let pending = [];
 
-	let forbidden = Object.create(null);					// Locs (as strings) that can't be moved to.
+	let forbidden = Object.create(null);		// Locs (as strings) that can't be moved to.
 
 	for (let move of moveslist) {
 
-		if (move.unit.cd > 0) {																			// Unit is on cooldown.
+		if (move.unit.cd > 0) {								// Unit is on cooldown.
 			forbidden[move.ss] = true;
 			cooling.push(move);
 
-		} else if (opp_houses_locs[move.ts]) {															// Move to enemy house fails.
+		} else if (opp_houses_locs[move.ts]) {				// Move to enemy house fails.
 			forbidden[move.ss] = true;
 			failing.push(move);
 
-		} else if (move.ss === move.ts) {																// Stationary.
+		} else if (move.ss === move.ts) {					// Stationary.
 			forbidden[move.ss] = true;
 			holding.push(move);
 
-		} else if (my_houses_locs[move.ts]) {															// Move to friendly house succeeds.
+		} else if (my_houses_locs[move.ts]) {				// Move to friendly house succeeds.
 			effective.push(move);
 
-		} else {																						// Pending... any move to open ground.
+		} else {											// Pending... any move to open ground.
 			pending.push(move);
 
 		}
