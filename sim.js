@@ -14,7 +14,8 @@ function new_move_from_unit(unit) {
 
 function analyse_moves(frame, team) {
 
-	// FIXME - out of bounds not currently detected because next_cell() already considers them as stationary.
+	// Asking to go out of bounds is currently considered a "hold" order, because unit.next_cell()
+	// already notices that the next cell will be the same cell. Hmm.
 
 	let my_houses = frame.houses_by_team(team);
 	let opp_houses = frame.houses_by_team((team + 1) % 2);
