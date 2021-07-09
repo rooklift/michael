@@ -3,3 +3,4 @@
 *.json
 simplejs/*
 simplepy/*
+tournament.py
