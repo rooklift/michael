@@ -38,13 +38,17 @@ new_bot("bad_bot", (frame, team) => {
 			continue;
 		}
 
+		if (frame.is_night() && unit.house()) {
+			continue;
+		}
+
 		let nearest_house = unit.choose(my_houses);
 
 		let target;
 		let build_flag;
 		let direction;
 
-		if (unit.weight() === 100) {
+		if (unit.weight() > 90) {
 			if (needy_houses.length > 0) {
 				target = unit.choose(needy_houses);
 			} else {
