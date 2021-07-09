@@ -39,6 +39,8 @@ new_bot("bad_bot", (frame, team) => {
 		}
 	}
 
+	my_units.sort((a, b) => b.fuel() - a.fuel());		// Sort high-fuel units to start, so they have priority.
+
 	for (let unit of my_units) {
 
 		if (unit.cd > 0) {
@@ -59,7 +61,7 @@ new_bot("bad_bot", (frame, team) => {
 			if (needy_houses.length > 0) {
 				target = unit.choose(needy_houses);
 			} else {
-				if (unit.wood === 100) {			// Require 100 wood for a house, not just any resource.
+				if (unit.wood === 100) {				// Require 100 wood for a house, not just any resource.
 					build_flag = true;
 					if (nearest_house && frame.turn >= 10) {
 						target = nearest_house.choose(empty_spaces);
