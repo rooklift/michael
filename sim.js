@@ -50,7 +50,7 @@ function analyse_moves(frame, team) {
 
 	let pending = [];
 
-	let forbidden = Object.create(null);		// Locs (as strings) that can't be moved to.
+	let forbidden = Object.create(null);					// Locs (as strings) that can't be moved to.
 
 	for (let move of moveslist) {
 
@@ -100,7 +100,7 @@ function analyse_moves(frame, team) {
 		for (let [ts, moves] of Object.entries(target_move_map)) {
 			if (moves.length > 1 || forbidden[ts]) {
 				for (let move of moves) {
-					forbidden[move.ss] = true;		// Unit's move was invalid... it won't move... its loc becomes forbidden.
+					forbidden[move.ss] = true;				// Unit's move was invalid... it won't move... its loc becomes forbidden.
 					failed.push(move);
 				}
 				rejections_happened = true;
