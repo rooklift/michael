@@ -7,8 +7,8 @@ function new_move_from_unit(unit) {
 	return {
 		unit: unit,
 		next_cell: next_cell,
-		ss: `${unit.x}|${unit.y}`,							// source as a string
-		ts: `${next_cell.x}|${next_cell.y}`,				// target as a string
+		ss: unit.loc_string(),								// source as a string
+		ts: next_cell.loc_string(),							// target as a string
 	};
 }
 
