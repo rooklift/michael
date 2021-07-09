@@ -128,16 +128,8 @@ new_bot("bad_bot", (frame, team) => {
 
 	let failing = sim.analyse_moves(frame, team).failing;
 
-	let failing_movers = Object.create(null);
-
 	for (let move of failing) {
-		failing_movers[move.id] = true;
-	}
-
-	for (let unit of my_units) {
-		if (failing_movers[unit.id]) {
-			unit.cancel();
-		}
+		move.unit.cancel();
 	}
 
 });

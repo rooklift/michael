@@ -2,22 +2,19 @@
 
 function new_move_from_unit(unit) {
 
-	let next_cell = unit.next_cell();
+	let next_cell = unit.next_cell();						// guaranteed in-bounds
 
 	return {
-		id:  unit.id,
-		cd:  unit.cd,
-		cmd: unit.get_command(),
-		x1:  unit.x,
-		y1:  unit.y,
-		x2:  next_cell.x,
-		y2:  next_cell.y,
-		ss:  `${unit.x}|${unit.y}`,							// source as a string
-		ts:  `${next_cell.x}|${next_cell.y}`,				// target as a string
+		unit: unit,
+		next_cell: next_cell,
+		ss: `${unit.x}|${unit.y}`,							// source as a string
+		ts: `${next_cell.x}|${next_cell.y}`,				// target as a string
 	};
 }
 
 function analyse_moves(frame, team) {
+
+	// FIXME - out of bounds not currently detected because next_cell() already considers them as stationary.
 
 	let my_houses = frame.houses_by_team(team);
 	let opp_houses = frame.houses_by_team((team + 1) % 2);
@@ -54,19 +51,15 @@ function analyse_moves(frame, team) {
 
 	for (let move of moveslist) {
 
-		if (move.cd > 0) {																				// Unit is on cooldown.
+		if (move.unit.cd > 0) {																			// Unit is on cooldown.
 			forbidden[move.ss] = true;
 			cooling.push(move);
-
-		} else if (move.x2 < 0 || move.y2 < 0 || move.x2 >= frame.width || move.y2 >= frame.height) {	// Move to out-of-bounds fails.
-			forbidden[move.ss] = true;
-			failing.push(move);
 
 		} else if (opp_houses_locs[move.ts]) {															// Move to enemy house fails.
 			forbidden[move.ss] = true;
 			failing.push(move);
 
-		} else if (move.x1 === move.x2 && move.y1 === move.y2) {										// Stationary.
+		} else if (move.ss === move.ts) {																// Stationary.
 			forbidden[move.ss] = true;
 			holding.push(move);
 
