@@ -122,11 +122,11 @@ new_bot("bad_bot", (frame, team) => {
 
 	// Testing...
 
-	let valid = sim.get_valid_moves(frame, team);
+	let effective = sim.analyse_moves(frame, team).effective;
 
 	let valid_movers = Object.create(null);
 
-	for (let move of valid) {
+	for (let move of effective) {
 		valid_movers[move.id] = true;
 	}
 

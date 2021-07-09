@@ -1,31 +1,23 @@
 "use strict";
 
-function new_move(id, x1, y1, x2, y2) {
+function new_move_from_unit(unit) {
+
+	let next_cell = unit.next_cell();
+
 	return {
-		id,
-		x1,
-		y1,
-		x2,
-		y2,
-		ss: `${x1}|${y1}`,			// source as a string
-		ts: `${x2}|${y2}`,			// target as a string
+		id:  unit.id,
+		cd:  unit.cd,
+		cmd: unit.get_command(),
+		x1:  unit.x,
+		y1:  unit.y,
+		x2:  next_cell.x,
+		y2:  next_cell.y,
+		ss:  `${unit.x}|${unit.y}`,							// source as a string
+		ts:  `${next_cell.x}|${next_cell.y}`,				// target as a string
 	};
 }
 
-function new_move_from_unit(unit) {
-	let next_cell = unit.next_cell();
-	return new_move(unit.id, unit.x, unit.y, next_cell.x, next_cell.y);
-}
-
-function get_valid_moves(frame, team) {
-
-	// Note that the return value is a list of actual moves (hold position "moves" aren't included).
-
-	let moveslist = [];
-
-	for (let unit of frame.units_by_team(team)) {
-		moveslist.push(new_move_from_unit(unit));			// Every friendly unit is in the moveslist, including non-moving ones.
-	}
+function analyse_moves(frame, team) {
 
 	let my_houses = frame.houses_by_team(team);
 	let opp_houses = frame.houses_by_team((team + 1) % 2);
@@ -43,23 +35,47 @@ function get_valid_moves(frame, team) {
 
 	// --------------------------------------------------------------------------------------------
 
-	let valid = [];								// Only holds actual moves, not stationaries.
+	let moveslist = [];
+
+	for (let unit of frame.units_by_team(team)) {
+		moveslist.push(new_move_from_unit(unit));			// Every friendly unit is in the moveslist, including non-moving ones.
+	}
+
+	// --------------------------------------------------------------------------------------------
+
+	let effective = [];
+	let holding = [];
+	let cooling = [];
+	let failed = [];
+
 	let pending = [];
 
 	let forbidden = Object.create(null);		// Locs (as strings) that can't be moved to.
 
 	for (let move of moveslist) {
 
-		if (move.x2 < 0 || move.y2 < 0 || move.x2 >= frame.width || move.y2 >= frame.height) {		// Move to out-of-bounds fails.
+		if (move.cd > 0) {																				// Unit is on cooldown.
 			forbidden[move.ss] = true;
-		} else if (move.x1 === move.x2 && move.y1 === move.y2) {									// Stationary.
+			cooling.push(move);
+
+		} else if (move.x2 < 0 || move.y2 < 0 || move.x2 >= frame.width || move.y2 >= frame.height) {	// Move to out-of-bounds fails.
 			forbidden[move.ss] = true;
-		} else if (opp_houses_locs[move.ts]) {														// Move to enemy house fails.
+			failed.push(move);
+
+		} else if (opp_houses_locs[move.ts]) {															// Move to enemy house fails.
 			forbidden[move.ss] = true;
-		} else if (my_houses_locs[move.ts]) {														// Move to friendly house succeeds.
-			valid.push(move);
-		} else {																					// Pending... any move to open ground.
+			failed.push(move);
+
+		} else if (move.x1 === move.x2 && move.y1 === move.y2) {										// Stationary.
+			forbidden[move.ss] = true;
+			holding.push(move);
+
+		} else if (my_houses_locs[move.ts]) {															// Move to friendly house succeeds.
+			effective.push(move);
+
+		} else {																						// Pending... any move to open ground.
 			pending.push(move);
+
 		}
 	}
 
@@ -75,16 +91,17 @@ function get_valid_moves(frame, team) {
 		}
 	}
 
+	// Reject moves that bump into something...
+
 	while (true) {
 
 		let rejections_happened = false;
-
-		// Reject moves that bump into something...
 
 		for (let [ts, moves] of Object.entries(target_move_map)) {
 			if (moves.length > 1 || forbidden[ts]) {
 				for (let move of moves) {
 					forbidden[move.ss] = true;		// Unit's move was invalid... it won't move... its loc becomes forbidden.
+					failed.push(move);
 				}
 				rejections_happened = true;
 				delete target_move_map[ts];
@@ -94,16 +111,20 @@ function get_valid_moves(frame, team) {
 		if (rejections_happened === false) {
 			for (let moves of Object.values(target_move_map)) {
 				for (let move of moves) {
-					valid.push(move);
+					effective.push(move);
 				}
 			}
 			break;
 		}
 	}
 
-	return valid;
+	if (effective.length + holding.length + cooling.length + failed.length !== moveslist.length) {
+		throw "faulty function";
+	}
+
+	return {effective, holding, cooling, failed};
 }
 
 // ------------------------------------------------------------------------------------------------
 
-module.exports = {new_move, new_move_from_unit, get_valid_moves};
+module.exports = {new_move_from_unit, analyse_moves};
