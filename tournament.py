@@ -1,10 +1,13 @@
-import json, subprocess
+import json, subprocess, sys
 
 RUNS = 100
 A = "..\\..\\Desktop\\nox-amara\\main.js"
 B = ".\\bad_bot.js"
 
 wins = dict()
+progbarlen = 0
+
+print()
 
 for n in range(100):
 
@@ -39,9 +42,18 @@ for n in range(100):
 			else:
 				wins[foo["name"]] = 1
 
+	prog = "{} / {}".format(n + 1, RUNS)
+
+	if progbarlen > 0:
+		print("\b" * progbarlen, end="")
+
+	progbarlen = len(prog)
+	print(prog, end="")
+	sys.stdout.flush()
+
 print()
 
 for name in wins:
-	print("\t", wins[name], "\t", name)
+	print(wins[name], "\t", name)
 
 print()
