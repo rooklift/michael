@@ -42,7 +42,11 @@ for n in range(100):
 			else:
 				wins[foo["name"]] = 1
 
-	prog = "{} / {}".format(n + 1, RUNS)
+	prog = "{} / {} ... ".format(n + 1, RUNS)
+
+	if len(wins) == 2:
+		scores = sorted([wins[name] for name in wins], reverse=True)
+		prog += "{} - {}".format(scores[0], scores[1])
 
 	if progbarlen > 0:
 		print("\b" * progbarlen, end="")
