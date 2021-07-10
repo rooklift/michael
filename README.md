@@ -18,6 +18,9 @@ new_bot("do_nothing", (frame, team) => {});
 props = {map, rp, units, houses, cities}
 // all are arrays; map is a 2d array of cells, accessed as [x][y]
 
+frame.is_night()
+// returns true or false
+
 frame.resources(type)               // type == "wood" | "coal" | "uranium" | ""
 // returns a list of cells
 
@@ -46,9 +49,6 @@ frame.house_at(o)                   // any cell, house, or unit object
 ## cell, house, unit (shared) methods
 
 ```javascript
-
-o.copy()
-// returns a copy of the object for whatever purpose
 
 o.distance(x, y)                    // coordinates
 o.distance(o)                       // any cell, house, or unit object
@@ -124,6 +124,9 @@ props = {type, team, id, x, y, cd, wood, coal, uranium}
 u.weight()
 // returns this sum of the unit's wood, coal, and uranium
 
+u.fuel()
+// returns the fuel value of the unit's carried resources
+
 u.order_move(d)                     // d == "n" | "s" | "e" | "w" | "c"
 // orders the unit to move in the specified direction
 
@@ -136,6 +139,10 @@ u.order_pillage()
 u.order_transfer(target_id, type, amount)
 u.order_transfer(target_object, type, amount)
 // orders the unit to transfer resources to the specified unit
+
+u.next_cell()
+// returns the cell that the unit will be on next turn, given its
+// commanded move, but without considering collisions
 
 u.cancel()
 // cancels any previously-given order

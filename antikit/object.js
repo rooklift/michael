@@ -70,35 +70,6 @@ let object_prototype = {
 		return bests[Math.floor(random() * bests.length)];
 	},
 
-	sorted_directions(dwim1, dwim2) {
-
-		// Note that off-board moves won't be included at all.
-		// Note that moving directly away is "not worse" than moving orthogonally, hmm.
-
-		let [x, y] = utils.resolve_dwim_args(dwim1, dwim2);
-
-		let better = [];
-		let worse = [];
-
-		if (this.x > 0) {							// Moving W is legal - but is it good or bad?
-			if (this.x > x) { better.push("w"); } else { worse.push("w"); }
-		}
-		if (this.x < this.frame.width - 1) {		// Moving E is legal - but is it good or bad?
-			if (this.x < x) { better.push("e"); } else { worse.push("e"); }
-		}
-		if (this.y > 0) {							// Moving N is legal - but is it good or bad?
-			if (this.y > y) { better.push("n"); } else { worse.push("n"); }
-		}
-		if (this.y < this.frame.height - 1) {		// Moving S is legal - but is it good or bad?
-			if (this.y < y) { better.push("s"); } else { worse.push("s"); }
-		}
-
-		utils.shuffle_first_two_elements(better);			// This is cheap and fast.
-		utils.shuffle_first_two_elements(worse);
-
-		return better.concat(["c"]).concat(worse);
-	},
-
 	cell() {
 		return this.frame.map[this.x][this.y];
 	},
@@ -127,6 +98,35 @@ let object_prototype = {
 		} else {
 			return dy < 0 ? "n" : "s";
 		}
+	},
+
+	sorted_directions(dwim1, dwim2) {
+
+		// Note that off-board moves won't be included at all.
+		// Note that moving directly away is "not worse" than moving orthogonally, hmm.
+
+		let [x, y] = utils.resolve_dwim_args(dwim1, dwim2);
+
+		let better = [];
+		let worse = [];
+
+		if (this.x > 0) {							// Moving W is legal - but is it good or bad?
+			if (this.x > x) { better.push("w"); } else { worse.push("w"); }
+		}
+		if (this.x < this.frame.width - 1) {		// Moving E is legal - but is it good or bad?
+			if (this.x < x) { better.push("e"); } else { worse.push("e"); }
+		}
+		if (this.y > 0) {							// Moving N is legal - but is it good or bad?
+			if (this.y > y) { better.push("n"); } else { worse.push("n"); }
+		}
+		if (this.y < this.frame.height - 1) {		// Moving S is legal - but is it good or bad?
+			if (this.y < y) { better.push("s"); } else { worse.push("s"); }
+		}
+
+		utils.shuffle_first_two_elements(better);			// This is cheap and fast.
+		utils.shuffle_first_two_elements(worse);
+
+		return better.concat(["c"]).concat(worse);
 	},
 
 	adjacent_cell(d) {
