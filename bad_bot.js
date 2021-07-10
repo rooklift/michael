@@ -23,6 +23,10 @@ new_bot("bad_bot", (frame, team) => {
 	let needy_houses = my_houses.filter(house => house.needy());
 	let empty_spaces = frame.resources("").filter(cell => cell.house() === undefined);
 
+	if (frame.turn < 10 && my_houses.length === 1) {
+		needy_houses = [];
+	}
+
 	for (let house of opp_houses) {
 		reservations.push(house.cell());
 	}
@@ -54,7 +58,7 @@ new_bot("bad_bot", (frame, team) => {
 		let direction;
 
 		if (unit.weight() >= 90 || unit.fuel() >= 100) {
-			if (needy_houses.length > 0 && my_houses.length > 1) {
+			if (needy_houses.length > 0) {
 				target = unit.choose(needy_houses);
 			} else {
 				if (unit.wood === 100) {				// Require 100 wood for a house, not just any resource.
