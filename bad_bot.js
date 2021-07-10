@@ -23,7 +23,7 @@ new_bot("bad_bot", (frame, team) => {
 	let needy_houses = my_houses.filter(house => house.needy());
 	let empty_spaces = frame.resources("").filter(cell => cell.house() === undefined);
 
-	if (frame.turn < 10 && my_houses.length === 1) {
+	if (frame.turn < 30 && my_houses.length === 1) {	// First day, haven't built 2nd house.
 		needy_houses = [];
 	}
 
@@ -63,7 +63,7 @@ new_bot("bad_bot", (frame, team) => {
 			} else {
 				if (unit.wood === 100) {				// Require 100 wood for a house, not just any resource.
 					build_flag = true;
-					if (nearest_house && frame.turn >= 10) {
+					if (nearest_house && (frame.turn >= 30 || my_houses.length >= 2)) {
 						target = nearest_house.choose(empty_spaces);
 					} else {
 						target = unit.choose(empty_spaces);
@@ -84,7 +84,7 @@ new_bot("bad_bot", (frame, team) => {
 				ok = true;
 			} else if (unit.distance(nearest_house) === 1) {
 				ok = true;
-			} else if (frame.turn <= 10) {
+			} else if (frame.turn < 30 && my_houses.length === 1) {
 				ok = true;
 			}
 
