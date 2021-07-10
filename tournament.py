@@ -52,6 +52,7 @@ for n in range(100):
 	sys.stdout.flush()
 
 print()
+print()
 
 for name in wins:
 	print(wins[name], "\t", name)
