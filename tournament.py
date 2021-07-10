@@ -1,11 +1,22 @@
 import json, subprocess
 
+RUNS = 100
+A = "..\\..\\Desktop\\nox-amara\\main.js"
+B = ".\\bad_bot.js"
+
 wins = dict()
 
 for n in range(100):
 
-	result = subprocess.run("lux-ai-2021.cmd --storeLogs false --statefulReplay --loglevel 0 C:\\Users\\Owner\\Desktop\\nox-amara\\main.js .\\bad_bot.js",
-							shell=True, capture_output=True, encoding="utf8")
+	if n % 2 == 0:
+
+		result = subprocess.run("lux-ai-2021.cmd --storeLogs false --statefulReplay --loglevel 0 {} {} ".format(A, B),
+								shell=True, capture_output=True, encoding="utf8")
+
+	else:
+
+		result = subprocess.run("lux-ai-2021.cmd --storeLogs false --statefulReplay --loglevel 0 {} {} ".format(B, A),
+								shell=True, capture_output=True, encoding="utf8")
 
 	s = result.stdout
 
@@ -28,5 +39,9 @@ for n in range(100):
 			else:
 				wins[foo["name"]] = 1
 
+print()
+
 for name in wins:
-	print(wins[name], name)
+	print("\t", wins[name], "\t", name)
+
+print()
