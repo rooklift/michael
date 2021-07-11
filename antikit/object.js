@@ -86,20 +86,6 @@ let object_prototype = {
 		return this.frame.units_at(this.x, this.y);
 	},
 
-	naive_direction(dwim1, dwim2) {
-		let [targetx, targety] = utils.resolve_dwim_args(dwim1, dwim2);
-		let dx = targetx - this.x;
-		let dy = targety - this.y;
-		if (dx === 0 && dy === 0) {
-			return "c";
-		}
-		if (Math.abs(dx) > Math.abs(dy)) {
-			return dx < 0 ? "w" : "e";
-		} else {
-			return dy < 0 ? "n" : "s";
-		}
-	},
-
 	sorted_directions(dwim1, dwim2) {
 
 		// Note that off-board moves won't be included at all.

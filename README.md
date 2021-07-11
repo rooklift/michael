@@ -66,10 +66,6 @@ o.house()
 o.units()
 // returns a list of units at object o's location
 
-o.naive_direction(x, y)             // coordinates
-o.naive_direction(o)                // any cell, house, or unit object
-// returns "n", "s", "e", "w" or "c"
-
 o.sorted_directions(x, y)           // coordinates
 o.sorted_directions(o)              // any cell, house, or unit object
 // returns a list of directions sorted by resulting distance
