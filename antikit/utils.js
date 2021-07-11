@@ -30,17 +30,16 @@ function resolve_dwim_args(arg1, arg2) {
 	}
 }
 
-function shuffle_first_two_elements(arr) {
-
-	if (arr.length < 2 || random() < 0.5) {
-		return;
+function shuffle(arr) {
+	for (let i = arr.length - 1; i > 0; i--) {
+		let t = Math.floor(random() * (i + 1));
+		let tmp = arr[t];
+		arr[t] = arr[i];
+		arr[i] = tmp;
 	}
-
-	let tmp = arr[0];
-	arr[0] = arr[1];
-	arr[1] = tmp;
+	return arr;
 }
 
 // ------------------------------------------------------------------------------------------------
 
-module.exports = {stringify, resolve_dwim_args, shuffle_first_two_elements};
+module.exports = {stringify, resolve_dwim_args, shuffle};

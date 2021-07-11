@@ -123,8 +123,8 @@ let object_prototype = {
 			if (this.y < y) { better.push("s"); } else { worse.push("s"); }
 		}
 
-		utils.shuffle_first_two_elements(better);			// This is cheap and fast.
-		utils.shuffle_first_two_elements(worse);
+		utils.shuffle(better);
+		utils.shuffle(worse);
 
 		return better.concat(["c"]).concat(worse);
 	},
