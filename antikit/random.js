@@ -9,5 +9,5 @@ let val = 0;
 
 module.exports = () => {
 	val = (75 * val + 74) % 65537;
-	return val / 65537;
+	return val / 65537;					// Can return 0 but never 1
 };
