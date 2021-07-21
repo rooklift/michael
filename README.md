@@ -15,8 +15,9 @@ new_bot("do_nothing", (frame, team) => {});
 
 ```javascript
 
-props = {map, rp, units, houses, cities}
-// all are arrays; map is a 2d array of cells, accessed as [x][y]
+props = {width, height, turn, map, rp, units, houses, cities}
+// map is a 2d array of cells, accessed as [x][y]
+// rp, units, houses, cities are 1d arrays
 
 frame.is_night()
 // returns true or false
