@@ -11,6 +11,8 @@ const new_bot = require("./antikit/bot")
 new_bot("do_nothing", (frame, team) => {});
 ```
 
+A `log()` function is made globally available, which writes to a file.
+
 ## frame props and methods
 
 ```javascript
