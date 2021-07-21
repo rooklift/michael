@@ -5,7 +5,7 @@
 
 let val = 0;
 
-function random() {
+module.exports = () => {
 	val = (75 * val + 74) % 65537;
 	return val / 65537;
-}
+};
