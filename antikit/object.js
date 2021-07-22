@@ -25,12 +25,6 @@ let object_prototype = {
 		delete this.__cmd;
 	},
 
-	transmit() {
-		if (this.__cmd) {
-			console.log(this.__cmd);
-		}
-	},
-
 	annotate() {
 		if (this.is_cell) {
 			this.set_command(`dc ${this.x} ${this.y}`);
