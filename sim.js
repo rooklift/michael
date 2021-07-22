@@ -104,9 +104,10 @@ function analyse_moves(frame, team) {
 
 		if (rejections_happened === false) {
 			for (let moves of Object.values(target_move_map)) {
-				for (let move of moves) {
-					effective.push(move);
+				if (moves.length !== 1) {
+					throw "faulty function";
 				}
+				effective.push(moves[0]);
 			}
 			break;
 		}
