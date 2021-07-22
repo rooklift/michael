@@ -4,6 +4,14 @@ const new_bot = require("./antikit/bot");
 const sim = require("./sim");
 
 new_bot("bad_bot", (frame, team) => {
+	try {
+		ai(frame, team);
+	} catch (err) {
+		log(err);
+	}
+});
+
+function ai(frame, team) {
 
 	let reservations = [];		// Must only hold cell objects - which are compared by object identity
 
@@ -141,4 +149,4 @@ new_bot("bad_bot", (frame, team) => {
 		move.unit.cancel();
 	}
 
-});
+}
