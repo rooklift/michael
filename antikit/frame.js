@@ -209,20 +209,23 @@ let frame_prototype = {
 
 	send_orders() {
 
+		let commands = [];
+
 		for (let unit of this.units) {
-			unit.transmit();
+			commands.push(unit.get_command());
 		}
 
 		for (let house of this.houses) {
-			house.transmit();
+			commands.push(house.get_command());
 		}
 
 		for (let x = 0; x < this.width; x++) {
 			for (let y = 0; y < this.height; y++) {
-				this.map[x][y].transmit();
+				commands.push(this.map[x][y].get_command());		// For annotations (if we have any).
 			}
 		}
 
+		console.log(commands.filter(s => s !== "").join(","));
 		console.log("D_FINISH");
 	},
 
