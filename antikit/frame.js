@@ -225,9 +225,7 @@ let frame_prototype = {
 			}
 		}
 
-		commands = commands.filter(s => s !== "").join(",");
-
-		console.log(commands);
+		console.log(commands.filter(s => s !== "").join(","));
 		// console.log("D_FINISH");
 	},
 
