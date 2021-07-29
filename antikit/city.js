@@ -1,5 +1,9 @@
 "use strict";
 
+const constants = require("./game_constants");
+
+// ------------------------------------------------------------------------------------------------
+
 function new_city(frame, team, id, fuel, upkeep) {
 	return Object.assign(Object.create(city_prototype), {frame, team, id, fuel, upkeep});
 }
@@ -15,7 +19,7 @@ let city_prototype = {
 	},
 
 	needy() {
-		return this.fuel < this.upkeep * 10;
+		return this.fuel < this.upkeep * constants.PARAMETERS.NIGHT_LENGTH;
 	},
 
 	houses() {

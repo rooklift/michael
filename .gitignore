@@ -1,5 +1,4 @@
 
 *.log
-*.json
-simplejs/*
-simplepy/*
+replays/
+errorlogs/

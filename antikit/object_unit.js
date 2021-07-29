@@ -1,5 +1,9 @@
 "use strict";
 
+const constants = require("./game_constants");
+
+// ------------------------------------------------------------------------------------------------
+
 function new_unit(frame, type, team, id, x, y, cd, wood, coal, uranium) {
 	return Object.assign(Object.create(unit_prototype), {frame, type, team, id, x, y, cd, wood, coal, uranium});
 }
@@ -15,7 +19,11 @@ let unit_prototype = Object.assign(Object.create(require("./object")), {
 	},
 
 	fuel() {
-		return this.wood + (this.coal * 5) + (this.uranium * 25);
+		return (
+			this.wood * constants.PARAMETERS.RESOURCE_TO_FUEL_RATE.WOOD +
+			this.coal * constants.PARAMETERS.RESOURCE_TO_FUEL_RATE.COAL +
+			this.uranium * constants.PARAMETERS.RESOURCE_TO_FUEL_RATE.URANIUM
+		);
 	},
 
 	order_move(d) {

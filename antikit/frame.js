@@ -5,6 +5,7 @@ const new_cell = require("./object_cell");
 const new_house = require("./object_house");
 const new_unit = require("./object_unit");
 
+const constants = require("./game_constants");
 const utils = require("./utils");
 
 // ------------------------------------------------------------------------------------------------
@@ -70,7 +71,7 @@ let frame_prototype = {
 	},
 
 	is_night() {
-		return this.turn % 40 > 29;
+		return this.turn % (constants.PARAMETERS.DAY_LENGTH + constants.PARAMETERS.NIGHT_LENGTH) >= constants.PARAMETERS.DAY_LENGTH;
 	},
 
 	resources(type) {
