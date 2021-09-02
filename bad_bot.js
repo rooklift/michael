@@ -69,7 +69,7 @@ function ai(frame, team) {
 			if (needy_houses.length > 0) {
 				target = unit.choose(needy_houses);
 			} else {
-				if (unit.wood === 100) {				// Require 100 wood for a house, not just any resource.
+				if (unit.weight() === 100) {
 					build_flag = true;
 					if (nearest_house && (frame.turn >= 30 || my_houses.length >= 2)) {
 						target = nearest_house.choose(empty_spaces);
