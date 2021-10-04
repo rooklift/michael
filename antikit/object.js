@@ -30,7 +30,7 @@ let object_prototype = {
 	},
 
 	cross() {
-		this.cell().set_command(`dc ${this.x} ${this.y}`);
+		this.cell().set_command(`dx ${this.x} ${this.y}`);
 	},
 
 	lineto(dwim1, dwim2) {
