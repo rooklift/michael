@@ -25,12 +25,17 @@ let object_prototype = {
 		delete this.__cmd;
 	},
 
-	annotate() {
-		if (this.is_cell) {
-			this.set_command(`dc ${this.x} ${this.y}`);
-		} else {
-			this.cell().annotate();
-		}
+	circle() {
+		this.cell().set_command(`dc ${this.x} ${this.y}`);
+	},
+
+	cross() {
+		this.cell().set_command(`dc ${this.x} ${this.y}`);
+	},
+
+	lineto(dwim1, dwim2) {
+		let [x2, y2] = utils.resolve_dwim_args(dwim1, dwim2);
+		this.cell().set_command(`dl ${this.x} ${this.y} ${x2} ${y2}`);
 	},
 
 	copy() {
@@ -65,6 +70,9 @@ let object_prototype = {
 	},
 
 	cell() {
+		if (this.is_cell) {
+			return this;
+		}
 		return this.frame.map[this.x][this.y];
 	},
 

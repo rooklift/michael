@@ -104,6 +104,8 @@ function ai(frame, team) {
 
 		if (target && (target.x !== unit.x || target.y !== unit.y)) {
 
+			unit.lineto(target);
+
 			for (let direction of unit.sorted_directions(target).filter(d => d !== "c")) {
 
 				let next_cell = unit.adjacent_cell(direction);
